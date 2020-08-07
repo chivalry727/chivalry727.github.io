@@ -6,7 +6,7 @@ categories:
 tags:
 - JVM
 ---
-
+<!-- more -->
 ## JVM运行时数据区域
 
 ### 程序计数器（Program Counter Register）

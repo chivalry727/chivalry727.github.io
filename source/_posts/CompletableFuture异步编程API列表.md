@@ -6,6 +6,7 @@ categories:
 tags:
 - java8异步编程
 ---
+<!-- more -->
 # CompletableFuture异步编程API
 
 #### 静态工厂方法：
