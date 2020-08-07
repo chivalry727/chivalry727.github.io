@@ -209,7 +209,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -222,7 +222,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -254,6 +254,205 @@
 
         <div class="content index posts-expand">
           
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/07/CompletableFuture%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8BAPI%E5%88%97%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Mr.zxb">
+      <meta itemprop="description" content="从前很懒，从今以后约束自己">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chivalry Blog">
+    </span>
+
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/07/CompletableFuture%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8BAPI%E5%88%97%E8%A1%A8/" class="post-title-link" itemprop="url">CompletableFuture异步编程API列表</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-07 16:08:10 / 修改时间：16:20:28" itemprop="dateCreated datePublished" datetime="2020-08-07T16:08:10+08:00">2020-08-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java%E7%9B%B8%E5%85%B3/" itemprop="url" rel="index"><span itemprop="name">Java相关</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/07/CompletableFuture%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8BAPI%E5%88%97%E8%A1%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/07/CompletableFuture%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8BAPI%E5%88%97%E8%A1%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="CompletableFuture异步编程API"><a href="#CompletableFuture异步编程API" class="headerlink" title="CompletableFuture异步编程API"></a>CompletableFuture异步编程API</h1><h4 id="静态工厂方法："><a href="#静态工厂方法：" class="headerlink" title="静态工厂方法："></a>静态工厂方法：</h4><ul>
+<li><p>runAsync(Runnable runnable)：使用ForkJoinPool.commonPool()作为它的线程池执行异步代码。</p>
+</li>
+<li><p>runAsync(Runnable runnable, Executor executor)：使用指定的thread pool执行异步代码。</p>
+</li>
+</ul>
+<ul>
+<li>supplyAsync(Supplier<U> supplier)：使用ForkJoinPool.commonPool()作为它的线程池执行异步代码，异步操作有返回值。</li>
+</ul>
+<ul>
+<li>supplyAsync(Supplier<U> supplier, Executor executor)：使用指定的thread pool执行异步代码，异步操作有返回值</li>
+</ul>
+<ul>
+<li>complete(T t)：完成异步执行，并返回future的结果</li>
+</ul>
+<ul>
+<li>completeExceptionally(Throwable ex)：异步执行不正常的结束，抛出异步执行的错误堆栈</li>
+</ul>
+<h4 id="转换-类似于流里的map-："><a href="#转换-类似于流里的map-：" class="headerlink" title="转换(类似于流里的map)："></a>转换(类似于流里的map)：</h4><ul>
+<li><p>thenApply(Function&lt;? super T,? extends U&gt; fn)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture</p>
+</li>
+<li><p>thenApplyAsync(Function&lt;? super T,? extends U&gt; fn)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture，使用ForkJoinPool</p>
+</li>
+</ul>
+<ul>
+<li>thenApplyAsync(Function&lt;? super T,? extends U&gt; fn, Executor executor)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture，使用指定的线程池</li>
+</ul>
+<h4 id="flatMap："><a href="#flatMap：" class="headerlink" title="flatMap："></a>flatMap：</h4><ul>
+<li><p>thenCompose(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。</p>
+</li>
+<li><p>thenComposeAsync(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。使用ForkJoinPool。</p>
+</li>
+</ul>
+<ul>
+<li>thenComposeAsync(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn,Executor executor)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。使用指定的线程池。</li>
+</ul>
+<h4 id="组合："><a href="#组合：" class="headerlink" title="组合："></a>组合：</h4><ul>
+<li><p>thenCombine(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。</p>
+</li>
+<li><p>thenCombineAsync(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。使用ForkJoinPool。<br>thenCombineAsync(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn, Executor executor)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。使用指定的线程池。</p>
+</li>
+<li><p>thenAcceptBoth(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。</p>
+</li>
+</ul>
+<ul>
+<li>thenAcceptBothAsync(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。使用ForkJoinPool。</li>
+</ul>
+<ul>
+<li>thenAcceptBothAsync(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action, Executor executor)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。使用指定的线程池。</li>
+</ul>
+<h4 id="计算结果完成时的处理："><a href="#计算结果完成时的处理：" class="headerlink" title="计算结果完成时的处理："></a>计算结果完成时的处理：</h4><ul>
+<li><p>whenComplete(BiConsumer&lt;? super T,? super Throwable&gt; action)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。</p>
+</li>
+<li><p>whenCompleteAsync(BiConsumer&lt;? super T,? super Throwable&gt; action)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。使用ForkJoinPool。</p>
+</li>
+</ul>
+<ul>
+<li>whenCompleteAsync(BiConsumer&lt;? super T,? super Throwable&gt; action, Executor executor)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。使用指定的线程池。</li>
+</ul>
+<ul>
+<li>handle(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn</li>
+</ul>
+<ul>
+<li>handleAsync(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn，使用ForkJoinPool。</li>
+</ul>
+<ul>
+<li>handleAsync(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn, Executor executor)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn，使用指定的线程池。</li>
+</ul>
+<ul>
+<li>thenAccept(Consumer&lt;? super T&gt; action)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值</li>
+</ul>
+<ul>
+<li>thenAcceptAsync(Consumer&lt;? super T&gt; action)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值，使用ForkJoinPool。</li>
+</ul>
+<ul>
+<li>thenAcceptAsync(Consumer&lt;? super T&gt; action, Executor executor)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值</li>
+</ul>
+<ul>
+<li>acceptEither(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。</li>
+</ul>
+<ul>
+<li>acceptEitherAsync(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。使用ForkJoinPool</li>
+</ul>
+<ul>
+<li>acceptEitherAsync(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action, Executor executor)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。使用指定的线程池</li>
+</ul>
+<ul>
+<li>applyToEither(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。</li>
+</ul>
+<ul>
+<li>applyToEitherAsync(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。使用ForkJoinPool</li>
+</ul>
+<ul>
+<li>applyToEitherAsync(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn, Executor executor)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。使用指定的线程池</li>
+</ul>
+<ul>
+<li>allOf(CompletableFuture&lt;?&gt;… cfs)：在所有Future对象完成后结束，并返回一个future。</li>
+</ul>
+<ul>
+<li>anyOf(CompletableFuture&lt;?&gt;… cfs)：在任何一个Future对象结束后结束，并返回一个future。</li>
+</ul>
+<h4 id="CompletableFuture异常处理："><a href="#CompletableFuture异常处理：" class="headerlink" title="CompletableFuture异常处理："></a>CompletableFuture异常处理：</h4><ul>
+<li>exceptionally(Function fn)：只有当CompletableFuture抛出异常的时候，才会触发这个exceptionally的计算，调用function计算值。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1263,13 +1462,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">12k</span>
+    <span title="站点总字数">16k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">11 分钟</span>
+    <span title="站点阅读时长">15 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>

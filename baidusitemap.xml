@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yoursite.com/2020/08/07/CompletableFuture%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8BAPI%E5%88%97%E8%A1%A8/</loc>
+    <lastmod>2020-08-07</lastmod>
+  </url>
+  <url>
     <loc>http://yoursite.com/2020/08/06/Jvm%E8%AE%B0%E5%BD%95/</loc>
     <lastmod>2020-08-07</lastmod>
   </url>
