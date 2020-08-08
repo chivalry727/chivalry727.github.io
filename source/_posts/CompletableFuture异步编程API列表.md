@@ -6,7 +6,6 @@ categories:
 tags:
 - java8异步编程
 ---
-<!-- more -->
 # CompletableFuture异步编程API
 
 #### 静态工厂方法：
@@ -15,6 +14,7 @@ tags:
 
 - runAsync(Runnable runnable, Executor executor)：使用指定的thread pool执行异步代码。
 
+<!-- more -->
 
 - supplyAsync(Supplier<U> supplier)：使用ForkJoinPool.commonPool()作为它的线程池执行异步代码，异步操作有返回值。
 
