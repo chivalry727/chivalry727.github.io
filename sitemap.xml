@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/about/index.html</loc>
+    
+    <lastmod>2020-08-09</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/tags/index.html</loc>
     
     <lastmod>2020-08-08</lastmod>
@@ -10,13 +17,6 @@
   
   <url>
     <loc>http://yoursite.com/404.html</loc>
-    
-    <lastmod>2020-08-07</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/about/index.html</loc>
     
     <lastmod>2020-08-07</lastmod>
     
@@ -53,7 +53,7 @@
 
   <url>
     <loc>http://yoursite.com/</loc>
-    <lastmod>2020-08-08</lastmod>
+    <lastmod>2020-08-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -61,21 +61,21 @@
   
   <url>
     <loc>http://yoursite.com/tags/java8%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2020-08-08</lastmod>
+    <lastmod>2020-08-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://yoursite.com/tags/Jvm/</loc>
-    <lastmod>2020-08-08</lastmod>
+    <lastmod>2020-08-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://yoursite.com/tags/GC/</loc>
-    <lastmod>2020-08-08</lastmod>
+    <lastmod>2020-08-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -84,7 +84,7 @@
   
   <url>
     <loc>http://yoursite.com/categories/Java%E7%9B%B8%E5%85%B3/</loc>
-    <lastmod>2020-08-08</lastmod>
+    <lastmod>2020-08-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
