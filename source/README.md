@@ -1,2 +1,2 @@
 # Chivalry blog
-个人博客
+个人技术博客

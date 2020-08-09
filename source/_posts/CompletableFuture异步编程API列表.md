@@ -2,13 +2,13 @@
 title: CompletableFuture异步编程API列表
 date: 2020-08-07 16:08:10
 categories: 
-- Java相关
+- Java 笔记
 tags:
-- java8异步编程
+- Java8 异步编程
 ---
-# CompletableFuture异步编程API
+#### CompletableFuture异步编程API
 
-#### 静态工厂方法：
+##### 静态工厂方法：
 
 - runAsync(Runnable runnable)：使用ForkJoinPool.commonPool()作为它的线程池执行异步代码。
 
@@ -28,7 +28,7 @@ tags:
 - completeExceptionally(Throwable ex)：异步执行不正常的结束，抛出异步执行的错误堆栈
 
 
-#### 转换(类似于流里的map)：
+##### 转换(类似于流里的map)：
 
 - thenApply(Function<? super T,? extends U> fn)：接受一个Function<? super T,? extends U>参数用来转换CompletableFuture
 
@@ -38,7 +38,7 @@ tags:
 - thenApplyAsync(Function<? super T,? extends U> fn, Executor executor)：接受一个Function<? super T,? extends U>参数用来转换CompletableFuture，使用指定的线程池
 
 
-#### flatMap：
+##### flatMap：
 
 - thenCompose(Function<? super T, ? extends CompletionStage<U>> fn)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。
 
@@ -48,7 +48,7 @@ tags:
 - thenComposeAsync(Function<? super T, ? extends CompletionStage<U>> fn,Executor executor)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。使用指定的线程池。
 
 
-#### 组合：
+##### 组合：
 
 - thenCombine(CompletionStage<? extends U> other, BiFunction<? super T,? super U,? extends V> fn)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。
 
@@ -64,7 +64,7 @@ tags:
 - thenAcceptBothAsync(CompletionStage<? extends U> other, BiConsumer<? super T,? super U> action, Executor executor)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。使用指定的线程池。
 
 
-#### 计算结果完成时的处理：
+##### 计算结果完成时的处理：
 
 - whenComplete(BiConsumer<? super T,? super Throwable> action)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。
 
@@ -116,7 +116,7 @@ tags:
 - anyOf(CompletableFuture<?>... cfs)：在任何一个Future对象结束后结束，并返回一个future。
 
 
-#### CompletableFuture异常处理：
+##### CompletableFuture异常处理：
 
 - exceptionally(Function fn)：只有当CompletableFuture抛出异常的时候，才会触发这个exceptionally的计算，调用function计算值。
 
