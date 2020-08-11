@@ -122,12 +122,6 @@ Plugins:
 - hexo-generator-sitemap
 - hexo-generate-feed
 baidusitemap:
-path: baidusitemap.xml
+  path: baidusitemap.xml
 sitemap:
-path: sitemap.xml
-
-search:
-  path: search.html
-  field: post
-  format: html
-  limit: 10000
+  path: sitemap.xml
