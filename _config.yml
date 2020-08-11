@@ -122,9 +122,9 @@ Plugins:
 - hexo-generator-sitemap
 - hexo-generate-feed
 baidusitemap:
-  path: baidusitemap.xml
+path: baidusitemap.xml
 sitemap:
-  path: sitemap.xml
+path: sitemap.xml
 
 search:
   path: search.html
