@@ -123,7 +123,7 @@ Plugins:
 - hexo-generate-feed
 
 urlforgoogle: https://chivalry727.github.io/
-url: https://chivalry727.github.io/
+# url: https://chivalry727.github.io/
 
 baidusitemap:
   path: baidusitemap.xml
