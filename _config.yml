@@ -4,9 +4,9 @@
 
 # Site
 title: Chivalry Blog
-subtitle: ''
-description: '从前很懒，从今以后约束自己'
-keywords:
+subtitle: '从前很懒，从今以后约束自己'
+description: '个人技术博客，一个沉淀知识的地方'
+keywords: Java,Jvm,GC,设计模式,后端技术
 author: Mr.zxb
 language: zh-Hans
 timezone: 'Asia/Shanghai'
