@@ -19,13 +19,15 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"chivalry727.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
+
+<script data-ad-client="ca-pub-7512049882055371" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
   <meta name="description" content="每天一个设计模式之观察者模式让你的对象知悉现况有一个模式可以帮你的对象知悉现况，不会错过该对象感兴趣的事。对象甚至在运行时可决定是否需要继续被通知。观察者模式是JDK中使用最多的模式之一，非常有用。我们会一并介绍一对多关系，以及松耦合。有了观察者，你将会消息灵通。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="每天一个设计模式之观察者模式">
-<meta property="og:url" content="http://yoursite.com/2020/08/11/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:url" content="https://chivalry727.github.io/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Chivalry Blog">
 <meta property="og:description" content="每天一个设计模式之观察者模式让你的对象知悉现况有一个模式可以帮你的对象知悉现况，不会错过该对象感兴趣的事。对象甚至在运行时可决定是否需要继续被通知。观察者模式是JDK中使用最多的模式之一，非常有用。我们会一并介绍一对多关系，以及松耦合。有了观察者，你将会消息灵通。">
 <meta property="og:locale">
@@ -38,7 +40,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://wx1.sinaimg.cn/large/008aQ1h9ly1ghn6xy61myj30t50j8teb.jpg">
 
-<link rel="canonical" href="http://yoursite.com/2020/08/11/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
+<link rel="canonical" href="https://chivalry727.github.io/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
 
 
 <script id="page-configurations">
@@ -106,6 +108,7 @@
       <h1 class="site-title">Chivalry Blog</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
+      <p class="site-subtitle" itemprop="description">从前很懒，从今以后约束自己</p>
   </div>
 
   <div class="site-nav-right">
@@ -178,12 +181,12 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/11/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
+    <link itemprop="mainEntityOfPage" href="https://chivalry727.github.io/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://tva1.sinaimg.cn/large/008aQ1h9ly1ghidg6qa4bj31hc0u0qbd.jpg">
       <meta itemprop="name" content="Mr.zxb">
-      <meta itemprop="description" content="从前很懒，从今以后约束自己">
+      <meta itemprop="description" content="个人技术博客，一个沉淀知识的地方">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -318,10 +321,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/08/09/Java-GC%E7%AC%94%E8%AE%B0/" rel="prev" title="Java GC笔记">
+    <a href="/Java-GC%E7%AC%94%E8%AE%B0/" rel="prev" title="Java GC笔记">
       <i class="fa fa-chevron-left"></i> Java GC笔记
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/gRPC-%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B/" rel="next" title="gRPC 简单示例">
+      gRPC 简单示例 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -389,27 +395,27 @@
     <img class="site-author-image" itemprop="image" alt="Mr.zxb"
       src="https://tva1.sinaimg.cn/large/008aQ1h9ly1ghidg6qa4bj31hc0u0qbd.jpg">
   <p class="site-author-name" itemprop="name">Mr.zxb</p>
-  <div class="site-description" itemprop="description">从前很懒，从今以后约束自己</div>
+  <div class="site-description" itemprop="description">个人技术博客，一个沉淀知识的地方</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -459,12 +465,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">27k</span>
+    <span title="站点总字数">36k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">24 分钟</span>
+    <span title="站点阅读时长">32 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
