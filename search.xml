@@ -485,7 +485,7 @@
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>策略模式，定义了算法族，分别封装起来，让它们之间可以互相替换，此模式让算法的变化独立于使用算法的客户。</p>
 ]]></content>
       <categories>
-        <category>Java技术</category>
+        <category>Java 技术</category>
       </categories>
       <tags>
         <tag>设计模式</tag>
@@ -539,7 +539,7 @@
 </ul>
 ]]></content>
       <categories>
-        <category>Java技术</category>
+        <category>Java 技术</category>
       </categories>
       <tags>
         <tag>设计模式</tag>
@@ -597,7 +597,7 @@
 </ul>
 ]]></content>
       <categories>
-        <category>Java技术</category>
+        <category>Java 技术</category>
       </categories>
       <tags>
         <tag>设计模式</tag>
