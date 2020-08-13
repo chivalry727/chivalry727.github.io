@@ -148,32 +148,26 @@
 </li>
 <li><p>栈帧</p>
 <ul>
-<li><p>存储局部变量表</p>
-<ul>
+<li>存储局部变量表<ul>
 <li>基本数据类型（boolean、byte、char、short、int、float、double、long）</li>
 <li>对象引用（reference类型）</li>
 <li>returnAddress类型（字节码指令地址）</li>
 </ul>
 </li>
-<li><p>操作数栈</p>
-</li>
-<li><p>动态连接</p>
-</li>
-<li><p>方法出口</p>
-</li>
+<li>操作数栈</li>
+<li>动态连接</li>
+<li>方法出口</li>
 </ul>
 </li>
 <li><p>内存属性：线程私有，生命周期与线程相同</p>
 </li>
 <li><p>异常</p>
 <ul>
-<li><p>StackOverflowError</p>
-<ul>
+<li>StackOverflowError<ul>
 <li>线程请求的栈深度大于虚拟机所允许的深度，抛出StackOverflowError异常</li>
 </ul>
 </li>
-<li><p>OutOfMemoryError</p>
-<ul>
+<li>OutOfMemoryError<ul>
 <li>如果虚拟机栈容量可扩展，当栈扩展时无法申请到足够内存，抛出OutOfMemoryError异常（Classic虚拟机栈可以动态扩展）</li>
 <li>在HotSpot虚拟机的栈容量是不可动态扩展，所以不会因为动态扩展而OOM，只要线程申请栈空间成功了就不会有OOM，但是申请失败仍然会有OOM异常</li>
 </ul>
@@ -182,21 +176,17 @@
 </li>
 </ul>
 <h5 id="本地方法栈（Native-Method-Stack）"><a href="#本地方法栈（Native-Method-Stack）" class="headerlink" title="本地方法栈（Native Method Stack）"></a>本地方法栈（Native Method Stack）</h5><ul>
-<li><p>功能与虚拟机栈非常相似，区别：</p>
-<ul>
+<li>功能与虚拟机栈非常相似，区别：<ul>
 <li>Java虚拟机栈为虚拟机执行Java方法（字节码）服务</li>
 <li>本地方法栈为虚拟机使用Native方法服务</li>
 </ul>
 </li>
-<li><p>异常</p>
-<ul>
-<li><p>StackOverflowError</p>
-<ul>
+<li>异常<ul>
+<li>StackOverflowError<ul>
 <li>当栈深度溢出则抛出</li>
 </ul>
 </li>
-<li><p>OutOfMemoryError</p>
-<ul>
+<li>OutOfMemoryError<ul>
 <li>当扩展失败时抛出</li>
 </ul>
 </li>
@@ -216,36 +206,28 @@
 </li>
 <li><p>分类</p>
 <ul>
-<li><p>内存回收角度</p>
-<ul>
-<li><p>现在收集器基本采用分代收集算法</p>
-<ul>
-<li><p>以G1收集器为分界，都基于经典分代来设计（不适合当下情况）</p>
-<ul>
-<li><p>新生代</p>
-<ul>
+<li>内存回收角度<ul>
+<li>现在收集器基本采用分代收集算法<ul>
+<li>以G1收集器为分界，都基于经典分代来设计（不适合当下情况）<ul>
+<li>新生代<ul>
 <li>Eden space</li>
 <li>To Survivor space</li>
 <li>From Survivor space</li>
 </ul>
 </li>
-<li><p>老年代</p>
-</li>
-<li><p>永久代（PermGen）</p>
-<ul>
+<li>老年代</li>
+<li>永久代（PermGen）<ul>
 <li>在Jdk8已经删除，替换成元空间（Metaspaces）</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>HotSpot目前采用不分代设计的新垃圾收集器</p>
-</li>
+<li>HotSpot目前采用不分代设计的新垃圾收集器</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>内存分配角度</p>
-<ul>
+<li>内存分配角度<ul>
 <li>所有线程共享的Java堆中可以划分出多个线程私有的分配缓冲区（Thread Local Allocation Buffer， TLAB），以提升分配对象的效率</li>
 </ul>
 </li>
@@ -253,8 +235,7 @@
 </li>
 <li><p>异常</p>
 <ul>
-<li><p>OutOfMemoryError</p>
-<ul>
+<li>OutOfMemoryError<ul>
 <li>堆没有内存完成实例分配，并且无法扩展时，抛出OOM异常</li>
 </ul>
 </li>
@@ -288,34 +269,27 @@
 </li>
 <li><p>异常</p>
 <ul>
-<li><p>OutOfMemoryError</p>
-<ul>
+<li>OutOfMemoryError<ul>
 <li>当方法区无法满足内存分配需求时，抛出OOM异常</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>运行时常量池（Runtime Constant Pool）</p>
-<ul>
-<li><p>描述</p>
-<ul>
+</ul>
+<h6 id="运行时常量池（Runtime-Constant-Pool）"><a href="#运行时常量池（Runtime-Constant-Pool）" class="headerlink" title="运行时常量池（Runtime Constant Pool）"></a>运行时常量池（Runtime Constant Pool）</h6><ul>
+<li>描述<ul>
 <li>方法区的一部分</li>
 <li>Class文件中除了有类的版本信息、字段、方法、接口等描述信息外，还有一项是常量池表，用于存放编译期生成等各种字面量与符号引用，这部分内容在类加载后存放到方法区的运行时常量池中</li>
 </ul>
 </li>
-<li><p>作用</p>
-<ul>
+<li>作用<ul>
 <li>存储编译期生成的各种字面量</li>
 <li>符号引用</li>
 </ul>
 </li>
-<li><p>异常</p>
-<ul>
-<li><p>OutOfMemoryError</p>
-<ul>
+<li>异常<ul>
+<li>OutOfMemoryError<ul>
 <li>当常量池无法申请内存时，抛出OOM异常</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -327,38 +301,25 @@
 <li>好处：能够在一定程度上减少垃圾回收对应用程序造成的影响</li>
 <li>若忽略直接内存，会使各个内存区域总和大于物理内存限制，从而动态扩展时出现OOM异常</li>
 </ul>
-<h4 id="JVM-对象"><a href="#JVM-对象" class="headerlink" title="JVM 对象"></a>JVM 对象</h4><h5 id="对象创建"><a href="#对象创建" class="headerlink" title="对象创建"></a>对象创建</h5><ul>
-<li><ol>
-<li>检查指令参数是否在常量池定位到类的符号引用</li>
-</ol>
-</li>
-<li><ol start="2">
-<li>检查符号引用的类是否已加载、解析、初始化</li>
-</ol>
-</li>
-<li><ol start="3">
-<li>为新生对象分配内存</li>
-</ol>
+<h4 id="JVM-对象"><a href="#JVM-对象" class="headerlink" title="JVM 对象"></a>JVM 对象</h4><h5 id="对象创建"><a href="#对象创建" class="headerlink" title="对象创建"></a>对象创建</h5><p><img src="https://tva1.sinaimg.cn/large/008aQ1h9ly1ghp7gu9418j31fk0b20w3.jpg" alt="WX20200813-151534@2x"></p>
 <ul>
-<li><p>堆内存规整，则用指针碰撞方式分配</p>
+<li><p>检查指令参数是否在常量池定位到类的符号引用</p>
 </li>
-<li><p>堆内存不规整，则用空闲列表方式分配</p>
+<li><p>检查符号引用的类是否已加载、解析、初始化</p>
 </li>
-<li><p>堆内存规整与否，取决于采用的垃圾收集器是否带有空间压缩整理的能力</p>
-</li>
-<li><p>当使用Serial、ParNew等带有压缩整理过程的收集器，系统采用等是指针碰撞方式</p>
-</li>
-<li><p>使用CMS这种基于清除（Sweep）算法的收集器时，理论上只能采用较为复杂的空闲列表来实现分配</p>
-</li>
-<li><p>内存分配安全方式</p>
+<li><p>为新生对象分配内存</p>
 <ul>
-<li><p>对分配对内存空间动作进行同步处理</p>
-<ul>
+<li>堆内存规整，则用指针碰撞方式分配</li>
+<li>堆内存不规整，则用空闲列表方式分配</li>
+<li>堆内存规整与否，取决于采用的垃圾收集器是否带有空间压缩整理的能力</li>
+<li>当使用Serial、ParNew等带有压缩整理过程的收集器，系统采用等是指针碰撞方式</li>
+<li>使用CMS这种基于清除（Sweep）算法的收集器时，理论上只能采用较为复杂的空闲列表来实现分配</li>
+<li>内存分配安全方式<ul>
+<li>对分配对内存空间动作进行同步处理<ul>
 <li>CAS+失败重试来保证更新操作对原子性</li>
 </ul>
 </li>
-<li><p>内存分配对动作按照线程划分在不同对空间之中进行</p>
-<ul>
+<li>内存分配对动作按照线程划分在不同对空间之中进行<ul>
 <li>即每个线程在Java堆中预先分配一小块内存，称为本地线程分配缓冲（Thread Local Allocation Buffer, TLAP）</li>
 </ul>
 </li>
@@ -366,17 +327,11 @@
 </li>
 </ul>
 </li>
-<li><ol start="4">
-<li>将分配到的内存空间都初始化为0（不包括对象头）</li>
-</ol>
+<li><p>将分配到的内存空间都初始化为0（不包括对象头）</p>
 </li>
-<li><ol start="5">
-<li>为对象进行必要设置</li>
-</ol>
+<li><p>为对象进行必要设置</p>
 </li>
-<li><ol start="6">
-<li>执行init为对象初始化</li>
-</ol>
+<li><p>执行init为对象初始化</p>
 </li>
 </ul>
 <h5 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h5><ul>
@@ -530,11 +485,65 @@
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>策略模式，定义了算法族，分别封装起来，让它们之间可以互相替换，此模式让算法的变化独立于使用算法的客户。</p>
 ]]></content>
       <categories>
-        <category>后端技术</category>
+        <category>Java技术</category>
       </categories>
       <tags>
         <tag>设计模式</tag>
         <tag>策略模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>每天一个设计模式之装饰者模式</title>
+    <url>/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="每天一个设计模式之装饰者模式"><a href="#每天一个设计模式之装饰者模式" class="headerlink" title="每天一个设计模式之装饰者模式"></a>每天一个设计模式之装饰者模式</h2><h3 id="定义装饰者模式"><a href="#定义装饰者模式" class="headerlink" title="定义装饰者模式"></a>定义装饰者模式</h3><p>装饰者模式动态地将责任附加到对象上。若要扩展功能，装饰者提供了比继承更有弹性的替代方案。</p>
+<h3 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h3><p>类应该对扩展开发，对修改关闭</p>
+<a id="more"></a>
+
+<h3 id="装饰者模式类图"><a href="#装饰者模式类图" class="headerlink" title="装饰者模式类图"></a>装饰者模式类图</h3><p><img src="http://wx2.sinaimg.cn/large/008aQ1h9ly1ghpiqdpnelj30vs0l1jx2.jpg"></p>
+<h3 id="用装饰者来设计我们的饮料"><a href="#用装饰者来设计我们的饮料" class="headerlink" title="用装饰者来设计我们的饮料"></a>用装饰者来设计我们的饮料</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 饮料抽象类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:48:22</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Beverage</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> String description = <span class="string">&quot;Unknown Beverage&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取饮料描述</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 饮料成本抽象方法</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 调味品装饰器，继承自饮料抽象类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:50:47</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">CondimentDecorator</span> <span class="keyword">extends</span> <span class="title">Beverage</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取调味品描述</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> String <span class="title">getDescription</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="设计饮料的对象"><a href="#设计饮料的对象" class="headerlink" title="设计饮料的对象"></a>设计饮料的对象</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 浓咖啡</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:52:53</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Espresso</span> <span class="keyword">extends</span> <span class="title">Beverage</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Espresso</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 浓咖啡描述</span></span><br><span class="line">        <span class="keyword">super</span>.description = <span class="string">&quot;Espresso&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 成本</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1.99</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:54:36</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HouseBlend</span> <span class="keyword">extends</span> <span class="title">Beverage</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HouseBlend</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.description = <span class="string">&quot;House Blend Coffee&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.89</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="设计调料的对象"><a href="#设计调料的对象" class="headerlink" title="设计调料的对象"></a>设计调料的对象</h3><p>我们已经完成了抽象组件（<code>Beverage</code>），有了具体组件（<code>HouseBlend</code>），也有了抽象装饰者（<code>CondimentDecorator</code>）。现在就来实现具体装饰者。先从摩卡下手：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 摩卡咖啡</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:56:58</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mocha</span> <span class="keyword">extends</span> <span class="title">CondimentDecorator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 1) 用一个实例变量记录饮料，也就是被装饰者。</span></span><br><span class="line"><span class="comment">     * 2) 想办法让装饰者（饮料）被记录到实例变量中。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Beverage beverage;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Mocha</span><span class="params">(Beverage beverage)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.beverage = beverage;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 获取完整的调料描述</span></span><br><span class="line">        <span class="keyword">return</span> beverage.getDescription() + <span class="string">&quot;, Mocha&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 首先把调用委托给被装饰对象，以计算价格，然后加上 Mocha的价格，得到最后的结果</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.20</span> + beverage.cost();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 21:26:54</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Whip</span> <span class="keyword">extends</span> <span class="title">CondimentDecorator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Beverage beverage;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Whip</span><span class="params">(Beverage beverage)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.beverage = beverage;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.5</span> + beverage.cost();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> beverage.getDescription() +<span class="string">&quot;, Whip&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 21:20:31</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StarbuzzCoffee</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建一个 Espress，不需要调料，打印价格和描述</span></span><br><span class="line">        Beverage beverage = <span class="keyword">new</span> Espresso();</span><br><span class="line">        System.out.println(beverage.getDescription() + <span class="string">&quot; $&quot;</span> + beverage.cost());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建一各 DarkRost对象</span></span><br><span class="line">        Beverage beverage2 = <span class="keyword">new</span> DarkRoast();</span><br><span class="line">        <span class="comment">// 用Mocha 装饰它</span></span><br><span class="line">        beverage2 = <span class="keyword">new</span> Mocha(beverage2);</span><br><span class="line">        <span class="comment">// 用第二个Mocha 装饰它</span></span><br><span class="line">        beverage2 = <span class="keyword">new</span> Mocha(beverage2);</span><br><span class="line">        <span class="comment">// 用Whip 装饰它</span></span><br><span class="line">        beverage2 = <span class="keyword">new</span> Whip(beverage2);</span><br><span class="line">        <span class="comment">// 输出价格和描述</span></span><br><span class="line">        System.out.println(beverage2.getDescription() + <span class="string">&quot; $&quot;</span> + beverage2.cost());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="来看看结果"><a href="#来看看结果" class="headerlink" title="来看看结果"></a>来看看结果</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">Espresso $<span class="number">1.99</span></span><br><span class="line">Dark Roast, Mocha, Mocha, Whip $<span class="number">1.79</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="让我们来看看Java-I-O里的装饰者"><a href="#让我们来看看Java-I-O里的装饰者" class="headerlink" title="让我们来看看Java I/O里的装饰者"></a>让我们来看看Java I/O里的装饰者</h3><h4 id="装饰的-java-io-类"><a href="#装饰的-java-io-类" class="headerlink" title="装饰的 java.io 类"></a>装饰的 java.io 类</h4><p><img src="http://wx2.sinaimg.cn/large/008aQ1h9ly1ghpj9dhmooj30ue0fjdiz.jpg"></p>
+<h4 id="编写自己的Java-I-O-装饰者"><a href="#编写自己的Java-I-O-装饰者" class="headerlink" title="编写自己的Java I/O 装饰者"></a>编写自己的Java I/O 装饰者</h4><p>编写一个装饰者，把输入流内的所有大写字符转成小写。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.design.decorator.io;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.FilterInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将大写转成小写的装饰者对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 22:05:23</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LowerCaseInputStream</span> <span class="keyword">extends</span> <span class="title">FilterInputStream</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Creates a &lt;code&gt;FilterInputStream&lt;/code&gt;</span></span><br><span class="line"><span class="comment">     * by assigning the  argument &lt;code&gt;in&lt;/code&gt;</span></span><br><span class="line"><span class="comment">     * to the field &lt;code&gt;this.in&lt;/code&gt; so as</span></span><br><span class="line"><span class="comment">     * to remember it for later use.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> in the underlying input stream, or &lt;code&gt;null&lt;/code&gt; if</span></span><br><span class="line"><span class="comment">     *           this instance is to be created without an underlying stream.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">LowerCaseInputStream</span><span class="params">(InputStream in)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(in);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> c = <span class="keyword">super</span>.read();</span><br><span class="line">        <span class="keyword">return</span> c == -<span class="number">1</span> ? c : Character.toLowerCase((<span class="keyword">char</span>) c);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span>[] b, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = <span class="keyword">super</span>.read(b, off, len);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = off; i &lt; off + result; i++) &#123;</span><br><span class="line">            b[i] = (<span class="keyword">byte</span>) Character.toLowerCase((<span class="keyword">char</span>) b[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="测试我们新的Java-I-O装饰者"><a href="#测试我们新的Java-I-O装饰者" class="headerlink" title="测试我们新的Java I/O装饰者"></a>测试我们新的Java I/O装饰者</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试新的Java I/O 装饰者</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 22:10:31</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InputTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        InputStream in = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 设置输入流 InputStream，先用 BufferedInputStream装饰它，再用我们新的 LowerCaseInputStream过滤器装饰</span></span><br><span class="line">            in = <span class="keyword">new</span> LowerCaseInputStream(<span class="keyword">new</span> BufferedInputStream(System.in));</span><br><span class="line">            <span class="keyword">int</span> c;</span><br><span class="line">            <span class="keyword">while</span> ((c = in.read()) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.print((<span class="keyword">char</span>) c);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (in != <span class="keyword">null</span>) &#123;</span><br><span class="line">                in.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">运行结果：</span></span><br><span class="line"><span class="attr">HELLO</span></span><br><span class="line"><span class="attr">hello</span></span><br><span class="line"><span class="attr">HI</span></span><br><span class="line"><span class="attr">hi</span></span><br><span class="line"><span class="attr">HELLO</span> <span class="string">WORLD</span></span><br><span class="line"><span class="attr">hello</span> <span class="string">world</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>继承属于扩展形式之一，但不见得达到弹性设计的最佳方式</li>
+<li>在我们的设计中，应该允许行为可以被扩展，而无须修改现有的代码</li>
+<li>组合和委托可用于在运行时动态地加上新的行为</li>
+<li>除了继承，装饰者模式也可以让我们扩展行为</li>
+<li>装饰者模式意味着一群装饰者类，这些类用来包装具体组件</li>
+<li>装饰者类反映出被装饰的组件类型</li>
+<li>装饰者可以在被修饰者的行为前面与/或后面加上自己的行为，甚至将被装饰者的行为整个取代掉，而达到特定的目的</li>
+<li>你可以用无所个装饰者包装一个组件</li>
+<li>装饰者一般对组件的客户是透明的，除非客户程序依赖于组件的具体类型</li>
+<li>装饰者会导致设计中出现许多小装饰对象，如果过度使用，会让程序变得很复杂</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java技术</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+        <tag>装饰者模式</tag>
       </tags>
   </entry>
   <entry>
@@ -562,6 +571,12 @@
 
 <h3 id="启动气象站"><a href="#启动气象站" class="headerlink" title="启动气象站"></a>启动气象站</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeatherStation</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 气象主题，管理观察者，当有数据就通知已注册的观察者</span></span><br><span class="line">        WeatherData weatherData = <span class="keyword">new</span> WeatherData();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 观察者1</span></span><br><span class="line">        CurrentConditionsDisplay currentDisplay = <span class="keyword">new</span> CurrentConditionsDisplay();</span><br><span class="line">        <span class="comment">// 观察者2</span></span><br><span class="line">        StatisticsDisplay statisticsDisplay = <span class="keyword">new</span> StatisticsDisplay();</span><br><span class="line">        <span class="comment">// 观察者3</span></span><br><span class="line">        ForecastDisplay forecastDisplay = <span class="keyword">new</span> ForecastDisplay();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 注册观察者</span></span><br><span class="line">        weatherData.registerObserver(currentDisplay);</span><br><span class="line">        weatherData.registerObserver(statisticsDisplay);</span><br><span class="line">        weatherData.registerObserver(forecastDisplay);</span><br><span class="line"></span><br><span class="line">        weatherData.setMeasurements(<span class="number">80</span>, <span class="number">56</span>, <span class="number">29.4f</span>);</span><br><span class="line">        weatherData.setMeasurements(<span class="number">82</span>, <span class="number">70</span>, <span class="number">39.2f</span>);</span><br><span class="line">        weatherData.setMeasurements(<span class="number">75</span>, <span class="number">90</span>, <span class="number">20.1f</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h3 id="使用JDK-内置观察者模式来改造应用"><a href="#使用JDK-内置观察者模式来改造应用" class="headerlink" title="使用JDK 内置观察者模式来改造应用"></a>使用JDK 内置观察者模式来改造应用</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&#96;&#96;&#96;java</span><br><span class="line">&#x2F;**</span><br><span class="line"> * 可观察者主题对象</span><br><span class="line"> * @author Mr.zxb</span><br><span class="line"> * @date 2020-08-11 20:11:46</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class WeatherDataObservable extends Observable &#123;</span><br><span class="line">    private float temperature;</span><br><span class="line">    private float humidity;</span><br><span class="line">    private float pressure;</span><br><span class="line">    </span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 一旦气象测量更新，此方法就会被调用</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public void setMeasurements(float temperature, float humidity, float pressure) &#123;</span><br><span class="line">        &#x2F;&#x2F; 获取温度、湿度、气压</span><br><span class="line">        this.temperature &#x3D; temperature;</span><br><span class="line">        this.humidity &#x3D; humidity;</span><br><span class="line">        this.pressure &#x3D; pressure;</span><br><span class="line">        </span><br><span class="line">        &#x2F;&#x2F; 指示状态已经改变</span><br><span class="line">        super.setChanged();</span><br><span class="line">        &#x2F;&#x2F; 通知观察者</span><br><span class="line">        super.notifyObservers();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.design.observer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Observable;</span><br><span class="line"><span class="keyword">import</span> java.util.Observer;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 观察者</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-11 20:51:29</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CurrentConditionsDisplayObserver</span> <span class="keyword">implements</span> <span class="title">Observer</span>, <span class="title">DisplayElement</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> temperature;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> humidity;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.printf(<span class="string">&quot;Current Conditions: %s F degrees and %s %% humidity.\n&quot;</span>, temperature, humidity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(Observable o, Object arg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (o <span class="keyword">instanceof</span> WeatherDataObservable) &#123;</span><br><span class="line">            WeatherDataObservable weatherDataObservable = (WeatherDataObservable) o;</span><br><span class="line">            <span class="keyword">this</span>.temperature = weatherDataObservable.getTemperature();</span><br><span class="line">            <span class="keyword">this</span>.humidity = weatherDataObservable.getHumidity();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">this</span>.display();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-11 20:59:32</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeatherStationObservable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 气象主题，管理观察者，当有数据就通知已注册的观察者</span></span><br><span class="line">        WeatherDataObservable weatherData = <span class="keyword">new</span> WeatherDataObservable();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 观察者1</span></span><br><span class="line">        CurrentConditionsDisplayObserver currentDisplay = <span class="keyword">new</span> CurrentConditionsDisplayObserver();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 注册观察者</span></span><br><span class="line">        weatherData.addObserver(currentDisplay);</span><br><span class="line"></span><br><span class="line">        weatherData.setMeasurements(<span class="number">80</span>, <span class="number">56</span>, <span class="number">29.4f</span>);</span><br><span class="line">        weatherData.setMeasurements(<span class="number">82</span>, <span class="number">70</span>, <span class="number">39.2f</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
 <li><p>观察者模式定义了对象之间一对多的关系</p>
 </li>
@@ -582,7 +597,7 @@
 </ul>
 ]]></content>
       <categories>
-        <category>后端技术</category>
+        <category>Java技术</category>
       </categories>
       <tags>
         <tag>设计模式</tag>
@@ -592,30 +607,29 @@
   <entry>
     <title>Java GC笔记</title>
     <url>/Java-GC%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h4 id="垃圾收集器（Garbage-Collection，GC）"><a href="#垃圾收集器（Garbage-Collection，GC）" class="headerlink" title="垃圾收集器（Garbage Collection，GC）"></a>垃圾收集器（Garbage Collection，GC）</h4><h5 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h5><ul>
-<li><p>对象存活判断算法</p>
+    <content><![CDATA[<h3 id="垃圾收集器（Garbage-Collection，GC）"><a href="#垃圾收集器（Garbage-Collection，GC）" class="headerlink" title="垃圾收集器（Garbage Collection，GC）"></a>垃圾收集器（Garbage Collection，GC）</h3><h4 id="内存分配与回收的神秘面纱"><a href="#内存分配与回收的神秘面纱" class="headerlink" title="内存分配与回收的神秘面纱"></a>内存分配与回收的神秘面纱</h4><p>Java的自动内存管理主要是针对对象内存的回收和对象内存的分配。同时，Java的自动内存管理最核心的功能是<strong>Java Heap</strong>内存中对象的分配与回收。</p>
+  <a id="more"></a>  
+
+<h5 id="堆内存划分"><a href="#堆内存划分" class="headerlink" title="堆内存划分"></a>堆内存划分</h5><p>堆内存分为新生代、老年代和永久代。新生代又被进一步分为：Eden 区＋Survivor1 区＋Survivor2 区。值得注意的是，在 JDK8中移除永久代，取而代之的是一个叫元空间（Metaspace）的区域（永久代使用的是JVM的堆内存空间，而元空间使用的是物理内存，直接受到本机的物理内存限制）</p>
+<h5 id="对象优先在Edge区分配"><a href="#对象优先在Edge区分配" class="headerlink" title="对象优先在Edge区分配"></a>对象优先在Edge区分配</h5><p>目前主流的垃圾收集器都会采用分代回收算法，因此需要将堆内存分为新生代和老年代，这样我们就可以根据各个年代的特点选择合适的垃圾收集算法。</p>
+<p>大多数情况下，对象在新生代中 eden 区分配。当 eden 区没有足够空间进行分配时，虚拟机将发起一次Minor GC。</p>
 <ul>
-<li><p>引用计数算法</p>
-<ul>
-<li>描述：是在对象中添加一个引用计数器，每当有一个地方引用它时，计数器就加1；当引用失效时，计数器就减1；任何时刻计数器为0的对象就是不能再被使用</li>
+<li><strong>新生代GC（Minor GC）</strong>: 指发生新生代的的垃圾收集动作，Minor GC非常频繁，回收速度一般也比较快。</li>
+<li><strong>老年代GC（Major GC/Full GC）</strong>: 指发生在老年代的GC，出现了Major GC经常会伴随至少一次的Minor GC（并非绝对），Major GC的速度一般会比Minor GC的慢10倍以上。</li>
+</ul>
+<h5 id="大对象直接进入老年代"><a href="#大对象直接进入老年代" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h5><p>大对象就是需要大量连续内存空间的对象（比如：字符串、数组）。</p>
+<p><strong>为什么要这样呢？</strong></p>
+<p>为了避免为大对象分配内存时由于分配担保机制带来的复制而降低效率。</p>
+<h5 id="长期存活的对象将进入老年代"><a href="#长期存活的对象将进入老年代" class="headerlink" title="长期存活的对象将进入老年代"></a>长期存活的对象将进入老年代</h5><p>既然虚拟机采用了分代收集的思想来管理内存，那么内存回收时就必须能识别哪些对象应放在新生代，哪些对象应放在老年代中。为了做到这一点，虚拟机给每个对象一个对象年龄（Age）计数器。</p>
+<p>如果对象在 Eden 出生并经过第一次 Minor GC 后仍然能够存活，并且能被 Survivor 容纳的话，将被移动到 Survivor 空间中，并将对象年龄设为1，对象在 Survivor 中每熬过一次 MinorGC, 年龄就增加1岁，当它的年龄增加到一定程度（默认为15岁），就会被晋升到老年代中。对象晋升到老年代的年龄阈值，可以通过参数 <code>-XX:MaxTenuringThreshold</code> 来设置。</p>
+<h5 id="动态对象年龄判定"><a href="#动态对象年龄判定" class="headerlink" title="动态对象年龄判定"></a>动态对象年龄判定</h5><p>为了更好的适应不同程序的内存情况，虚拟机不是永远要求对象年龄必须达到了某个值才能进入老年代，如果 Survivor 空间中相同年龄所有对象大小的总和大于 Survivor 空间的一半，年龄大于或等于该年龄的对象就可以直接进入老年代，无需达到要求的年龄。</p>
+<h4 id="如何判断对象活着？"><a href="#如何判断对象活着？" class="headerlink" title="如何判断对象活着？"></a>如何判断对象活着？</h4><h5 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h5><ul>
+<li>是在对象中添加一个引用计数器，每当有一个地方引用它时，计数器就加1；当引用失效时，计数器就减1；任何时刻计数器为0的对象就是不能再被使用</li>
 <li>主流Java虚拟机并没有选用引用计数算法来管理内存</li>
-<li>原因是该算法很难解决对象之间互相循环引用的问题</li>
+<li>原因是该算法很难解决对象之间互相循环引用的问题<h5 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h5></li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-  <a id="more"></a>
-
-
-
-<ul>
-<li><p>可达性分析算法</p>
-<ul>
-<li><p>描述：通过一系列称为“GC Roots”的根对象作为起始节点集，从这些节点开始，根据引用关系向下搜索，搜索过程所走的路径称为“引用链（Reference Chain）”，如果某个对象到GC Roots间没有任何引用链相连或从GC Roots到这个对象不可达时，则证明此对象是不可能再被使用的</p>
-</li>
-<li><p>GC Roots对象</p>
-<ul>
+<h6 id="什么是可达性分析算法"><a href="#什么是可达性分析算法" class="headerlink" title="什么是可达性分析算法"></a>什么是可达性分析算法</h6><p>通过一系列称为“GC Roots”的根对象作为起始节点集，从这些节点开始，根据引用关系向下搜索，搜索过程所走的路径称为“引用链（Reference Chain）”，如果某个对象到GC Roots间没有任何引用链相连或从GC Roots到这个对象不可达时，则证明此对象是不可能再被使用的</p>
+<h6 id="什么是-GC-Roots对象"><a href="#什么是-GC-Roots对象" class="headerlink" title="什么是 GC Roots对象"></a>什么是 GC Roots对象</h6><ul>
 <li>虚拟机栈中引用的对象，比如各线程调用方法堆栈中使用的参数、局部变量、临时变量等</li>
 <li>方法区中类静态属性引用的对象，比如字符串常量池里的引用</li>
 <li>方法区中类静态属性引用的对象，比如Java类的引用类型静态变量</li>
@@ -624,73 +638,36 @@
 <li>所有被同步锁（synchronized关键字）持有的对象</li>
 <li>反映Java虚拟机内部情况的JMXBean、JVMTI中注册的回调、本地代码缓存等</li>
 </ul>
-</li>
-<li><p>引用</p>
-<ul>
-<li><p>无论通过引用计数算法判断对象的引用数量，还是通过可达性分析算法判断对象是否引用链可达，判定对象是否存活都和“引用“有关</p>
-</li>
-<li><p>分类</p>
-<ul>
-<li><p>强引用（Strongly Reference）</p>
-<ul>
+<h4 id="再谈引用"><a href="#再谈引用" class="headerlink" title="再谈引用"></a>再谈引用</h4><p>无论通过引用计数算法判断对象的引用数量，还是通过可达性分析算法判断对象是否引用链可达，判定对象是否存活都和“引用“有关</p>
+<h5 id="强引用（Strongly-Reference）"><a href="#强引用（Strongly-Reference）" class="headerlink" title="强引用（Strongly Reference）"></a>强引用（Strongly Reference）</h5><ul>
 <li>不会被垃圾收集器回收掉的引用</li>
 </ul>
-</li>
-<li><p>软引用（Soft Reference）</p>
-<ul>
+<h5 id="软引用（Soft-Reference）"><a href="#软引用（Soft-Reference）" class="headerlink" title="软引用（Soft Reference）"></a>软引用（Soft Reference）</h5><ul>
 <li>当JVM将要发生内存溢出前，会回收这部分引用，若内存还是不够，则OOM</li>
 </ul>
-</li>
-<li><p>弱引用（Weak Reference）</p>
-<ul>
+<h5 id="弱引用（Weak-Reference）"><a href="#弱引用（Weak-Reference）" class="headerlink" title="弱引用（Weak Reference）"></a>弱引用（Weak Reference）</h5><ul>
 <li>被弱引用关联的对象只能生存到下一次垃圾收集发生为止</li>
 </ul>
-</li>
-<li><p>虚引用（Phantom Reference）</p>
-<ul>
+<h5 id="虚引用（Phantom-Reference）"><a href="#虚引用（Phantom-Reference）" class="headerlink" title="虚引用（Phantom Reference）"></a>虚引用（Phantom Reference）</h5><ul>
 <li>最弱的引用关系，无法造成任何影响，也无法通过虚引用获取一个对象实例</li>
 <li>虚引用关联的唯一目的只是为了能在这个对象被垃圾收集器回收时候收到一个通知</li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>引用计数式垃圾收集</p>
-<ul>
-<li><p>直接垃圾收集</p>
-<ul>
+<h4 id="引用计数式垃圾收集"><a href="#引用计数式垃圾收集" class="headerlink" title="引用计数式垃圾收集"></a>引用计数式垃圾收集</h4><h5 id="直接垃圾收集"><a href="#直接垃圾收集" class="headerlink" title="直接垃圾收集"></a>直接垃圾收集</h5><ul>
 <li>主流Java虚拟机中均未涉及此算法</li>
 <li>Objective-C采用此方式作为内存管理</li>
 </ul>
-</li>
-</ul>
-</li>
-<li><p>追踪式垃圾收集（间接垃圾收集）</p>
-<ul>
-<li><p>分代收集算法</p>
-<ul>
-<li><p>弱分代假说</p>
-<ul>
+<h4 id="追踪式垃圾收集（间接垃圾收集）"><a href="#追踪式垃圾收集（间接垃圾收集）" class="headerlink" title="追踪式垃圾收集（间接垃圾收集）"></a>追踪式垃圾收集（间接垃圾收集）</h4><h5 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h5><h6 id="弱分代假说"><a href="#弱分代假说" class="headerlink" title="弱分代假说"></a>弱分代假说</h6><ul>
 <li>大多数对象朝生夕死</li>
 </ul>
-</li>
-<li><p>强分代假说</p>
-<ul>
-<li>熬过多次垃圾收集过程的对象越难以消亡</li>
-</ul>
+<h6 id="强分代假说"><a href="#强分代假说" class="headerlink" title="强分代假说"></a>强分代假说</h6><ul>
+<li><p>熬过多次垃圾收集过程的对象越难以消亡</p>
 </li>
 <li><p>根据以上假说多款收集器一致的设计原则：</p>
 <ul>
 <li>收集器应该将Java堆划分出不同的区域，然后将回收对象依据其年龄分配到不同的区域之中存储</li>
 <li>根据分代设计理论，一般至少会把Java堆划分为新生代和老年代，在新生代中，每次垃圾收集会有大量的对象死亡，而每次存活的少量对象晋升到老年代存放</li>
 </ul>
-</li>
-<li><p>跨代引用假说</p>
+<p>跨代引用假说</p>
 <ul>
 <li>跨代引用相对于同代引用来说仅占少数</li>
 <li>存在互相引用关系的两个对象，是应该倾向于同时生存或者同时消亡的</li>
@@ -698,42 +675,28 @@
 <li>在Minor GC时，只有包含了跨代引用的小块内存里的对象才会被加入到GC Roots进行扫描，这样就不用扫描整个老年代了</li>
 </ul>
 </li>
-<li><p>分类</p>
-<ul>
-<li><p>部分收集（Partial GC）</p>
-<ul>
-<li><p>目标不是完整收集整个Java堆的垃圾收集</p>
-</li>
-<li><p>新生代收集（Minor GC/Young GC）</p>
-<ul>
+</ul>
+<h4 id="垃圾收集分类"><a href="#垃圾收集分类" class="headerlink" title="垃圾收集分类"></a>垃圾收集分类</h4><h6 id="部分收集（Partial-GC）"><a href="#部分收集（Partial-GC）" class="headerlink" title="部分收集（Partial GC）"></a>部分收集（Partial GC）</h6><ul>
+<li>目标不是完整收集整个Java堆的垃圾收集</li>
+<li>新生代收集（<strong>Minor GC/Young GC</strong>）<ul>
 <li>目标只是新生代的垃圾收集</li>
 </ul>
 </li>
-<li><p>老年代收集（Major GC/Old GC）</p>
-<ul>
+<li>老年代收集（<strong>Major GC/Old GC</strong>）<ul>
 <li>目标只是老年代的垃圾收集</li>
 <li>目前只有CMS收集器会有单独收集老年代的行为</li>
 </ul>
 </li>
-<li><p>混合收集（Mixed GC）</p>
-<ul>
+<li>混合收集（<strong>Mixed GC</strong>）<ul>
 <li>目标是收集整个新生代以及部分老年代的垃圾收集</li>
-<li>目前只有G1收集器有这种行为</li>
+<li>目前只有<strong>G1收集器</strong>有这种行为</li>
 </ul>
 </li>
 </ul>
-</li>
-<li><p>整堆收集（Full GC）</p>
-<ul>
+<h6 id="整堆收集（Full-GC）"><a href="#整堆收集（Full-GC）" class="headerlink" title="整堆收集（Full GC）"></a>整堆收集（Full GC）</h6><ul>
 <li>目标收集整个Java堆和方法区的垃圾收集</li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>标记-清除算法（Mark-Sweep）</p>
-<ul>
+<h4 id="垃圾收集器算法"><a href="#垃圾收集器算法" class="headerlink" title="垃圾收集器算法"></a>垃圾收集器算法</h4><h5 id="标记-清除算法（Mark-Sweep）"><a href="#标记-清除算法（Mark-Sweep）" class="headerlink" title="标记-清除算法（Mark-Sweep）"></a>标记-清除算法（Mark-Sweep）</h5><ul>
 <li><p>分为“标记”和“清除”两个阶段</p>
 <ul>
 <li>首先标记所有要回收的对象，在标记完成后，统一回收掉所有被标记的对象</li>
@@ -759,11 +722,7 @@
 <ul>
 <li>关注低延迟的CMS收集器是基于标记-清除算法的，当内存空间碎片过多时CMS收集器就会采用标记-整理算法</li>
 </ul>
-</li>
-</ul>
-</li>
-<li><p>标记-复制算法</p>
-<ul>
+<h5 id="标记-复制算法"><a href="#标记-复制算法" class="headerlink" title="标记-复制算法"></a>标记-复制算法</h5></li>
 <li><p>简称复制算法，解决标记-清除算法面临大量对象执行效率低的问题</p>
 <ul>
 <li>就是将内存按容量划分为大小相等的两块，每次只是使用其中一块</li>
@@ -804,11 +763,7 @@
 <li><p>HotSpot的Serial/ParNew等新生代收集器均采用这种策略来设计新生代内存布局</p>
 </li>
 </ul>
-</li>
-</ul>
-</li>
-<li><p>标记-整理算法（Mark-Compact）</p>
-<ul>
+<h5 id="标记-整理算法（Mark-Compact）"><a href="#标记-整理算法（Mark-Compact）" class="headerlink" title="标记-整理算法（Mark-Compact）"></a>标记-整理算法（Mark-Compact）</h5></li>
 <li><p>标记过程仍与“标记-清除”算法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都像内存空间一端移动，然后直接清理掉边界以外的内存</p>
 </li>
 <li><p>标记-清除和标记-整理本质区别：前者是非移动式的回收算法，后者是移动式的</p>
@@ -832,13 +787,7 @@
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<h5 id="经典垃圾收集器"><a href="#经典垃圾收集器" class="headerlink" title="经典垃圾收集器"></a>经典垃圾收集器</h5><ul>
-<li><p>Serial收集器</p>
-<ul>
+<h4 id="经典垃圾收集器"><a href="#经典垃圾收集器" class="headerlink" title="经典垃圾收集器"></a>经典垃圾收集器</h4><h5 id="Serial收集器"><a href="#Serial收集器" class="headerlink" title="Serial收集器"></a>Serial收集器</h5><ul>
 <li><p>在JDK1.3以前是HotSpot虚拟机新生代收集器的唯一选择</p>
 </li>
 <li><p>客户端模式下默认新生代收集器</p>
@@ -853,17 +802,13 @@
 </ul>
 </li>
 </ul>
-</li>
-<li><p>ParNew收集器</p>
-<ul>
+<h5 id="ParNew收集器"><a href="#ParNew收集器" class="headerlink" title="ParNew收集器"></a>ParNew收集器</h5><ul>
 <li>是Serial收集器的多线程并行版本</li>
 <li>ParNew收集器是激活CMS收集器后的默认新生代收集器</li>
 <li>从JDK9 G1收集器的出现，CMS+ParNew收集器的组合就不再是官方推荐的服务器模式下的默认收集器</li>
 <li>ParNew收集器默认开启的收集线程数与处理器核心数量相同，也可以使用参数来限制垃圾收集器的线程数</li>
 </ul>
-</li>
-<li><p>Parallel Scavenge收集器</p>
-<ul>
+<h5 id="Parallel-Scavenge收集器"><a href="#Parallel-Scavenge收集器" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h5><ul>
 <li><p>也是新生代收集器</p>
 </li>
 <li><p>基于标记-复制算法实现的收集器</p>
@@ -886,9 +831,7 @@
 </ul>
 </li>
 </ul>
-</li>
-<li><p>Serial Old收集器</p>
-<ul>
+<h5 id="Serial-Old收集器"><a href="#Serial-Old收集器" class="headerlink" title="Serial Old收集器"></a>Serial Old收集器</h5><ul>
 <li><p>Serial Old收集器是Serial收集器的老年代版本</p>
 </li>
 <li><p>也是一个单线程收集器</p>
@@ -904,25 +847,18 @@
 </ul>
 </li>
 </ul>
-</li>
-<li><p>Parallel Old收集器</p>
-<ul>
+<h5 id="Parallel-Old收集器"><a href="#Parallel-Old收集器" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h5><ul>
 <li>Parallel Old收集器是Parallel Scavenge收集器的老年代版本</li>
 <li>支持多线程并发收集，基于标记-整理算法实现</li>
 <li>从JDK6开始提供，为了解决Parallel Scavenge收集器的尴尬状态，原因在于Parallel Scavenge收集器，老年代除了Serial Old收集器以外别无选择，无法与其他表现良好的老年代收集器配合工作，如CMS收集器</li>
 <li>吞吐量优先收集器的组合，在注重吞吐量或者处理器资源较为稀缺的场合，可以考虑Parallel Scavenge加Parallel Old收集器这个组合</li>
 </ul>
-</li>
-<li><p>CMS（Concurrent Mark Sweep）收集器</p>
-<ul>
-<li><p>以获取最短回收停顿时间为目标的收集器</p>
-</li>
-<li><p>从名字来看CMS收集器是基于标记-清除算法实现的</p>
-</li>
-<li><p>在JDK9以后不官方不推荐使用CMS收集器</p>
-</li>
-<li><p>工作过程</p>
-<ul>
+<h5 id="CMS（Concurrent-Mark-Sweep）收集器"><a href="#CMS（Concurrent-Mark-Sweep）收集器" class="headerlink" title="CMS（Concurrent Mark Sweep）收集器"></a>CMS（Concurrent Mark Sweep）收集器</h5><h6 id="什么是CMS收集器"><a href="#什么是CMS收集器" class="headerlink" title="什么是CMS收集器"></a>什么是CMS收集器</h6><ul>
+<li>以获取最短回收停顿时间为目标的收集器</li>
+<li>从名字来看CMS收集器是基于标记-清除算法实现的</li>
+<li>在JDK9以后不官方不推荐使用CMS收集器</li>
+</ul>
+<h6 id="CMS-工作过程"><a href="#CMS-工作过程" class="headerlink" title="CMS 工作过程"></a>CMS 工作过程</h6><ul>
 <li><p>初始标记（CMS initial mark）</p>
 <ul>
 <li>标记一下GC Roots能直接关联到到对象，速度很快，需要停顿用户线程</li>
@@ -944,15 +880,11 @@
 </ul>
 </li>
 </ul>
-</li>
-<li><p>优点</p>
-<ul>
+<h6 id="CMS-优点"><a href="#CMS-优点" class="headerlink" title="CMS 优点"></a>CMS 优点</h6><ul>
 <li>并发收集</li>
 <li>低停顿</li>
 </ul>
-</li>
-<li><p>缺点</p>
-<ul>
+<h6 id="CMS-缺点"><a href="#CMS-缺点" class="headerlink" title="CMS 缺点"></a>CMS 缺点</h6><ul>
 <li><p>对处理器资源非常敏感，在并发阶段，会导致应用程序变慢，降低了总吞吐量</p>
 </li>
 <li><p>CMS收集器默认启动的回收线程数是（处理器核心数量+3）/4</p>
@@ -977,20 +909,12 @@
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-</li>
-<li><p>Garbage First（G1）收集器</p>
-<ul>
-<li><p>什么是G1收集器</p>
-<ul>
+<h5 id="Garbage-First（G1）收集器"><a href="#Garbage-First（G1）收集器" class="headerlink" title="Garbage First（G1）收集器"></a>Garbage First（G1）收集器</h5><h6 id="什么是G1收集器"><a href="#什么是G1收集器" class="headerlink" title="什么是G1收集器"></a>什么是G1收集器</h6><ul>
 <li>Garbage First（简称G1）收集器是垃圾收集器技术发展历史上的里程碑式的成果，它开创了收集器面向局部收集的设计思路和基于Region的内存布局形式</li>
 <li>从JDK7确立项目目标，G1收集器就被视为JDK7中HotSpot虚拟机的一项重要进化特征，直到JDK8 Update 40之后，这个版本以后的G1收集器才被Oracle官方称为“全功能的垃圾收集器”</li>
 <li>面向服务端应用的垃圾收集器，HotSpot期望它代替CMS收集器，在JDK9中G1就代替Parallel Scavenge加Parallel Old组合，成为服务端模式下的默认垃圾收集器，而CMS则标记为不推荐使用的收集器，在未来CMS可能会被废弃</li>
 </ul>
-</li>
-<li><p>G1收集器设计模式</p>
-<ul>
+<h6 id="G1收集器设计模式"><a href="#G1收集器设计模式" class="headerlink" title="G1收集器设计模式"></a>G1收集器设计模式</h6><ul>
 <li><p>G1收集器以前的其他收集器，垃圾收集的目标范围要么是整个新生代（Minor GC），要么是老年代（Major GC），要么是整个Java堆（Full GC）；而G1跳出了这个樊笼，它可以面对堆内存任何部分来组成回收集（Collection Set，简称CSet）进行回收，衡量标准不在是属于哪个分代，而是哪块内存中存放的垃圾数量最多，回收收益最大，这就是G1收集器的混合收集（Mixed GC）模式</p>
 </li>
 <li><p>G1开创基于Region的堆内存布局是它能够实现这个目标的关键</p>
@@ -1012,9 +936,7 @@
 </ul>
 </li>
 </ul>
-</li>
-<li><p>G1收集器运作过程（不计算用户线程运行过程中的动作）</p>
-<ul>
+<h6 id="G1收集器运作过程（不计算用户线程运行过程中的动作）"><a href="#G1收集器运作过程（不计算用户线程运行过程中的动作）" class="headerlink" title="G1收集器运作过程（不计算用户线程运行过程中的动作）"></a>G1收集器运作过程（不计算用户线程运行过程中的动作）</h6><ul>
 <li><p>初始标记（Initial Marking）</p>
 <ul>
 <li>标记GC Roots能直接关联到到对象，并且修改TAMS指针的值，让下一阶段用户线程并发运行时，能正确地在可用的Region中分配新对象</li>
@@ -1034,19 +956,16 @@
 </li>
 <li><p>筛选回收（Live Data Counting and Evacuation）</p>
 <ul>
-<li>负责更新Region的统计数据，对各个Region的回收价值和成本进行排序，根据用户所期望的停顿时间来指定回收计划，可以自由选择任意多个Region构成回收集，然后把决定回收的那一部分Region的存活对象复制到空的Region中，再清理掉整个旧Region的全部空间</li>
-<li>这里的操作涉及存活对象的移动，是必须暂停用户线程，由多条收集器线程并行完成的</li>
-</ul>
+<li><p>负责更新Region的统计数据，对各个Region的回收价值和成本进行排序，根据用户所期望的停顿时间来指定回收计划，可以自由选择任意多个Region构成回收集，然后把决定回收的那一部分Region的存活对象复制到空的Region中，再清理掉整个旧Region的全部空间</p>
 </li>
-<li><p>总结</p>
-<ul>
-<li>G1收集器除了并发标记外，其余阶段也是要完全暂停用户线程的，换言之，它并非纯粹地追求低延迟，官方给它设定的目标是在延迟可控的情况下获得尽可能高的吞吐量，所以才担当起“全功能收集器”的重任与期望</li>
-</ul>
+<li><p>这里的操作涉及存活对象的移动，是必须暂停用户线程，由多条收集器线程并行完成的</p>
+</li>
+<li><p>G1收集器除了并发标记外，其余阶段也是要完全暂停用户线程的，换言之，它并非纯粹地追求低延迟，官方给它设定的目标是在延迟可控的情况下获得尽可能高的吞吐量，所以才担当起“全功能收集器”的重任与期望</p>
 </li>
 </ul>
 </li>
-<li><p>G1收集器特点</p>
-<ul>
+</ul>
+<h6 id="G1收集器特点"><a href="#G1收集器特点" class="headerlink" title="G1收集器特点"></a>G1收集器特点</h6><ul>
 <li><p>可由用户指定期望的停顿时间是G1收集器很强大的一个功能，设置不同的期望停顿时间，可让G1在不同应用场景中取得关注吞吐量和关注延迟之间的最佳平衡</p>
 <ul>
 <li>默认停顿时间200ms，必须保证“期望值”符合实际</li>
@@ -1060,11 +979,7 @@
 </ul>
 </li>
 </ul>
-</li>
-<li><p>G1收集器和CMS收集器比较</p>
-<ul>
-<li><p>G1收集器相比CMS的优点</p>
-<ul>
+<h6 id="G1收集器相比CMS的优点"><a href="#G1收集器相比CMS的优点" class="headerlink" title="G1收集器相比CMS的优点"></a>G1收集器相比CMS的优点</h6><ul>
 <li><p>G1从整体来看是基于“标记-整理”算法实现的收集器，从局部上看（两个Region之间）又是基于“标记-复制”算法实现，无论如何，这两种算法在运行期间都不会产生内存空间碎片，垃圾收集完成之后能提供规整的可用内存</p>
 <ul>
 <li>有利于应用程序长时间运行</li>
@@ -1078,9 +993,7 @@
 <li><p>按收益动态确定回收集</p>
 </li>
 </ul>
-</li>
-<li><p>G1收集器相比CMS的缺点</p>
-<ul>
+<h6 id="G1收集器相比CMS的缺点"><a href="#G1收集器相比CMS的缺点" class="headerlink" title="G1收集器相比CMS的缺点"></a>G1收集器相比CMS的缺点</h6><ul>
 <li><p>在运行过程中，G1垃圾收集器内存占用（Footprint）要比CMS要高</p>
 <ul>
 <li>G1和CMS都使用卡表来处理跨代指针，但G1的卡表实现更复杂，堆中每个Region，无论扮演新生代还是老年代角色，都必须有一份卡表，导致G1的记忆集（和其他内存消耗）可能会占整个堆容量的20%乃至更多的内存空间</li>
@@ -1099,8 +1012,6 @@
 </li>
 </ul>
 </li>
-</ul>
-</li>
 <li><p>以上优缺点仅仅是针对G1和CMS两款垃圾收集器单独某方面的实现细节的定性分析，通常说哪款收集器要更好、要好上多少，往往是针对具体场景才能做的定量比较</p>
 <ul>
 <li>目前在小内存应用上CMS的表现大概率仍然会优于G1收集器</li>
@@ -1110,12 +1021,7 @@
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>低延迟垃圾收集器</p>
-<ul>
+<h5 id="低延迟垃圾收集器"><a href="#低延迟垃圾收集器" class="headerlink" title="低延迟垃圾收集器"></a>低延迟垃圾收集器</h5><ul>
 <li><p>垃圾收集器三项重要指标</p>
 <ul>
 <li>内存占用（Footprint）</li>
@@ -1130,20 +1036,17 @@
 </ul>
 </li>
 </ul>
-<h5 id="不垃圾回收的垃圾收集器"><a href="#不垃圾回收的垃圾收集器" class="headerlink" title="不垃圾回收的垃圾收集器"></a>不垃圾回收的垃圾收集器</h5><ul>
-<li><p>Epsilon收集器</p>
-<ul>
+<h5 id="不垃圾回收的垃圾收集器"><a href="#不垃圾回收的垃圾收集器" class="headerlink" title="不垃圾回收的垃圾收集器"></a>不垃圾回收的垃圾收集器</h5><h6 id="Epsilon收集器"><a href="#Epsilon收集器" class="headerlink" title="Epsilon收集器"></a>Epsilon收集器</h6><ul>
 <li>JDK11推出的不能够进行垃圾收集的垃圾收集器</li>
 <li>适用于运行数分钟或者数秒，只要Java虚拟机能正确分配内存，在堆耗尽之前就会退出</li>
 </ul>
-</li>
-</ul>
 ]]></content>
       <categories>
-        <category>Java 笔记</category>
+        <category>Jvm 笔记</category>
       </categories>
       <tags>
         <tag>GC</tag>
+        <tag>Jvm内存分配</tag>
       </tags>
   </entry>
 </search>
