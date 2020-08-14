@@ -190,7 +190,7 @@ message HelloRpcReply {
 mvn clean package
 ```
 
-![image-20200812204922791](http://wx2.sinaimg.cn/large/008aQ1h9ly1ghobi62ap7j30c90b80t3.jpg)
+![WX20200814-151102@2x](https://tva4.sinaimg.cn/large/008aQ1h9ly1ghqcyfhe5yj30q80m6jtr.jpg)
 
 ### 创建  RpcServer  端
 
