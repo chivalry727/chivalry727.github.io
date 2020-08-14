@@ -10,6 +10,7 @@ keywords: Java,Jvm,GC,设计模式,后端技术
 author: Mr.zxb
 language: zh-Hans
 timezone: 'Asia/Shanghai'
+email: zhongxuebinwin8@163.com
 
 # 设置博客单词统计
 # 文章字数统计
@@ -116,6 +117,18 @@ deploy:
   type: git
   repository: git@github.com:chivalry727/chivalry727.github.io.git
   branch: master
+
+search:
+ path: search.xml
+ field: post
+ format: html
+ limit: 10000
+
+feed: # 需安装插件：npm install hexo-generator-feed --save
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub: 
 
 # 谷歌、百度站点地图生成
 Plugins:
