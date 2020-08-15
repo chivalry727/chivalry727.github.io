@@ -6,7 +6,11 @@ categories:
 tags:
 - Jvm
 ---
+### 																												JVM 虚拟机笔记
+
 #### JVM运行时数据区域
+
+![](http://wx2.sinaimg.cn/large/008aQ1h9ly1ghrbvdoy5jj30k70cpgqk.jpg)
 
 ##### 程序计数器（Program Counter Register）
 
