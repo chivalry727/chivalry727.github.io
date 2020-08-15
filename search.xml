@@ -120,7 +120,8 @@
   <entry>
     <title>Java 虚拟机笔记</title>
     <url>/Java%20%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h4 id="JVM运行时数据区域"><a href="#JVM运行时数据区域" class="headerlink" title="JVM运行时数据区域"></a>JVM运行时数据区域</h4><h5 id="程序计数器（Program-Counter-Register）"><a href="#程序计数器（Program-Counter-Register）" class="headerlink" title="程序计数器（Program Counter Register）"></a>程序计数器（Program Counter Register）</h5><ul>
+    <content><![CDATA[<h3 id="JVM-虚拟机笔记"><a href="#JVM-虚拟机笔记" class="headerlink" title="JVM 虚拟机笔记"></a>JVM 虚拟机笔记</h3><h4 id="JVM运行时数据区域"><a href="#JVM运行时数据区域" class="headerlink" title="JVM运行时数据区域"></a>JVM运行时数据区域</h4><p><img src="http://wx2.sinaimg.cn/large/008aQ1h9ly1ghrbvdoy5jj30k70cpgqk.jpg"></p>
+<h5 id="程序计数器（Program-Counter-Register）"><a href="#程序计数器（Program-Counter-Register）" class="headerlink" title="程序计数器（Program Counter Register）"></a>程序计数器（Program Counter Register）</h5><ul>
 <li>内存大小：是一块比较小的内存空间</li>
 <li>作用：当前线程所执行的字节码的行号指示器，在Java虚拟机的概念模型里，字节码解释器工作时就是通过改变这个计数器的值来选取下一条需要执行的字节码指令</li>
 </ul>
@@ -629,6 +630,7 @@
 <li>原因是该算法很难解决对象之间互相循环引用的问题<h5 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h5></li>
 </ul>
 <h6 id="什么是可达性分析算法"><a href="#什么是可达性分析算法" class="headerlink" title="什么是可达性分析算法"></a>什么是可达性分析算法</h6><p>通过一系列称为“GC Roots”的根对象作为起始节点集，从这些节点开始，根据引用关系向下搜索，搜索过程所走的路径称为“引用链（Reference Chain）”，如果某个对象到GC Roots间没有任何引用链相连或从GC Roots到这个对象不可达时，则证明此对象是不可能再被使用的</p>
+<p><img src="http://wx1.sinaimg.cn/large/008aQ1h9ly1ghrccgxbicj30wm0u0413.jpg"></p>
 <h6 id="什么是-GC-Roots对象"><a href="#什么是-GC-Roots对象" class="headerlink" title="什么是 GC Roots对象"></a>什么是 GC Roots对象</h6><ul>
 <li>虚拟机栈中引用的对象，比如各线程调用方法堆栈中使用的参数、局部变量、临时变量等</li>
 <li>方法区中类静态属性引用的对象，比如字符串常量池里的引用</li>
