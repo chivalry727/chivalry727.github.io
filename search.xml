@@ -1,123 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CompletableFuture异步编程API列表</title>
-    <url>/CompletableFuture%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8BAPI%E5%88%97%E8%A1%A8/</url>
-    <content><![CDATA[<h4 id="CompletableFuture异步编程API"><a href="#CompletableFuture异步编程API" class="headerlink" title="CompletableFuture异步编程API"></a>CompletableFuture异步编程API</h4><h5 id="静态工厂方法："><a href="#静态工厂方法：" class="headerlink" title="静态工厂方法："></a>静态工厂方法：</h5><ul>
-<li><p>runAsync(Runnable runnable)：使用ForkJoinPool.commonPool()作为它的线程池执行异步代码。</p>
-</li>
-<li><p>runAsync(Runnable runnable, Executor executor)：使用指定的thread pool执行异步代码。</p>
-</li>
-</ul>
-<a id="more"></a>
-
-<ul>
-<li>supplyAsync(Supplier<U> supplier)：使用ForkJoinPool.commonPool()作为它的线程池执行异步代码，异步操作有返回值。</li>
-</ul>
-<ul>
-<li>supplyAsync(Supplier<U> supplier, Executor executor)：使用指定的thread pool执行异步代码，异步操作有返回值</li>
-</ul>
-<ul>
-<li>complete(T t)：完成异步执行，并返回future的结果</li>
-</ul>
-<ul>
-<li>completeExceptionally(Throwable ex)：异步执行不正常的结束，抛出异步执行的错误堆栈</li>
-</ul>
-<h5 id="转换-类似于流里的map-："><a href="#转换-类似于流里的map-：" class="headerlink" title="转换(类似于流里的map)："></a>转换(类似于流里的map)：</h5><ul>
-<li><p>thenApply(Function&lt;? super T,? extends U&gt; fn)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture</p>
-</li>
-<li><p>thenApplyAsync(Function&lt;? super T,? extends U&gt; fn)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture，使用ForkJoinPool</p>
-</li>
-</ul>
-<ul>
-<li>thenApplyAsync(Function&lt;? super T,? extends U&gt; fn, Executor executor)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture，使用指定的线程池</li>
-</ul>
-<h5 id="flatMap："><a href="#flatMap：" class="headerlink" title="flatMap："></a>flatMap：</h5><ul>
-<li><p>thenCompose(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。</p>
-</li>
-<li><p>thenComposeAsync(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。使用ForkJoinPool。</p>
-</li>
-</ul>
-<ul>
-<li>thenComposeAsync(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn,Executor executor)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。使用指定的线程池。</li>
-</ul>
-<h5 id="组合："><a href="#组合：" class="headerlink" title="组合："></a>组合：</h5><ul>
-<li><p>thenCombine(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。</p>
-</li>
-<li><p>thenCombineAsync(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。使用ForkJoinPool。<br>thenCombineAsync(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn, Executor executor)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。使用指定的线程池。</p>
-</li>
-<li><p>thenAcceptBoth(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。</p>
-</li>
-</ul>
-<ul>
-<li>thenAcceptBothAsync(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。使用ForkJoinPool。</li>
-</ul>
-<ul>
-<li>thenAcceptBothAsync(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action, Executor executor)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。使用指定的线程池。</li>
-</ul>
-<h5 id="计算结果完成时的处理："><a href="#计算结果完成时的处理：" class="headerlink" title="计算结果完成时的处理："></a>计算结果完成时的处理：</h5><ul>
-<li><p>whenComplete(BiConsumer&lt;? super T,? super Throwable&gt; action)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。</p>
-</li>
-<li><p>whenCompleteAsync(BiConsumer&lt;? super T,? super Throwable&gt; action)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。使用ForkJoinPool。</p>
-</li>
-</ul>
-<ul>
-<li>whenCompleteAsync(BiConsumer&lt;? super T,? super Throwable&gt; action, Executor executor)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。使用指定的线程池。</li>
-</ul>
-<ul>
-<li>handle(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn</li>
-</ul>
-<ul>
-<li>handleAsync(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn，使用ForkJoinPool。</li>
-</ul>
-<ul>
-<li>handleAsync(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn, Executor executor)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn，使用指定的线程池。</li>
-</ul>
-<ul>
-<li>thenAccept(Consumer&lt;? super T&gt; action)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值</li>
-</ul>
-<ul>
-<li>thenAcceptAsync(Consumer&lt;? super T&gt; action)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值，使用ForkJoinPool。</li>
-</ul>
-<ul>
-<li>thenAcceptAsync(Consumer&lt;? super T&gt; action, Executor executor)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值</li>
-</ul>
-<ul>
-<li>acceptEither(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。</li>
-</ul>
-<ul>
-<li>acceptEitherAsync(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。使用ForkJoinPool</li>
-</ul>
-<ul>
-<li>acceptEitherAsync(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action, Executor executor)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。使用指定的线程池</li>
-</ul>
-<ul>
-<li>applyToEither(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。</li>
-</ul>
-<ul>
-<li>applyToEitherAsync(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。使用ForkJoinPool</li>
-</ul>
-<ul>
-<li>applyToEitherAsync(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn, Executor executor)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。使用指定的线程池</li>
-</ul>
-<ul>
-<li>allOf(CompletableFuture&lt;?&gt;… cfs)：在所有Future对象完成后结束，并返回一个future。</li>
-</ul>
-<ul>
-<li>anyOf(CompletableFuture&lt;?&gt;… cfs)：在任何一个Future对象结束后结束，并返回一个future。</li>
-</ul>
-<h5 id="CompletableFuture异常处理："><a href="#CompletableFuture异常处理：" class="headerlink" title="CompletableFuture异常处理："></a>CompletableFuture异常处理：</h5><ul>
-<li>exceptionally(Function fn)：只有当CompletableFuture抛出异常的时候，才会触发这个exceptionally的计算，调用function计算值。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Java 笔记</category>
-      </categories>
-      <tags>
-        <tag>Java8 异步编程</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java 虚拟机笔记</title>
     <url>/Java%20%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h3 id="JVM-虚拟机笔记"><a href="#JVM-虚拟机笔记" class="headerlink" title="JVM 虚拟机笔记"></a>JVM 虚拟机笔记</h3><h4 id="JVM运行时数据区域"><a href="#JVM运行时数据区域" class="headerlink" title="JVM运行时数据区域"></a>JVM运行时数据区域</h4><p><img src="http://wx2.sinaimg.cn/large/008aQ1h9ly1ghrbvdoy5jj30k70cpgqk.jpg"></p>
@@ -398,6 +281,123 @@
       </tags>
   </entry>
   <entry>
+    <title>CompletableFuture异步编程API列表</title>
+    <url>/CompletableFuture%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8BAPI%E5%88%97%E8%A1%A8/</url>
+    <content><![CDATA[<h4 id="CompletableFuture异步编程API"><a href="#CompletableFuture异步编程API" class="headerlink" title="CompletableFuture异步编程API"></a>CompletableFuture异步编程API</h4><h5 id="静态工厂方法："><a href="#静态工厂方法：" class="headerlink" title="静态工厂方法："></a>静态工厂方法：</h5><ul>
+<li><p>runAsync(Runnable runnable)：使用ForkJoinPool.commonPool()作为它的线程池执行异步代码。</p>
+</li>
+<li><p>runAsync(Runnable runnable, Executor executor)：使用指定的thread pool执行异步代码。</p>
+</li>
+</ul>
+<a id="more"></a>
+
+<ul>
+<li>supplyAsync(Supplier<U> supplier)：使用ForkJoinPool.commonPool()作为它的线程池执行异步代码，异步操作有返回值。</li>
+</ul>
+<ul>
+<li>supplyAsync(Supplier<U> supplier, Executor executor)：使用指定的thread pool执行异步代码，异步操作有返回值</li>
+</ul>
+<ul>
+<li>complete(T t)：完成异步执行，并返回future的结果</li>
+</ul>
+<ul>
+<li>completeExceptionally(Throwable ex)：异步执行不正常的结束，抛出异步执行的错误堆栈</li>
+</ul>
+<h5 id="转换-类似于流里的map-："><a href="#转换-类似于流里的map-：" class="headerlink" title="转换(类似于流里的map)："></a>转换(类似于流里的map)：</h5><ul>
+<li><p>thenApply(Function&lt;? super T,? extends U&gt; fn)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture</p>
+</li>
+<li><p>thenApplyAsync(Function&lt;? super T,? extends U&gt; fn)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture，使用ForkJoinPool</p>
+</li>
+</ul>
+<ul>
+<li>thenApplyAsync(Function&lt;? super T,? extends U&gt; fn, Executor executor)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture，使用指定的线程池</li>
+</ul>
+<h5 id="flatMap："><a href="#flatMap：" class="headerlink" title="flatMap："></a>flatMap：</h5><ul>
+<li><p>thenCompose(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。</p>
+</li>
+<li><p>thenComposeAsync(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。使用ForkJoinPool。</p>
+</li>
+</ul>
+<ul>
+<li>thenComposeAsync(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn,Executor executor)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。使用指定的线程池。</li>
+</ul>
+<h5 id="组合："><a href="#组合：" class="headerlink" title="组合："></a>组合：</h5><ul>
+<li><p>thenCombine(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。</p>
+</li>
+<li><p>thenCombineAsync(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。使用ForkJoinPool。<br>thenCombineAsync(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn, Executor executor)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。使用指定的线程池。</p>
+</li>
+<li><p>thenAcceptBoth(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。</p>
+</li>
+</ul>
+<ul>
+<li>thenAcceptBothAsync(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。使用ForkJoinPool。</li>
+</ul>
+<ul>
+<li>thenAcceptBothAsync(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action, Executor executor)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。使用指定的线程池。</li>
+</ul>
+<h5 id="计算结果完成时的处理："><a href="#计算结果完成时的处理：" class="headerlink" title="计算结果完成时的处理："></a>计算结果完成时的处理：</h5><ul>
+<li><p>whenComplete(BiConsumer&lt;? super T,? super Throwable&gt; action)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。</p>
+</li>
+<li><p>whenCompleteAsync(BiConsumer&lt;? super T,? super Throwable&gt; action)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。使用ForkJoinPool。</p>
+</li>
+</ul>
+<ul>
+<li>whenCompleteAsync(BiConsumer&lt;? super T,? super Throwable&gt; action, Executor executor)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。使用指定的线程池。</li>
+</ul>
+<ul>
+<li>handle(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn</li>
+</ul>
+<ul>
+<li>handleAsync(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn，使用ForkJoinPool。</li>
+</ul>
+<ul>
+<li>handleAsync(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn, Executor executor)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn，使用指定的线程池。</li>
+</ul>
+<ul>
+<li>thenAccept(Consumer&lt;? super T&gt; action)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值</li>
+</ul>
+<ul>
+<li>thenAcceptAsync(Consumer&lt;? super T&gt; action)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值，使用ForkJoinPool。</li>
+</ul>
+<ul>
+<li>thenAcceptAsync(Consumer&lt;? super T&gt; action, Executor executor)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值</li>
+</ul>
+<ul>
+<li>acceptEither(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。</li>
+</ul>
+<ul>
+<li>acceptEitherAsync(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。使用ForkJoinPool</li>
+</ul>
+<ul>
+<li>acceptEitherAsync(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action, Executor executor)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。使用指定的线程池</li>
+</ul>
+<ul>
+<li>applyToEither(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。</li>
+</ul>
+<ul>
+<li>applyToEitherAsync(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。使用ForkJoinPool</li>
+</ul>
+<ul>
+<li>applyToEitherAsync(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn, Executor executor)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。使用指定的线程池</li>
+</ul>
+<ul>
+<li>allOf(CompletableFuture&lt;?&gt;… cfs)：在所有Future对象完成后结束，并返回一个future。</li>
+</ul>
+<ul>
+<li>anyOf(CompletableFuture&lt;?&gt;… cfs)：在任何一个Future对象结束后结束，并返回一个future。</li>
+</ul>
+<h5 id="CompletableFuture异常处理："><a href="#CompletableFuture异常处理：" class="headerlink" title="CompletableFuture异常处理："></a>CompletableFuture异常处理：</h5><ul>
+<li>exceptionally(Function fn)：只有当CompletableFuture抛出异常的时候，才会触发这个exceptionally的计算，调用function计算值。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java 笔记</category>
+      </categories>
+      <tags>
+        <tag>Java8 异步编程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>gRPC 简单示例</title>
     <url>/gRPC-%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B/</url>
     <content><![CDATA[<h2 id="gRPC-高性能的RPC框架简单示例"><a href="#gRPC-高性能的RPC框架简单示例" class="headerlink" title="gRPC  高性能的RPC框架简单示例"></a>gRPC  高性能的RPC框架简单示例</h2><h3 id="什么是-gRPC-？"><a href="#什么是-gRPC-？" class="headerlink" title="什么是 gRPC ？"></a>什么是 gRPC ？</h3><p>gRPC由 Google 开发，是一款跨语言、跨平台、开源的远程过程调用的(RPC)高性能框架。</p>
@@ -427,6 +427,34 @@
       <tags>
         <tag>gRPC</tag>
         <tag>RPC框架</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>每天一个设计模式之单例模式</title>
+    <url>/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="每天一个设计模式之单例模式"><a href="#每天一个设计模式之单例模式" class="headerlink" title="每天一个设计模式之单例模式"></a>每天一个设计模式之单例模式</h2><h3 id="经典的延迟实例化（懒加载）的单例模式实现"><a href="#经典的延迟实例化（懒加载）的单例模式实现" class="headerlink" title="经典的延迟实例化（懒加载）的单例模式实现"></a>经典的延迟实例化（懒加载）的单例模式实现</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 经典的单例模式</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-15 21:17:31</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton uniqueInstance;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (uniqueInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            uniqueInstance = <span class="keyword">new</span> Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> uniqueInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="定义单例模式"><a href="#定义单例模式" class="headerlink" title="定义单例模式"></a>定义单例模式</h3><p>单例模式确保一个类只有一个实例，并提供一个全局访问点。</p>
+<h3 id="多线程下，经典的实现就不一定是唯一实例，通过加锁保证唯一实例"><a href="#多线程下，经典的实现就不一定是唯一实例，通过加锁保证唯一实例" class="headerlink" title="多线程下，经典的实现就不一定是唯一实例，通过加锁保证唯一实例"></a>多线程下，经典的实现就不一定是唯一实例，通过加锁保证唯一实例</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 多线程下安全的经典的单例模式</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-15 21:17:31</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton uniqueInstance;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (uniqueInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            uniqueInstance = <span class="keyword">new</span> Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> uniqueInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="不延迟实例化的单例模式"><a href="#不延迟实例化的单例模式" class="headerlink" title="不延迟实例化的单例模式"></a>不延迟实例化的单例模式</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 不延迟实例化的单例模式</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-15 21:17:31</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="comment">// JVM在加载这个类的时候，就会创建此实例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton uniqueInstance = <span class="keyword">new</span> Singleton();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> uniqueInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用双重检查的单例模式"><a href="#使用双重检查的单例模式" class="headerlink" title="使用双重检查的单例模式"></a>使用双重检查的单例模式</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 双重检查的单例模式，使用volatile保证多线程之间实例初始化后保持可见</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-15 21:17:31</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton uniqueInstance;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (uniqueInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Singleton.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (uniqueInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    uniqueInstance = <span class="keyword">new</span> Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> uniqueInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>单例模式确保程序中一个类最多只有一个实例</li>
+<li>单例模式也提供访问这个实例的全局点</li>
+<li>在Java中实现单例模式需要私有的构造器、一个静态方法和一个静态变量</li>
+<li>确定在性能和资源上的限制，然后小心地选择适当的方案来实现单例，以解决多线程的安全问题</li>
+<li>注意：如果使用多个类加载器，可能会导致单例失效而产生多个实例</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java 技术</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+        <tag>单例模式</tag>
       </tags>
   </entry>
   <entry>
@@ -494,60 +522,6 @@
       </tags>
   </entry>
   <entry>
-    <title>每天一个设计模式之装饰者模式</title>
-    <url>/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="每天一个设计模式之装饰者模式"><a href="#每天一个设计模式之装饰者模式" class="headerlink" title="每天一个设计模式之装饰者模式"></a>每天一个设计模式之装饰者模式</h2><h3 id="定义装饰者模式"><a href="#定义装饰者模式" class="headerlink" title="定义装饰者模式"></a>定义装饰者模式</h3><p>装饰者模式动态地将责任附加到对象上。若要扩展功能，装饰者提供了比继承更有弹性的替代方案。</p>
-<h3 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h3><p>类应该对扩展开发，对修改关闭</p>
-<a id="more"></a>
-
-<h3 id="装饰者模式类图"><a href="#装饰者模式类图" class="headerlink" title="装饰者模式类图"></a>装饰者模式类图</h3><p><img src="http://wx2.sinaimg.cn/large/008aQ1h9ly1ghpiqdpnelj30vs0l1jx2.jpg"></p>
-<h3 id="用装饰者来设计我们的饮料"><a href="#用装饰者来设计我们的饮料" class="headerlink" title="用装饰者来设计我们的饮料"></a>用装饰者来设计我们的饮料</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 饮料抽象类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:48:22</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Beverage</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> String description = <span class="string">&quot;Unknown Beverage&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取饮料描述</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 饮料成本抽象方法</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 调味品装饰器，继承自饮料抽象类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:50:47</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">CondimentDecorator</span> <span class="keyword">extends</span> <span class="title">Beverage</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取调味品描述</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> String <span class="title">getDescription</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="设计饮料的对象"><a href="#设计饮料的对象" class="headerlink" title="设计饮料的对象"></a>设计饮料的对象</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 浓咖啡</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:52:53</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Espresso</span> <span class="keyword">extends</span> <span class="title">Beverage</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Espresso</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 浓咖啡描述</span></span><br><span class="line">        <span class="keyword">super</span>.description = <span class="string">&quot;Espresso&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 成本</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1.99</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:54:36</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HouseBlend</span> <span class="keyword">extends</span> <span class="title">Beverage</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HouseBlend</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.description = <span class="string">&quot;House Blend Coffee&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.89</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="设计调料的对象"><a href="#设计调料的对象" class="headerlink" title="设计调料的对象"></a>设计调料的对象</h3><p>我们已经完成了抽象组件（<code>Beverage</code>），有了具体组件（<code>HouseBlend</code>），也有了抽象装饰者（<code>CondimentDecorator</code>）。现在就来实现具体装饰者。先从摩卡下手：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 摩卡咖啡</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:56:58</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mocha</span> <span class="keyword">extends</span> <span class="title">CondimentDecorator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 1) 用一个实例变量记录饮料，也就是被装饰者。</span></span><br><span class="line"><span class="comment">     * 2) 想办法让装饰者（饮料）被记录到实例变量中。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Beverage beverage;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Mocha</span><span class="params">(Beverage beverage)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.beverage = beverage;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 获取完整的调料描述</span></span><br><span class="line">        <span class="keyword">return</span> beverage.getDescription() + <span class="string">&quot;, Mocha&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 首先把调用委托给被装饰对象，以计算价格，然后加上 Mocha的价格，得到最后的结果</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.20</span> + beverage.cost();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 21:26:54</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Whip</span> <span class="keyword">extends</span> <span class="title">CondimentDecorator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Beverage beverage;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Whip</span><span class="params">(Beverage beverage)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.beverage = beverage;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.5</span> + beverage.cost();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> beverage.getDescription() +<span class="string">&quot;, Whip&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 21:20:31</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StarbuzzCoffee</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建一个 Espress，不需要调料，打印价格和描述</span></span><br><span class="line">        Beverage beverage = <span class="keyword">new</span> Espresso();</span><br><span class="line">        System.out.println(beverage.getDescription() + <span class="string">&quot; $&quot;</span> + beverage.cost());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建一各 DarkRost对象</span></span><br><span class="line">        Beverage beverage2 = <span class="keyword">new</span> DarkRoast();</span><br><span class="line">        <span class="comment">// 用Mocha 装饰它</span></span><br><span class="line">        beverage2 = <span class="keyword">new</span> Mocha(beverage2);</span><br><span class="line">        <span class="comment">// 用第二个Mocha 装饰它</span></span><br><span class="line">        beverage2 = <span class="keyword">new</span> Mocha(beverage2);</span><br><span class="line">        <span class="comment">// 用Whip 装饰它</span></span><br><span class="line">        beverage2 = <span class="keyword">new</span> Whip(beverage2);</span><br><span class="line">        <span class="comment">// 输出价格和描述</span></span><br><span class="line">        System.out.println(beverage2.getDescription() + <span class="string">&quot; $&quot;</span> + beverage2.cost());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="来看看结果"><a href="#来看看结果" class="headerlink" title="来看看结果"></a>来看看结果</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">Espresso $<span class="number">1.99</span></span><br><span class="line">Dark Roast, Mocha, Mocha, Whip $<span class="number">1.79</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="让我们来看看Java-I-O里的装饰者"><a href="#让我们来看看Java-I-O里的装饰者" class="headerlink" title="让我们来看看Java I/O里的装饰者"></a>让我们来看看Java I/O里的装饰者</h3><h4 id="装饰的-java-io-类"><a href="#装饰的-java-io-类" class="headerlink" title="装饰的 java.io 类"></a>装饰的 java.io 类</h4><p><img src="http://wx2.sinaimg.cn/large/008aQ1h9ly1ghpj9dhmooj30ue0fjdiz.jpg"></p>
-<h4 id="编写自己的Java-I-O-装饰者"><a href="#编写自己的Java-I-O-装饰者" class="headerlink" title="编写自己的Java I/O 装饰者"></a>编写自己的Java I/O 装饰者</h4><p>编写一个装饰者，把输入流内的所有大写字符转成小写。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.design.decorator.io;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.FilterInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将大写转成小写的装饰者对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 22:05:23</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LowerCaseInputStream</span> <span class="keyword">extends</span> <span class="title">FilterInputStream</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Creates a &lt;code&gt;FilterInputStream&lt;/code&gt;</span></span><br><span class="line"><span class="comment">     * by assigning the  argument &lt;code&gt;in&lt;/code&gt;</span></span><br><span class="line"><span class="comment">     * to the field &lt;code&gt;this.in&lt;/code&gt; so as</span></span><br><span class="line"><span class="comment">     * to remember it for later use.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> in the underlying input stream, or &lt;code&gt;null&lt;/code&gt; if</span></span><br><span class="line"><span class="comment">     *           this instance is to be created without an underlying stream.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">LowerCaseInputStream</span><span class="params">(InputStream in)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(in);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> c = <span class="keyword">super</span>.read();</span><br><span class="line">        <span class="keyword">return</span> c == -<span class="number">1</span> ? c : Character.toLowerCase((<span class="keyword">char</span>) c);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span>[] b, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = <span class="keyword">super</span>.read(b, off, len);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = off; i &lt; off + result; i++) &#123;</span><br><span class="line">            b[i] = (<span class="keyword">byte</span>) Character.toLowerCase((<span class="keyword">char</span>) b[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="测试我们新的Java-I-O装饰者"><a href="#测试我们新的Java-I-O装饰者" class="headerlink" title="测试我们新的Java I/O装饰者"></a>测试我们新的Java I/O装饰者</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试新的Java I/O 装饰者</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 22:10:31</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InputTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        InputStream in = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 设置输入流 InputStream，先用 BufferedInputStream装饰它，再用我们新的 LowerCaseInputStream过滤器装饰</span></span><br><span class="line">            in = <span class="keyword">new</span> LowerCaseInputStream(<span class="keyword">new</span> BufferedInputStream(System.in));</span><br><span class="line">            <span class="keyword">int</span> c;</span><br><span class="line">            <span class="keyword">while</span> ((c = in.read()) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.print((<span class="keyword">char</span>) c);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (in != <span class="keyword">null</span>) &#123;</span><br><span class="line">                in.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">运行结果：</span></span><br><span class="line"><span class="attr">HELLO</span></span><br><span class="line"><span class="attr">hello</span></span><br><span class="line"><span class="attr">HI</span></span><br><span class="line"><span class="attr">hi</span></span><br><span class="line"><span class="attr">HELLO</span> <span class="string">WORLD</span></span><br><span class="line"><span class="attr">hello</span> <span class="string">world</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li>继承属于扩展形式之一，但不见得达到弹性设计的最佳方式</li>
-<li>在我们的设计中，应该允许行为可以被扩展，而无须修改现有的代码</li>
-<li>组合和委托可用于在运行时动态地加上新的行为</li>
-<li>除了继承，装饰者模式也可以让我们扩展行为</li>
-<li>装饰者模式意味着一群装饰者类，这些类用来包装具体组件</li>
-<li>装饰者类反映出被装饰的组件类型</li>
-<li>装饰者可以在被修饰者的行为前面与/或后面加上自己的行为，甚至将被装饰者的行为整个取代掉，而达到特定的目的</li>
-<li>你可以用无所个装饰者包装一个组件</li>
-<li>装饰者一般对组件的客户是透明的，除非客户程序依赖于组件的具体类型</li>
-<li>装饰者会导致设计中出现许多小装饰对象，如果过度使用，会让程序变得很复杂</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Java 技术</category>
-      </categories>
-      <tags>
-        <tag>设计模式</tag>
-        <tag>装饰者模式</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>每天一个设计模式之观察者模式</title>
     <url>/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<h2 id="每天一个设计模式之观察者模式"><a href="#每天一个设计模式之观察者模式" class="headerlink" title="每天一个设计模式之观察者模式"></a>每天一个设计模式之观察者模式</h2><h3 id="让你的对象知悉现况"><a href="#让你的对象知悉现况" class="headerlink" title="让你的对象知悉现况"></a>让你的对象知悉现况</h3><p>有一个模式可以帮你的对象知悉现况，不会错过该对象感兴趣的事。对象甚至在运行时可决定是否需要继续被通知。观察者模式是JDK中使用最多的模式之一，非常有用。我们会一并介绍一对多关系，以及松耦合。有了观察者，你将会消息灵通。</p>
@@ -603,6 +577,60 @@
       <tags>
         <tag>设计模式</tag>
         <tag>观察者模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>每天一个设计模式之装饰者模式</title>
+    <url>/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="每天一个设计模式之装饰者模式"><a href="#每天一个设计模式之装饰者模式" class="headerlink" title="每天一个设计模式之装饰者模式"></a>每天一个设计模式之装饰者模式</h2><h3 id="定义装饰者模式"><a href="#定义装饰者模式" class="headerlink" title="定义装饰者模式"></a>定义装饰者模式</h3><p>装饰者模式动态地将责任附加到对象上。若要扩展功能，装饰者提供了比继承更有弹性的替代方案。</p>
+<h3 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h3><p>类应该对扩展开发，对修改关闭</p>
+<a id="more"></a>
+
+<h3 id="装饰者模式类图"><a href="#装饰者模式类图" class="headerlink" title="装饰者模式类图"></a>装饰者模式类图</h3><p><img src="http://wx2.sinaimg.cn/large/008aQ1h9ly1ghpiqdpnelj30vs0l1jx2.jpg"></p>
+<h3 id="用装饰者来设计我们的饮料"><a href="#用装饰者来设计我们的饮料" class="headerlink" title="用装饰者来设计我们的饮料"></a>用装饰者来设计我们的饮料</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 饮料抽象类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:48:22</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Beverage</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> String description = <span class="string">&quot;Unknown Beverage&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取饮料描述</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> description;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 饮料成本抽象方法</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 调味品装饰器，继承自饮料抽象类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:50:47</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">CondimentDecorator</span> <span class="keyword">extends</span> <span class="title">Beverage</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取调味品描述</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> String <span class="title">getDescription</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="设计饮料的对象"><a href="#设计饮料的对象" class="headerlink" title="设计饮料的对象"></a>设计饮料的对象</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 浓咖啡</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:52:53</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Espresso</span> <span class="keyword">extends</span> <span class="title">Beverage</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Espresso</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 浓咖啡描述</span></span><br><span class="line">        <span class="keyword">super</span>.description = <span class="string">&quot;Espresso&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 成本</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1.99</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:54:36</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HouseBlend</span> <span class="keyword">extends</span> <span class="title">Beverage</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HouseBlend</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.description = <span class="string">&quot;House Blend Coffee&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.89</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="设计调料的对象"><a href="#设计调料的对象" class="headerlink" title="设计调料的对象"></a>设计调料的对象</h3><p>我们已经完成了抽象组件（<code>Beverage</code>），有了具体组件（<code>HouseBlend</code>），也有了抽象装饰者（<code>CondimentDecorator</code>）。现在就来实现具体装饰者。先从摩卡下手：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 摩卡咖啡</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 20:56:58</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mocha</span> <span class="keyword">extends</span> <span class="title">CondimentDecorator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 1) 用一个实例变量记录饮料，也就是被装饰者。</span></span><br><span class="line"><span class="comment">     * 2) 想办法让装饰者（饮料）被记录到实例变量中。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Beverage beverage;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Mocha</span><span class="params">(Beverage beverage)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.beverage = beverage;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 获取完整的调料描述</span></span><br><span class="line">        <span class="keyword">return</span> beverage.getDescription() + <span class="string">&quot;, Mocha&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 首先把调用委托给被装饰对象，以计算价格，然后加上 Mocha的价格，得到最后的结果</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.20</span> + beverage.cost();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 21:26:54</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Whip</span> <span class="keyword">extends</span> <span class="title">CondimentDecorator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Beverage beverage;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Whip</span><span class="params">(Beverage beverage)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.beverage = beverage;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">cost</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.5</span> + beverage.cost();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> beverage.getDescription() +<span class="string">&quot;, Whip&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 21:20:31</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StarbuzzCoffee</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建一个 Espress，不需要调料，打印价格和描述</span></span><br><span class="line">        Beverage beverage = <span class="keyword">new</span> Espresso();</span><br><span class="line">        System.out.println(beverage.getDescription() + <span class="string">&quot; $&quot;</span> + beverage.cost());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建一各 DarkRost对象</span></span><br><span class="line">        Beverage beverage2 = <span class="keyword">new</span> DarkRoast();</span><br><span class="line">        <span class="comment">// 用Mocha 装饰它</span></span><br><span class="line">        beverage2 = <span class="keyword">new</span> Mocha(beverage2);</span><br><span class="line">        <span class="comment">// 用第二个Mocha 装饰它</span></span><br><span class="line">        beverage2 = <span class="keyword">new</span> Mocha(beverage2);</span><br><span class="line">        <span class="comment">// 用Whip 装饰它</span></span><br><span class="line">        beverage2 = <span class="keyword">new</span> Whip(beverage2);</span><br><span class="line">        <span class="comment">// 输出价格和描述</span></span><br><span class="line">        System.out.println(beverage2.getDescription() + <span class="string">&quot; $&quot;</span> + beverage2.cost());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="来看看结果"><a href="#来看看结果" class="headerlink" title="来看看结果"></a>来看看结果</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">Espresso $<span class="number">1.99</span></span><br><span class="line">Dark Roast, Mocha, Mocha, Whip $<span class="number">1.79</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="让我们来看看Java-I-O里的装饰者"><a href="#让我们来看看Java-I-O里的装饰者" class="headerlink" title="让我们来看看Java I/O里的装饰者"></a>让我们来看看Java I/O里的装饰者</h3><h4 id="装饰的-java-io-类"><a href="#装饰的-java-io-类" class="headerlink" title="装饰的 java.io 类"></a>装饰的 java.io 类</h4><p><img src="http://wx2.sinaimg.cn/large/008aQ1h9ly1ghpj9dhmooj30ue0fjdiz.jpg"></p>
+<h4 id="编写自己的Java-I-O-装饰者"><a href="#编写自己的Java-I-O-装饰者" class="headerlink" title="编写自己的Java I/O 装饰者"></a>编写自己的Java I/O 装饰者</h4><p>编写一个装饰者，把输入流内的所有大写字符转成小写。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.design.decorator.io;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.FilterInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将大写转成小写的装饰者对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 22:05:23</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LowerCaseInputStream</span> <span class="keyword">extends</span> <span class="title">FilterInputStream</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Creates a &lt;code&gt;FilterInputStream&lt;/code&gt;</span></span><br><span class="line"><span class="comment">     * by assigning the  argument &lt;code&gt;in&lt;/code&gt;</span></span><br><span class="line"><span class="comment">     * to the field &lt;code&gt;this.in&lt;/code&gt; so as</span></span><br><span class="line"><span class="comment">     * to remember it for later use.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> in the underlying input stream, or &lt;code&gt;null&lt;/code&gt; if</span></span><br><span class="line"><span class="comment">     *           this instance is to be created without an underlying stream.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">LowerCaseInputStream</span><span class="params">(InputStream in)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(in);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> c = <span class="keyword">super</span>.read();</span><br><span class="line">        <span class="keyword">return</span> c == -<span class="number">1</span> ? c : Character.toLowerCase((<span class="keyword">char</span>) c);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span>[] b, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = <span class="keyword">super</span>.read(b, off, len);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = off; i &lt; off + result; i++) &#123;</span><br><span class="line">            b[i] = (<span class="keyword">byte</span>) Character.toLowerCase((<span class="keyword">char</span>) b[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="测试我们新的Java-I-O装饰者"><a href="#测试我们新的Java-I-O装饰者" class="headerlink" title="测试我们新的Java I/O装饰者"></a>测试我们新的Java I/O装饰者</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试新的Java I/O 装饰者</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-13 22:10:31</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InputTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        InputStream in = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 设置输入流 InputStream，先用 BufferedInputStream装饰它，再用我们新的 LowerCaseInputStream过滤器装饰</span></span><br><span class="line">            in = <span class="keyword">new</span> LowerCaseInputStream(<span class="keyword">new</span> BufferedInputStream(System.in));</span><br><span class="line">            <span class="keyword">int</span> c;</span><br><span class="line">            <span class="keyword">while</span> ((c = in.read()) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.print((<span class="keyword">char</span>) c);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (in != <span class="keyword">null</span>) &#123;</span><br><span class="line">                in.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">运行结果：</span></span><br><span class="line"><span class="attr">HELLO</span></span><br><span class="line"><span class="attr">hello</span></span><br><span class="line"><span class="attr">HI</span></span><br><span class="line"><span class="attr">hi</span></span><br><span class="line"><span class="attr">HELLO</span> <span class="string">WORLD</span></span><br><span class="line"><span class="attr">hello</span> <span class="string">world</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>继承属于扩展形式之一，但不见得达到弹性设计的最佳方式</li>
+<li>在我们的设计中，应该允许行为可以被扩展，而无须修改现有的代码</li>
+<li>组合和委托可用于在运行时动态地加上新的行为</li>
+<li>除了继承，装饰者模式也可以让我们扩展行为</li>
+<li>装饰者模式意味着一群装饰者类，这些类用来包装具体组件</li>
+<li>装饰者类反映出被装饰的组件类型</li>
+<li>装饰者可以在被修饰者的行为前面与/或后面加上自己的行为，甚至将被装饰者的行为整个取代掉，而达到特定的目的</li>
+<li>你可以用无所个装饰者包装一个组件</li>
+<li>装饰者一般对组件的客户是透明的，除非客户程序依赖于组件的具体类型</li>
+<li>装饰者会导致设计中出现许多小装饰对象，如果过度使用，会让程序变得很复杂</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java 技术</category>
+      </categories>
+      <tags>
+        <tag>设计模式</tag>
+        <tag>装饰者模式</tag>
       </tags>
   </entry>
   <entry>
