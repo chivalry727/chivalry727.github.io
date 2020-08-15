@@ -1,6 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CompletableFuture异步编程API列表</title>
+    <url>/CompletableFuture%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8BAPI%E5%88%97%E8%A1%A8/</url>
+    <content><![CDATA[<h4 id="CompletableFuture异步编程API"><a href="#CompletableFuture异步编程API" class="headerlink" title="CompletableFuture异步编程API"></a>CompletableFuture异步编程API</h4><h5 id="静态工厂方法："><a href="#静态工厂方法：" class="headerlink" title="静态工厂方法："></a>静态工厂方法：</h5><ul>
+<li><p>runAsync(Runnable runnable)：使用ForkJoinPool.commonPool()作为它的线程池执行异步代码。</p>
+</li>
+<li><p>runAsync(Runnable runnable, Executor executor)：使用指定的thread pool执行异步代码。</p>
+</li>
+</ul>
+<a id="more"></a>
+
+<ul>
+<li>supplyAsync(Supplier<U> supplier)：使用ForkJoinPool.commonPool()作为它的线程池执行异步代码，异步操作有返回值。</li>
+</ul>
+<ul>
+<li>supplyAsync(Supplier<U> supplier, Executor executor)：使用指定的thread pool执行异步代码，异步操作有返回值</li>
+</ul>
+<ul>
+<li>complete(T t)：完成异步执行，并返回future的结果</li>
+</ul>
+<ul>
+<li>completeExceptionally(Throwable ex)：异步执行不正常的结束，抛出异步执行的错误堆栈</li>
+</ul>
+<h5 id="转换-类似于流里的map-："><a href="#转换-类似于流里的map-：" class="headerlink" title="转换(类似于流里的map)："></a>转换(类似于流里的map)：</h5><ul>
+<li><p>thenApply(Function&lt;? super T,? extends U&gt; fn)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture</p>
+</li>
+<li><p>thenApplyAsync(Function&lt;? super T,? extends U&gt; fn)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture，使用ForkJoinPool</p>
+</li>
+</ul>
+<ul>
+<li>thenApplyAsync(Function&lt;? super T,? extends U&gt; fn, Executor executor)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture，使用指定的线程池</li>
+</ul>
+<h5 id="flatMap："><a href="#flatMap：" class="headerlink" title="flatMap："></a>flatMap：</h5><ul>
+<li><p>thenCompose(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。</p>
+</li>
+<li><p>thenComposeAsync(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。使用ForkJoinPool。</p>
+</li>
+</ul>
+<ul>
+<li>thenComposeAsync(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn,Executor executor)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。使用指定的线程池。</li>
+</ul>
+<h5 id="组合："><a href="#组合：" class="headerlink" title="组合："></a>组合：</h5><ul>
+<li><p>thenCombine(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。</p>
+</li>
+<li><p>thenCombineAsync(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。使用ForkJoinPool。<br>thenCombineAsync(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn, Executor executor)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。使用指定的线程池。</p>
+</li>
+<li><p>thenAcceptBoth(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。</p>
+</li>
+</ul>
+<ul>
+<li>thenAcceptBothAsync(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。使用ForkJoinPool。</li>
+</ul>
+<ul>
+<li>thenAcceptBothAsync(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action, Executor executor)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。使用指定的线程池。</li>
+</ul>
+<h5 id="计算结果完成时的处理："><a href="#计算结果完成时的处理：" class="headerlink" title="计算结果完成时的处理："></a>计算结果完成时的处理：</h5><ul>
+<li><p>whenComplete(BiConsumer&lt;? super T,? super Throwable&gt; action)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。</p>
+</li>
+<li><p>whenCompleteAsync(BiConsumer&lt;? super T,? super Throwable&gt; action)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。使用ForkJoinPool。</p>
+</li>
+</ul>
+<ul>
+<li>whenCompleteAsync(BiConsumer&lt;? super T,? super Throwable&gt; action, Executor executor)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。使用指定的线程池。</li>
+</ul>
+<ul>
+<li>handle(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn</li>
+</ul>
+<ul>
+<li>handleAsync(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn，使用ForkJoinPool。</li>
+</ul>
+<ul>
+<li>handleAsync(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn, Executor executor)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn，使用指定的线程池。</li>
+</ul>
+<ul>
+<li>thenAccept(Consumer&lt;? super T&gt; action)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值</li>
+</ul>
+<ul>
+<li>thenAcceptAsync(Consumer&lt;? super T&gt; action)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值，使用ForkJoinPool。</li>
+</ul>
+<ul>
+<li>thenAcceptAsync(Consumer&lt;? super T&gt; action, Executor executor)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值</li>
+</ul>
+<ul>
+<li>acceptEither(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。</li>
+</ul>
+<ul>
+<li>acceptEitherAsync(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。使用ForkJoinPool</li>
+</ul>
+<ul>
+<li>acceptEitherAsync(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action, Executor executor)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。使用指定的线程池</li>
+</ul>
+<ul>
+<li>applyToEither(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。</li>
+</ul>
+<ul>
+<li>applyToEitherAsync(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。使用ForkJoinPool</li>
+</ul>
+<ul>
+<li>applyToEitherAsync(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn, Executor executor)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。使用指定的线程池</li>
+</ul>
+<ul>
+<li>allOf(CompletableFuture&lt;?&gt;… cfs)：在所有Future对象完成后结束，并返回一个future。</li>
+</ul>
+<ul>
+<li>anyOf(CompletableFuture&lt;?&gt;… cfs)：在任何一个Future对象结束后结束，并返回一个future。</li>
+</ul>
+<h5 id="CompletableFuture异常处理："><a href="#CompletableFuture异常处理：" class="headerlink" title="CompletableFuture异常处理："></a>CompletableFuture异常处理：</h5><ul>
+<li>exceptionally(Function fn)：只有当CompletableFuture抛出异常的时候，才会触发这个exceptionally的计算，调用function计算值。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Java 笔记</category>
+      </categories>
+      <tags>
+        <tag>Java8 异步编程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java 虚拟机笔记</title>
     <url>/Java%20%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h4 id="JVM运行时数据区域"><a href="#JVM运行时数据区域" class="headerlink" title="JVM运行时数据区域"></a>JVM运行时数据区域</h4><h5 id="程序计数器（Program-Counter-Register）"><a href="#程序计数器（Program-Counter-Register）" class="headerlink" title="程序计数器（Program Counter Register）"></a>程序计数器（Program Counter Register）</h5><ul>
@@ -277,123 +394,6 @@
       </categories>
       <tags>
         <tag>Jvm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CompletableFuture异步编程API列表</title>
-    <url>/CompletableFuture%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8BAPI%E5%88%97%E8%A1%A8/</url>
-    <content><![CDATA[<h4 id="CompletableFuture异步编程API"><a href="#CompletableFuture异步编程API" class="headerlink" title="CompletableFuture异步编程API"></a>CompletableFuture异步编程API</h4><h5 id="静态工厂方法："><a href="#静态工厂方法：" class="headerlink" title="静态工厂方法："></a>静态工厂方法：</h5><ul>
-<li><p>runAsync(Runnable runnable)：使用ForkJoinPool.commonPool()作为它的线程池执行异步代码。</p>
-</li>
-<li><p>runAsync(Runnable runnable, Executor executor)：使用指定的thread pool执行异步代码。</p>
-</li>
-</ul>
-<a id="more"></a>
-
-<ul>
-<li>supplyAsync(Supplier<U> supplier)：使用ForkJoinPool.commonPool()作为它的线程池执行异步代码，异步操作有返回值。</li>
-</ul>
-<ul>
-<li>supplyAsync(Supplier<U> supplier, Executor executor)：使用指定的thread pool执行异步代码，异步操作有返回值</li>
-</ul>
-<ul>
-<li>complete(T t)：完成异步执行，并返回future的结果</li>
-</ul>
-<ul>
-<li>completeExceptionally(Throwable ex)：异步执行不正常的结束，抛出异步执行的错误堆栈</li>
-</ul>
-<h5 id="转换-类似于流里的map-："><a href="#转换-类似于流里的map-：" class="headerlink" title="转换(类似于流里的map)："></a>转换(类似于流里的map)：</h5><ul>
-<li><p>thenApply(Function&lt;? super T,? extends U&gt; fn)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture</p>
-</li>
-<li><p>thenApplyAsync(Function&lt;? super T,? extends U&gt; fn)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture，使用ForkJoinPool</p>
-</li>
-</ul>
-<ul>
-<li>thenApplyAsync(Function&lt;? super T,? extends U&gt; fn, Executor executor)：接受一个Function&lt;? super T,? extends U&gt;参数用来转换CompletableFuture，使用指定的线程池</li>
-</ul>
-<h5 id="flatMap："><a href="#flatMap：" class="headerlink" title="flatMap："></a>flatMap：</h5><ul>
-<li><p>thenCompose(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。</p>
-</li>
-<li><p>thenComposeAsync(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。使用ForkJoinPool。</p>
-</li>
-</ul>
-<ul>
-<li>thenComposeAsync(Function&lt;? super T, ? extends CompletionStage<U>&gt; fn,Executor executor)：在异步操作完成的时候对异步操作的结果进行一些操作，并且仍然返回CompletableFuture类型。使用指定的线程池。</li>
-</ul>
-<h5 id="组合："><a href="#组合：" class="headerlink" title="组合："></a>组合：</h5><ul>
-<li><p>thenCombine(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。</p>
-</li>
-<li><p>thenCombineAsync(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。使用ForkJoinPool。<br>thenCombineAsync(CompletionStage&lt;? extends U&gt; other, BiFunction&lt;? super T,? super U,? extends V&gt; fn, Executor executor)：当两个CompletableFuture都正常完成后，执行提供的fn，用它来组合另外一个CompletableFuture的结果。使用指定的线程池。</p>
-</li>
-<li><p>thenAcceptBoth(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。</p>
-</li>
-</ul>
-<ul>
-<li>thenAcceptBothAsync(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。使用ForkJoinPool。</li>
-</ul>
-<ul>
-<li>thenAcceptBothAsync(CompletionStage&lt;? extends U&gt; other, BiConsumer&lt;? super T,? super U&gt; action, Executor executor)：当两个CompletableFuture都正常完成后，执行提供的action，用它来组合另外一个CompletableFuture的结果。使用指定的线程池。</li>
-</ul>
-<h5 id="计算结果完成时的处理："><a href="#计算结果完成时的处理：" class="headerlink" title="计算结果完成时的处理："></a>计算结果完成时的处理：</h5><ul>
-<li><p>whenComplete(BiConsumer&lt;? super T,? super Throwable&gt; action)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。</p>
-</li>
-<li><p>whenCompleteAsync(BiConsumer&lt;? super T,? super Throwable&gt; action)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。使用ForkJoinPool。</p>
-</li>
-</ul>
-<ul>
-<li>whenCompleteAsync(BiConsumer&lt;? super T,? super Throwable&gt; action, Executor executor)：当CompletableFuture完成计算结果时对结果进行处理，或者当CompletableFuture产生异常的时候对异常进行处理。使用指定的线程池。</li>
-</ul>
-<ul>
-<li>handle(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn</li>
-</ul>
-<ul>
-<li>handleAsync(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn，使用ForkJoinPool。</li>
-</ul>
-<ul>
-<li>handleAsync(BiFunction&lt;? super T, Throwable, ? extends U&gt; fn, Executor executor)：当CompletableFuture完成计算结果或者抛出异常的时候，执行提供的fn，使用指定的线程池。</li>
-</ul>
-<ul>
-<li>thenAccept(Consumer&lt;? super T&gt; action)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值</li>
-</ul>
-<ul>
-<li>thenAcceptAsync(Consumer&lt;? super T&gt; action)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值，使用ForkJoinPool。</li>
-</ul>
-<ul>
-<li>thenAcceptAsync(Consumer&lt;? super T&gt; action, Executor executor)：当CompletableFuture完成计算结果，只对结果执行Action，而不返回新的计算值</li>
-</ul>
-<ul>
-<li>acceptEither(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。</li>
-</ul>
-<ul>
-<li>acceptEitherAsync(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。使用ForkJoinPool</li>
-</ul>
-<ul>
-<li>acceptEitherAsync(CompletionStage&lt;? extends T&gt; other, Consumer&lt;? super T&gt; action, Executor executor)：当任意一个CompletableFuture完成的时候，action这个消费者就会被执行。使用指定的线程池</li>
-</ul>
-<ul>
-<li>applyToEither(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。</li>
-</ul>
-<ul>
-<li>applyToEitherAsync(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。使用ForkJoinPool</li>
-</ul>
-<ul>
-<li>applyToEitherAsync(CompletionStage&lt;? extends T&gt; other, Function&lt;? super T,U&gt; fn, Executor executor)：当任意一个CompletableFuture完成的时候，fn会被执行，它的返回值会当作新的CompletableFuture<U>的计算结果。使用指定的线程池</li>
-</ul>
-<ul>
-<li>allOf(CompletableFuture&lt;?&gt;… cfs)：在所有Future对象完成后结束，并返回一个future。</li>
-</ul>
-<ul>
-<li>anyOf(CompletableFuture&lt;?&gt;… cfs)：在任何一个Future对象结束后结束，并返回一个future。</li>
-</ul>
-<h5 id="CompletableFuture异常处理："><a href="#CompletableFuture异常处理：" class="headerlink" title="CompletableFuture异常处理："></a>CompletableFuture异常处理：</h5><ul>
-<li>exceptionally(Function fn)：只有当CompletableFuture抛出异常的时候，才会触发这个exceptionally的计算，调用function计算值。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Java 笔记</category>
-      </categories>
-      <tags>
-        <tag>Java8 异步编程</tag>
       </tags>
   </entry>
   <entry>
