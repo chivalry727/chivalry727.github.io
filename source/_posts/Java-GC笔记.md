@@ -2,10 +2,10 @@
 title: Java GC笔记
 date: 2020-08-09 15:44:12
 categories: 
-- Jvm 笔记
+- JVM 笔记
 tags:
 - GC
-- Jvm内存分配
+- JVM 内存分配
 ---
 
 ### 垃圾收集器（Garbage Collection，GC）
@@ -149,6 +149,16 @@ Java的自动内存管理主要是针对对象内存的回收和对象内存的�
 ###### 整堆收集（Full GC）
 
 - 目标收集整个Java堆和方法区的垃圾收集
+
+Full GC触发条件
+
+- System.gc()方法的调用
+- 方法区空间不足
+- Metaspace区内存达到阈值
+- 统计得到的Minor GC晋升到旧生代的平均大小大于老年代的剩余空间
+- 堆中产生大对象超过阈值
+- 老年代连续空间不足
+- CMS GC时出现promotion failed和concurrent mode failure
 
 #### 垃圾收集器算法
 
