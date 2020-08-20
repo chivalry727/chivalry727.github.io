@@ -1,0 +1,202 @@
+---
+title: JVM 性能监控与故障处理工具
+date: 2020-08-20 16:59:59
+categories: 
+- JVM 笔记
+tags:
+- JVM 性能监控工具
+- JVM 故障处理工具
+- JDK 工具
+---
+
+## 									JVM 性能监控与故障处理工具
+
+### JDK 命令行工具
+
+Java开发人员肯定知道JDK的bin目录中有`java.exe`、`javac.exe`这两个命令行工具，但还有很多其他工具提供稳定而强大的功能，能在处理应用程序性能问题、定位故障时发挥很大的作用。下面来介绍一下Java提供的那些强大并且很有帮助的工具吧。
+
+<!-- more -->
+
+jdk命令行的主要工具：
+
+|  名称  | 作用                                                         |
+| :----: | :----------------------------------------------------------- |
+|  jps   | JVM Process Status Tool，显示指定系统内所有的HotSpot虚拟机进程 |
+| jstat  | JVM Statistics Monitoring Tool，用于收集HotSpot虚拟机各方面的运行数据 |
+| jinfo  | Configuration Info for Java，显示虚拟机配置信息              |
+|  jmap  | Memory Map for Java，生成虚拟机的内存转储快照（heapdump文件） |
+|  jhat  | JVM Heap Dump Browser，用于分析heapdump文件，它会建立一个HTTP/HTML服务器，让用户可以在浏览器上查看分析结果 |
+| jstack | Stack Trace for Java，显示虚拟机的线程快照                   |
+
+### jps： 虚拟机进程状况工具
+
+JDK的很多小工具的名字都参考了Unix命令的命名方式，jps（JVM Process Status Tool）是其中的典型。功能是可以列出正在运行的虚拟机进程，并显示虚拟机执行主类（Main Class，main()函数所在的类）名称以及这些进程的本地虚拟机唯一ID（Local Virtual Machine Identifier，LVMID）。
+
+命令格式： `jps [options] [hostid]`
+
+```powershell
+C:\Program Files\Java\jdk1.8.0_171\bin>jps -l
+9968 org.jetbrains.jps.cmdline.Launcher
+14248 sun.tools.jps.Jps
+8812 org.jetbrains.idea.maven.server.RemoteMavenServer36
+```
+
+jps工具的主要选项：
+
+| 选项 | 作用                                                |
+| :--: | --------------------------------------------------- |
+|  -q  | 只输出`LVMID`，省略主类的名称                       |
+|  -m  | 输出虚拟机进程启动时传递给主类`main()`函数的参数    |
+|  -l  | 输出主类的全名， 如果执行进程的是jar包，输出jar路径 |
+|  -v  | 输出虚拟机进程启动时JVM参数                         |
+
+### jstat： 虚拟机统计信息监视工具
+
+jstat（JVM Statistics Monitoring Tool）是用于监视虚拟机各种运行状态信息的命令行工具。它可以显示本地或者远程虚拟机进程中的类装载、内存、垃圾收集、JIT编译等运行数据，在没有GUI图形界面，只提供了纯文本控制台环境的服务器上， 它将是运行期定位虚拟机性能问题的首选工具。
+
+命令格式： `jstat [option vmid [interval[s|ms] [count]] ]`
+
+参数interval和count代表查询间隔和次数，如果省略这两个参数，说明只查询一次。
+
+假设需要没250ms查询一次进程2764垃圾收集状况，一共查询20次，那么命令应该是：
+
+jstat -gc 2764 250 20
+
+```shell
+C:\Program Files\Java\jdk1.8.0_171\bin>jstat -gcutil 8812 1000 20
+  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT
+  0.00 100.00  76.74   4.42  92.98  82.74      3    0.027     0    0.000    0.027
+  0.00 100.00  76.74   4.42  92.98  82.74      3    0.027     0    0.000    0.027
+  0.00 100.00  76.74   4.42  92.98  82.74      3    0.027     0    0.000    0.027
+  0.00 100.00  76.74   4.42  92.98  82.74      3    0.027     0    0.000    0.027
+```
+
+选项option代表着用户希望查询的虚拟机信息，主要分为3类：类加载、垃圾收集、运行期编译状况。
+
+jstat工具的主要选项：
+
+|             选项              | 作用                                                         |
+| :---------------------------: | ------------------------------------------------------------ |
+|            -class             | 监视类加载、卸载数量、总空间以及类加载所消耗的时间           |
+|              -gc              | 监视Java堆状况，包括Eden区、两个Survivor区、老年代、元空间等的容量、已用空间、GC时间合计等信息 |
+|          -gccapacity          | 监视内容与-gc基本相同，但输出主要关注Java堆各个区域使用到的最大、最小空间 |
+|            -gcutil            | 监视内容与-gc基本相同，但输出主要关注已使用空间占总空间的百分比 |
+|           -gccause            | 与-gcutil功能一样，但是会额外输出导致上一次GC产生的原因      |
+|            -gcnew             | 监视新生代GC状况                                             |
+|        -gcnewcapacity         | 监视内容与-gcnew基本相同，输出主要关注使用到的最大、最小空间 |
+|            -gcold             | 监视老年代GC状况                                             |
+|        -gcoldcapacity         | 监视内容与-gcold基本相同，输出主要关注使用到的最大、最小空间 |
+| -gcpermcapacity（jdk8已移除） | 输出永久代使用到的最大、最小空间                             |
+|  -gcmetacapacity（jdk8新增）  | 输出元空间使用到的最大、最小空间                             |
+|           -compiler           | 输出JIT编译器编译过的方法、耗时等信息                        |
+|       -printcompilation       | 输出已经被JIT编译的方法                                      |
+
+```shell
+C:\Program Files\Java\jdk1.8.0_171\bin>jstat -gcutil 8812 250 20
+  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT
+  0.00 100.00  76.74   4.42  92.98  82.74      3    0.027     0    0.000    0.027
+  0.00 100.00  76.74   4.42  92.98  82.74      3    0.027     0    0.000    0.027
+  0.00 100.00  76.74   4.42  92.98  82.74      3    0.027     0    0.000    0.027
+  0.00 100.00  76.74   4.42  92.98  82.74      3    0.027     0    0.000    0.027
+  0.00 100.00  76.74   4.42  92.98  82.74      3    0.027     0    0.000    0.027
+  0.00 100.00  76.74   4.42  92.98  82.74      3    0.027     0    0.000    0.027
+  0.00 100.00  76.74   4.42  92.98  82.74      3    0.027     0    0.000    0.027
+  0.00 100.00  76.74   4.42  92.98  82.74      3    0.027     0    0.000    0.027
+  0.00 100.00  76.74   4.42  92.98  82.74      3    0.027     0    0.000    0.027
+```
+
+查询结果：
+
+`E代表Eden区，使用了76.74%的空间；`
+
+`两个Survivor区（S0、S1）里面一个是空的，另一个使用了100%；`
+
+`O代表老年代，使用了4.42%`
+
+`M代表元空间，使用了92.98%`
+
+`CCS是压缩的类空间利用率（以百分比表示）是82.74%`
+
+`YGC是程序运行一来来共发生Minor GC（YGC，表示Young GC）3次，总耗时YGCT是0.027s`
+
+`FGC发生Full GC是0次，Full GC的FGCT的耗时也是0`
+
+`GCT（表示GC Time）是所有的GC的总耗时是0.027s`
+
+### jinfo： Java配置信息工具
+
+jinfo（Configuration Info for Java）的作用是实时地查看和调整虚拟机各项参数。使用jps命令的-v参数可以查看虚拟机启动时显式指定的参数列表，但如果想指定未被显式指定的参数的系统默认值，就可以使用`jinfo`的`-flag`选项进行查询，`jinfo`还可以使用`-sysprops`选项把虚拟机进程的`System.getProperties()`的内容打印出来。
+
+`jinfo的命令格式：`
+
+`jinfo [ option ] pid `
+
+### jmap： Java内存映像工具
+
+jmap（Memory Map for Java）命令用于生成堆转储快照（一般称为dump或是heapdump文件）。如果不使用jmap命令，要想获取Java堆转储快照，可以使用
+
+`-XX:+HeapDumpOnOutOfMemoryError`参数，可以让虚拟机在OOM异常出现之后自动生成dump文件，通过`-XX:+HeapDumpOnCtrlBreak`参数则可以使用`[Ctrl] + [Break]`键让虚拟机生成dump文件，又或者在Linux系统下通过`Kill -3`命令发送进程退出信号，让虚拟机生成dump文件。
+
+jmap的作用并不仅仅是为了获取dump文件，它还可以查询`finalize`执行队列、Java堆、元空间（Jdk8以后）或永久代（Jdk8以前）的详细信息，如空间使用率、当前用的是哪种收集器等。
+
+`jmap的命令格式：`
+
+`jmap [ option ] pid `
+
+jmap工具的主要选项：
+
+|      选项      | 作用                                                         |
+| :------------: | ------------------------------------------------------------ |
+|     -dump      | 生成Java堆转储快照。格式为：`-dump:[live, ]format=b, file=<filename>`，其中live子参数说明只dump存活的对象 |
+| -finalizerinfo | 显示在F-Queue中等待Finalizer线程执行finalize方法的对象。只在Linux/Solaris平台有效 |
+|     -heap      | 显示Java堆详细，如使用哪种垃圾收集器、参数配置、分代状况等。只在Linux/Solaris平台有效 |
+|     -histo     | 显示堆中对象统计信息，包括类、实例数量、合计容量             |
+|   -permstat    | 以ClassLoader为统计口径显示永久代或元空间内存状态。只在Linux/Solaris平台有效 |
+|       -F       | 当虚拟机进程对-dump选项没有响应时，可使用这个选项强制生成dump快照。只在Linux/Solaris平台有效 |
+
+以下是jmap生成dump快照的示例
+
+```shell
+C:\Program Files\Java\jdk1.8.0_171\bin>jmap -dump:format=b,file=D:\dump.hprof 8812
+Dumping heap to D:\dump.hprof ...
+Heap dump file created
+```
+
+### jhat： 虚拟机堆转储快照分析工具
+
+Sun JDK提供jhat（JVM Heap Analysis Tool）命令与jmap搭配使用，来分析jmap生成的堆转储快照。jhat内置了一个微型的HTTP/HTML服务器，生成的dump文件的分析结果后，可以在浏览器中查看。一般不建议使用。可以使用其他工具分析，比如Eclipse Memory Analyzer、IBM HeapAnalyzer或JProfiler等工具，都可以实现更强大更专业的分析功能。
+
+```shell
+C:\Program Files\Java\jdk1.8.0_171\bin>jhat d:\dump.hprof
+Reading from d:\dump.hprof...
+Dump file created Thu Aug 20 21:22:50 CST 2020
+Snapshot read, resolving...
+Resolving 617466 objects...
+Chasing references, expect 123 dots...........................................................................................................................
+Eliminating duplicate references...........................................................................................................................
+Snapshot resolved.
+Started HTTP server on port 7000
+Server is ready.
+```
+
+在浏览器输入`http://localhost:7000`即可查看分析结果。
+
+### jstack ：Java堆栈跟踪工具
+
+jstack（Stack Trace for Java）命令用于生成虚拟机当前时刻的线程快照（一般称为threaddump或者javacore文件）。线程快照就是当前虚拟机内每一条线程正在执行的方法堆栈集合，生成线程快照的主要目的是定位线程出现长时间停顿的原因，如线程间死锁、死循环、请求外部资源导致的长时间等待等等都是导致线程长时间停顿的原因。线程出现停顿的时候通过jstack来查看各线程的调用堆栈，就可以知道没有响应的现场到底在后台做些什么事情，或者等待什么资源。
+
+`jtack的命令格式：`
+
+`jstack [ option ] vmid `
+
+jstack工具主要选项
+
+| 选项 | 作用                                         |
+| :--: | -------------------------------------------- |
+|  -F  | 当正常输出的请求不被响应时，强制输出线程堆栈 |
+|  -l  | 除堆栈外，显示关于锁的附加信息               |
+|  -m  | 如果调用到本地方法的话，可以显示C/C++的堆栈  |
+
+### 总结
+
+本文介绍了JDK提供的自带的常用故障处理工具，在日常线上环境使用的尤为频繁，JDK还提供了可视化的工具就不介绍了，有兴趣的可以自己去尝试使用，如：JConsole和VisualVM等可视化工具。
