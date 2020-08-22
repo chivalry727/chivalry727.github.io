@@ -1,5 +1,5 @@
 ---
-title: Java GC笔记
+title: Java GC 笔记
 date: 2020-08-09 15:44:12
 categories: 
 - JVM 笔记
