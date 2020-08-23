@@ -237,20 +237,29 @@ Full GC触发条件
 ##### Serial收集器
 
 - 在JDK1.3以前是HotSpot虚拟机新生代收集器的唯一选择
+
 - 客户端模式下默认新生代收集器
+
 - 单线程工作的收集器
+
+- 在收集过程中会停顿用户线程，直到它收集介绍
+
 - 优势
 
   - 和其他单线程收集器相比，简单而高效
   - 对于内存资源受限的环境，是所有收集器里额外内存消耗最小的
   - 对于单核处理器或处理器核心较少的环境来说，Serial收集器由于没有线程交互的开销，可以获得最高的单线程收集效率
+  
+  ![](http://wx2.sinaimg.cn/large/008aQ1h9ly1ghzxp44d6sj31160bcq3n.jpg)
 
 ##### ParNew收集器
 
 - 是Serial收集器的多线程并行版本
 - ParNew收集器是激活CMS收集器后的默认新生代收集器
 - 从JDK9 G1收集器的出现，CMS+ParNew收集器的组合就不再是官方推荐的服务器模式下的默认收集器
-- ParNew收集器默认开启的收集线程数与处理器核心数量相同，也可以使用参数来限制垃圾收集器的线程数
+- ParNew收集器默认开启的收集线程数与处理器核心数量相同，也可以使用`-XX:ParallelGCThreads`参数来限制垃圾收集器的线程数
+
+![](http://wx2.sinaimg.cn/large/008aQ1h9ly1ghzxtft4mgj31160bawfa.jpg)
 
 ##### Parallel Scavenge收集器
 
@@ -267,8 +276,10 @@ Full GC触发条件
 
 - Parallel Scavenge收集器提供了两个参数用来精确控制吞吐量
 
-  - 控制最大垃圾收集停顿时间的-XX:MaxGCPauseMillis参数
-  - 直接设置吞吐量大小的-XX:GCTimeRatio参数
+  - 控制最大垃圾收集停顿时间的`-XX:MaxGCPauseMillis`参数
+  - 直接设置吞吐量大小的`-XX:GCTimeRatio`参数
+  
+  ![](http://wx4.sinaimg.cn/large/008aQ1h9ly1ghzy9wa8ehj31160ba751.jpg)
 
 ##### Serial Old收集器
 
@@ -280,6 +291,8 @@ Full GC触发条件
 
   - 在JDK5及以前的版本中与Parallel Scavenge收集器搭配使用
   - 是作为CMS收集器发生失败时的后备预案，在并发收集发生Concurrent Mode Failure时使用
+  
+  ![](http://wx2.sinaimg.cn/large/008aQ1h9ly1ghzxp44d6sj31160bcq3n.jpg)
 
 ##### Parallel Old收集器
 
@@ -287,6 +300,8 @@ Full GC触发条件
 - 支持多线程并发收集，基于标记-整理算法实现
 - 从JDK6开始提供，为了解决Parallel Scavenge收集器的尴尬状态，原因在于Parallel Scavenge收集器，老年代除了Serial Old收集器以外别无选择，无法与其他表现良好的老年代收集器配合工作，如CMS收集器
 - 吞吐量优先收集器的组合，在注重吞吐量或者处理器资源较为稀缺的场合，可以考虑Parallel Scavenge加Parallel Old收集器这个组合
+
+![](http://wx4.sinaimg.cn/large/008aQ1h9ly1ghzy9wa8ehj31160ba751.jpg)
 
 ##### CMS（Concurrent Mark Sweep）收集器
 
@@ -312,6 +327,8 @@ Full GC触发条件
   - 并发清除（CMS concurrent sweep）
 
     - 清理删掉标记阶段判断的已经死亡的对象，由于不需要移动存活对象，所以该阶段也是可以和用户线程同时并发
+    
+    ![](http://wx3.sinaimg.cn/large/008aQ1h9ly1ghzyuvrtrdj30tw07tq3n.jpg)
 
 ###### CMS 优点
 
@@ -383,8 +400,9 @@ Full GC触发条件
 
   - 负责更新Region的统计数据，对各个Region的回收价值和成本进行排序，根据用户所期望的停顿时间来指定回收计划，可以自由选择任意多个Region构成回收集，然后把决定回收的那一部分Region的存活对象复制到空的Region中，再清理掉整个旧Region的全部空间
   - 这里的操作涉及存活对象的移动，是必须暂停用户线程，由多条收集器线程并行完成的
-
-  - G1收集器除了并发标记外，其余阶段也是要完全暂停用户线程的，换言之，它并非纯粹地追求低延迟，官方给它设定的目标是在延迟可控的情况下获得尽可能高的吞吐量，所以才担当起“全功能收集器”的重任与期望
+- G1收集器除了并发标记外，其余阶段也是要完全暂停用户线程的，换言之，它并非纯粹地追求低延迟，官方给它设定的目标是在延迟可控的情况下获得尽可能高的吞吐量，所以才担当起“全功能收集器”的重任与期望
+  
+  ![](http://wx4.sinaimg.cn/large/008aQ1h9ly1ghzyvezb1bj30ti07aq3p.jpg)
 
 ###### G1收集器特点
 
