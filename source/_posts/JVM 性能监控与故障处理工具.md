@@ -197,6 +197,114 @@ jstack工具主要选项
 |  -l  | 除堆栈外，显示关于锁的附加信息               |
 |  -m  | 如果调用到本地方法的话，可以显示C/C++的堆栈  |
 
+```shell
+C:\Program Files\Java\jdk1.8.0_171\bin>jstack 3984
+2020-08-23 12:26:14
+Full thread dump OpenJDK 64-Bit Server VM (11.0.6+8-b765.40 mixed mode, sharing):
+
+Threads class SMR info:
+_java_thread_list=0x0000022dbefdb6d0, length=17, elements={
+0x0000022da3b28000, 0x0000022dbcc65800, 0x0000022dbcc67000, 0x0000022dbcc88800,
+0x0000022dbcc8b800, 0x0000022dbcc8d800, 0x0000022dbccf9800, 0x0000022dbd501000,
+0x0000022dbd5e4800, 0x0000022dbd5ea800, 0x0000022dbe0b6800, 0x0000022dbe0ab000,
+0x0000022dbe140800, 0x0000022dbe0e6800, 0x0000022dbe1bd800, 0x0000022dbe1ae800,
+0x0000022dbf12f000
+}
+
+"main" #1 prio=5 os_prio=0 cpu=484.38ms elapsed=1227.43s tid=0x0000022da3b28000 nid=0x1ec0 in Object.wait()  [0x000000e64f7ff000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+        at java.lang.Object.wait(java.base@11.0.6/Native Method)
+        - waiting on <0x00000000d00e2010> (a java.lang.Object)
+        at com.intellij.execution.rmi.RemoteServer.start(RemoteServer.java:91)
+        - waiting to re-lock in wait() <0x00000000d00e2010> (a java.lang.Object)
+        at org.jetbrains.idea.maven.server.RemoteMavenServer36.main(RemoteMavenServer36.java:23)
+
+"Reference Handler" #2 daemon prio=10 os_prio=2 cpu=0.00ms elapsed=1227.39s tid=0x0000022dbcc65800 nid=0x29e8 waiting on condition  [0x000000e64feff000]
+   java.lang.Thread.State: RUNNABLE
+        at java.lang.ref.Reference.waitForReferencePendingList(java.base@11.0.6/Native Method)
+        at java.lang.ref.Reference.processPendingReferences(java.base@11.0.6/Reference.java:241)
+        at java.lang.ref.Reference$ReferenceHandler.run(java.base@11.0.6/Reference.java:213)
+
+"Finalizer" #3 daemon prio=8 os_prio=1 cpu=0.00ms elapsed=1227.39s tid=0x0000022dbcc67000 nid=0x3158 in Object.wait()  [0x000000e64fffe000]
+   java.lang.Thread.State: WAITING (on object monitor)
+        at java.lang.Object.wait(java.base@11.0.6/Native Method)
+        - waiting on <0x00000000d00e23c0> (a java.lang.ref.ReferenceQueue$Lock)
+        at java.lang.ref.ReferenceQueue.remove(java.base@11.0.6/ReferenceQueue.java:155)
+        - waiting to re-lock in wait() <0x00000000d00e23c0> (a java.lang.ref.ReferenceQueue$Lock)
+        at java.lang.ref.ReferenceQueue.remove(java.base@11.0.6/ReferenceQueue.java:176)
+        at java.lang.ref.Finalizer$FinalizerThread.run(java.base@11.0.6/Finalizer.java:170)
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=2 cpu=0.00ms elapsed=1227.38s tid=0x0000022dbcc88800 nid=0x2364 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Attach Listener" #5 daemon prio=5 os_prio=2 cpu=0.00ms elapsed=1227.38s tid=0x0000022dbcc8b800 nid=0x21d8 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #6 daemon prio=9 os_prio=2 cpu=1109.38ms elapsed=1227.38s tid=0x0000022dbcc8d800 nid=0x57c waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"C1 CompilerThread0" #8 daemon prio=9 os_prio=2 cpu=671.88ms elapsed=1227.37s tid=0x0000022dbccf9800 nid=0x18bc waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Sweeper thread" #9 daemon prio=9 os_prio=2 cpu=0.00ms elapsed=1227.36s tid=0x0000022dbd501000 nid=0x12d4 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #10 daemon prio=9 os_prio=0 cpu=0.00ms elapsed=1227.33s tid=0x0000022dbd5e4800 nid=0xe38 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Common-Cleaner" #11 daemon prio=8 os_prio=1 cpu=0.00ms elapsed=1227.33s tid=0x0000022dbd5ea800 nid=0x488 in Object.wait()  [0x000000e6507fe000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+        at java.lang.Object.wait(java.base@11.0.6/Native Method)
+        - waiting on <0x00000000d01a1f98> (a java.lang.ref.ReferenceQueue$Lock)
+        at java.lang.ref.ReferenceQueue.remove(java.base@11.0.6/ReferenceQueue.java:155)
+        - waiting to re-lock in wait() <0x00000000d01a1f98> (a java.lang.ref.ReferenceQueue$Lock)
+        at jdk.internal.ref.CleanerImpl.run(java.base@11.0.6/CleanerImpl.java:148)
+        at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
+        at jdk.internal.misc.InnocuousThread.run(java.base@11.0.6/InnocuousThread.java:134)
+        
+ // .................
+ 
+"RMI TCP Connection(idle)" #27 daemon prio=5 os_prio=0 cpu=0.00ms elapsed=24.77s tid=0x0000022dbf12f000 nid=0x1724 waiting on condition  [0x000000e64f5fe000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+        at jdk.internal.misc.Unsafe.park(java.base@11.0.6/Native Method)
+        - parking to wait for  <0x00000000d00b9568> (a java.util.concurrent.SynchronousQueue$TransferStack)
+        at java.util.concurrent.locks.LockSupport.parkNanos(java.base@11.0.6/LockSupport.java:234)
+        at java.util.concurrent.SynchronousQueue$TransferStack.awaitFulfill(java.base@11.0.6/SynchronousQueue.java:462)
+        at java.util.concurrent.SynchronousQueue$TransferStack.transfer(java.base@11.0.6/SynchronousQueue.java:361)
+        at java.util.concurrent.SynchronousQueue.poll(java.base@11.0.6/SynchronousQueue.java:937)
+        at java.util.concurrent.ThreadPoolExecutor.getTask(java.base@11.0.6/ThreadPoolExecutor.java:1053)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@11.0.6/ThreadPoolExecutor.java:1114)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@11.0.6/ThreadPoolExecutor.java:628)
+        at java.lang.Thread.run(java.base@11.0.6/Thread.java:834)
+
+"VM Thread" os_prio=2 cpu=31.25ms elapsed=1227.40s tid=0x0000022dbcc60000 nid=0x1d6c runnable
+
+"GC Thread#0" os_prio=2 cpu=31.25ms elapsed=1227.42s tid=0x0000022da3b44000 nid=0x2d7c runnable
+
+"GC Thread#1" os_prio=2 cpu=31.25ms elapsed=1226.21s tid=0x0000022dbe605800 nid=0x2220 runnable
+
+"GC Thread#2" os_prio=2 cpu=15.63ms elapsed=1226.21s tid=0x0000022dbe58c800 nid=0x2200 runnable
+
+"GC Thread#3" os_prio=2 cpu=15.63ms elapsed=1226.21s tid=0x0000022dbe3bf800 nid=0x22e0 runnable
+
+"G1 Main Marker" os_prio=2 cpu=0.00ms elapsed=1227.42s tid=0x0000022da3b58800 nid=0x191c runnable
+
+"G1 Conc#0" os_prio=2 cpu=0.00ms elapsed=1227.42s tid=0x0000022da3b5a000 nid=0x8a0 runnable
+
+"G1 Refine#0" os_prio=2 cpu=15.63ms elapsed=1227.41s tid=0x0000022da3be4000 nid=0x148c runnable
+
+"G1 Refine#1" os_prio=2 cpu=0.00ms elapsed=1226.20s tid=0x0000022dbd68e800 nid=0x1460 runnable
+
+"G1 Young RemSet Sampling" os_prio=2 cpu=0.00ms elapsed=1227.41s tid=0x0000022da3be7000 nid=0x1e44 runnable
+"VM Periodic Task Thread" os_prio=2 cpu=0.00ms elapsed=1227.33s tid=0x0000022dbd5e5800 nid=0x4a8 waiting on condition
+
+JNI global refs: 17, weak refs: 0
+```
+
+
+
 ### 基础工具总结
 
 #### 基础工具
