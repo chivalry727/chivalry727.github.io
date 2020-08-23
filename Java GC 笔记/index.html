@@ -26,14 +26,21 @@
 
   <meta name="description" content="垃圾收集器（Garbage Collection，GC）内存分配与回收的神秘面纱Java的自动内存管理主要是针对对象内存的回收和对象内存的分配。同时，Java的自动内存管理最核心的功能是Java Heap内存中对象的分配与回收。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java GC笔记">
+<meta property="og:title" content="Java GC 笔记">
 <meta property="og:url" content="https://chivalry727.github.io/Java%20GC%20%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Chivalry Blog">
 <meta property="og:description" content="垃圾收集器（Garbage Collection，GC）内存分配与回收的神秘面纱Java的自动内存管理主要是针对对象内存的回收和对象内存的分配。同时，Java的自动内存管理最核心的功能是Java Heap内存中对象的分配与回收。">
 <meta property="og:locale">
 <meta property="og:image" content="http://wx1.sinaimg.cn/large/008aQ1h9ly1ghrccgxbicj30wm0u0413.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/large/008aQ1h9ly1ghzxp44d6sj31160bcq3n.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/large/008aQ1h9ly1ghzxtft4mgj31160bawfa.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/large/008aQ1h9ly1ghzy9wa8ehj31160ba751.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/large/008aQ1h9ly1ghzxp44d6sj31160bcq3n.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/large/008aQ1h9ly1ghzy9wa8ehj31160ba751.jpg">
+<meta property="og:image" content="http://wx3.sinaimg.cn/large/008aQ1h9ly1ghzyuvrtrdj30tw07tq3n.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/large/008aQ1h9ly1ghzyvezb1bj30ti07aq3p.jpg">
 <meta property="article:published_time" content="2020-08-09T07:44:12.000Z">
-<meta property="article:modified_time" content="2020-08-20T11:47:57.424Z">
+<meta property="article:modified_time" content="2020-08-22T14:45:46.243Z">
 <meta property="article:author" content="Mr.zxb">
 <meta property="article:tag" content="GC">
 <meta property="article:tag" content="JVM 内存分配">
@@ -53,7 +60,7 @@
   };
 </script>
 
-  <title>Java GC笔记 | Chivalry Blog</title>
+  <title>Java GC 笔记 | Chivalry Blog</title>
   
 
 
@@ -194,7 +201,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Java GC笔记
+          Java GC 笔记
         </h1>
 
         <div class="post-meta">
@@ -211,7 +218,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-20 19:47:57" itemprop="dateModified" datetime="2020-08-20T19:47:57+08:00">2020-08-20</time>
+                <time title="修改时间：2020-08-22 22:45:46" itemprop="dateModified" datetime="2020-08-22T22:45:46+08:00">2020-08-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -450,20 +457,24 @@
 </li>
 <li><p>单线程工作的收集器</p>
 </li>
+<li><p>在收集过程中会停顿用户线程，直到它收集介绍</p>
+</li>
 <li><p>优势</p>
 <ul>
 <li>和其他单线程收集器相比，简单而高效</li>
 <li>对于内存资源受限的环境，是所有收集器里额外内存消耗最小的</li>
 <li>对于单核处理器或处理器核心较少的环境来说，Serial收集器由于没有线程交互的开销，可以获得最高的单线程收集效率</li>
 </ul>
+<p><img src="http://wx2.sinaimg.cn/large/008aQ1h9ly1ghzxp44d6sj31160bcq3n.jpg"></p>
 </li>
 </ul>
 <h5 id="ParNew收集器"><a href="#ParNew收集器" class="headerlink" title="ParNew收集器"></a>ParNew收集器</h5><ul>
 <li>是Serial收集器的多线程并行版本</li>
 <li>ParNew收集器是激活CMS收集器后的默认新生代收集器</li>
 <li>从JDK9 G1收集器的出现，CMS+ParNew收集器的组合就不再是官方推荐的服务器模式下的默认收集器</li>
-<li>ParNew收集器默认开启的收集线程数与处理器核心数量相同，也可以使用参数来限制垃圾收集器的线程数</li>
+<li>ParNew收集器默认开启的收集线程数与处理器核心数量相同，也可以使用<code>-XX:ParallelGCThreads</code>参数来限制垃圾收集器的线程数</li>
 </ul>
+<p><img src="http://wx2.sinaimg.cn/large/008aQ1h9ly1ghzxtft4mgj31160bawfa.jpg"></p>
 <h5 id="Parallel-Scavenge收集器"><a href="#Parallel-Scavenge收集器" class="headerlink" title="Parallel Scavenge收集器"></a>Parallel Scavenge收集器</h5><ul>
 <li><p>也是新生代收集器</p>
 </li>
@@ -482,9 +493,10 @@
 </li>
 <li><p>Parallel Scavenge收集器提供了两个参数用来精确控制吞吐量</p>
 <ul>
-<li>控制最大垃圾收集停顿时间的-XX:MaxGCPauseMillis参数</li>
-<li>直接设置吞吐量大小的-XX:GCTimeRatio参数</li>
+<li>控制最大垃圾收集停顿时间的<code>-XX:MaxGCPauseMillis</code>参数</li>
+<li>直接设置吞吐量大小的<code>-XX:GCTimeRatio</code>参数</li>
 </ul>
+<p><img src="http://wx4.sinaimg.cn/large/008aQ1h9ly1ghzy9wa8ehj31160ba751.jpg"></p>
 </li>
 </ul>
 <h5 id="Serial-Old收集器"><a href="#Serial-Old收集器" class="headerlink" title="Serial Old收集器"></a>Serial Old收集器</h5><ul>
@@ -501,6 +513,7 @@
 <li>在JDK5及以前的版本中与Parallel Scavenge收集器搭配使用</li>
 <li>是作为CMS收集器发生失败时的后备预案，在并发收集发生Concurrent Mode Failure时使用</li>
 </ul>
+<p><img src="http://wx2.sinaimg.cn/large/008aQ1h9ly1ghzxp44d6sj31160bcq3n.jpg"></p>
 </li>
 </ul>
 <h5 id="Parallel-Old收集器"><a href="#Parallel-Old收集器" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h5><ul>
@@ -509,6 +522,7 @@
 <li>从JDK6开始提供，为了解决Parallel Scavenge收集器的尴尬状态，原因在于Parallel Scavenge收集器，老年代除了Serial Old收集器以外别无选择，无法与其他表现良好的老年代收集器配合工作，如CMS收集器</li>
 <li>吞吐量优先收集器的组合，在注重吞吐量或者处理器资源较为稀缺的场合，可以考虑Parallel Scavenge加Parallel Old收集器这个组合</li>
 </ul>
+<p><img src="http://wx4.sinaimg.cn/large/008aQ1h9ly1ghzy9wa8ehj31160ba751.jpg"></p>
 <h5 id="CMS（Concurrent-Mark-Sweep）收集器"><a href="#CMS（Concurrent-Mark-Sweep）收集器" class="headerlink" title="CMS（Concurrent Mark Sweep）收集器"></a>CMS（Concurrent Mark Sweep）收集器</h5><h6 id="什么是CMS收集器"><a href="#什么是CMS收集器" class="headerlink" title="什么是CMS收集器"></a>什么是CMS收集器</h6><ul>
 <li>以获取最短回收停顿时间为目标的收集器</li>
 <li>从名字来看CMS收集器是基于标记-清除算法实现的</li>
@@ -534,6 +548,7 @@
 <ul>
 <li>清理删掉标记阶段判断的已经死亡的对象，由于不需要移动存活对象，所以该阶段也是可以和用户线程同时并发</li>
 </ul>
+<p><img src="http://wx3.sinaimg.cn/large/008aQ1h9ly1ghzyuvrtrdj30tw07tq3n.jpg"></p>
 </li>
 </ul>
 <h6 id="CMS-优点"><a href="#CMS-优点" class="headerlink" title="CMS 优点"></a>CMS 优点</h6><ul>
@@ -612,13 +627,12 @@
 </li>
 <li><p>筛选回收（Live Data Counting and Evacuation）</p>
 <ul>
-<li><p>负责更新Region的统计数据，对各个Region的回收价值和成本进行排序，根据用户所期望的停顿时间来指定回收计划，可以自由选择任意多个Region构成回收集，然后把决定回收的那一部分Region的存活对象复制到空的Region中，再清理掉整个旧Region的全部空间</p>
-</li>
-<li><p>这里的操作涉及存活对象的移动，是必须暂停用户线程，由多条收集器线程并行完成的</p>
+<li>负责更新Region的统计数据，对各个Region的回收价值和成本进行排序，根据用户所期望的停顿时间来指定回收计划，可以自由选择任意多个Region构成回收集，然后把决定回收的那一部分Region的存活对象复制到空的Region中，再清理掉整个旧Region的全部空间</li>
+<li>这里的操作涉及存活对象的移动，是必须暂停用户线程，由多条收集器线程并行完成的</li>
+</ul>
 </li>
 <li><p>G1收集器除了并发标记外，其余阶段也是要完全暂停用户线程的，换言之，它并非纯粹地追求低延迟，官方给它设定的目标是在延迟可控的情况下获得尽可能高的吞吐量，所以才担当起“全功能收集器”的重任与期望</p>
-</li>
-</ul>
+<p><img src="http://wx4.sinaimg.cn/large/008aQ1h9ly1ghzyvezb1bj30ti07aq3p.jpg"></p>
 </li>
 </ul>
 <h6 id="G1收集器特点"><a href="#G1收集器特点" class="headerlink" title="G1收集器特点"></a>G1收集器特点</h6><ul>
@@ -879,12 +893,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">92k</span>
+    <span title="站点总字数">96k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:24</span>
+    <span title="站点阅读时长">1:28</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
   </div>
