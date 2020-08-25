@@ -2,7 +2,7 @@
 title: Java GC 笔记
 date: 2020-08-09 15:44:12
 categories: 
-- JVM 笔记
+- JVM-笔记
 tags:
 - GC
 - JVM 内存分配
