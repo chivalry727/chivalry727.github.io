@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="juK8iKOrjF-CCSscN7oc59B1D3s1Er05CCm7qTEAbVQ">
+  <meta name="baidu-site-verification" content="ipzsKxVcdo">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chivalry727.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script data-ad-client="ca-pub-7512049882055371" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+  <meta name="description" content="面试总结-3两个Long对象判断相等使用equals方法判断两个long对象相等 UTF-8字符如何转成GBK集，具体怎么实现的String的重载方法，将字节数组传入String的构造器，传入指定的字符，可以实现相互转换字符集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试总结-3">
+<meta property="og:url" content="https://chivalry727.github.io/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93-3/index.html">
+<meta property="og:site_name" content="Chivalry Blog">
+<meta property="og:description" content="面试总结-3两个Long对象判断相等使用equals方法判断两个long对象相等 UTF-8字符如何转成GBK集，具体怎么实现的String的重载方法，将字节数组传入String的构造器，传入指定的字符，可以实现相互转换字符集">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-08-25T01:13:59.000Z">
+<meta property="article:modified_time" content="2020-08-25T13:44:02.987Z">
+<meta property="article:author" content="Mr.zxb">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://chivalry727.github.io/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93-3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>面试总结-3 | Chivalry Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chivalry Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Chivalry Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">从前很懒，从今以后约束自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://chivalry727.github.io/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://tva1.sinaimg.cn/large/008aQ1h9ly1ghqb9xxkl6j31ig3401kx.jpg">
+      <meta itemprop="name" content="Mr.zxb">
+      <meta itemprop="description" content="个人技术博客，一个沉淀知识的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chivalry Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          面试总结-3
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-25 09:13:59 / 修改时间：21:44:02" itemprop="dateCreated datePublished" datetime="2020-08-25T09:13:59+08:00">2020-08-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93/" itemprop="url" rel="index"><span itemprop="name">面试总结</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="面试总结-3"><a href="#面试总结-3" class="headerlink" title="面试总结-3"></a>面试总结-3</h2><h3 id="两个Long对象判断相等"><a href="#两个Long对象判断相等" class="headerlink" title="两个Long对象判断相等"></a>两个Long对象判断相等</h3><p>使用equals方法判断两个long对象相等</p>
+<h3 id="UTF-8字符如何转成GBK集，具体怎么实现的"><a href="#UTF-8字符如何转成GBK集，具体怎么实现的" class="headerlink" title="UTF-8字符如何转成GBK集，具体怎么实现的"></a>UTF-8字符如何转成GBK集，具体怎么实现的</h3><p>String的重载方法，将字节数组传入String的构造器，传入指定的字符，可以实现相互转换字符集</p>
+<a id="more"></a>
+
+<h3 id="线程的几种创建方法"><a href="#线程的几种创建方法" class="headerlink" title="线程的几种创建方法"></a>线程的几种创建方法</h3><ol>
+<li>继承Thread类，并复写run方法，创建该类对象，调用start方法开启线程。此方式没有返回值。</li>
+<li>实现Runnable接口，复写run方法，创建Thread类对象，将Runnable子类对象传递给Thread类对象。调用start方法开启线程。此方法2较之方法1好，将线程对象和线程任务对象分离开。降低了耦合性，利于维护。此方式没有返回值。</li>
+<li>创建FutureTask对象，创建Callable子类对象，复写call(相当于run)方法，将其传递给FutureTask对象（相当于一个Runnable）。 创建Thread类对象，将FutureTask对象传递给Thread对象。调用start方法开启线程。这种方式可以获得线程执行完之后的返回值。该方法使用Runnable功能更加强大的一个子类.这个子类是具有返回值类型的任务方法。</li>
+<li>线程池方式</li>
+</ol>
+<h3 id="线程池的核心参数介绍一下"><a href="#线程池的核心参数介绍一下" class="headerlink" title="线程池的核心参数介绍一下"></a>线程池的核心参数介绍一下</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                          <span class="keyword">int</span> maximumPoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                          <span class="keyword">long</span> keepAliveTime,</span></span></span><br><span class="line"><span class="function"><span class="params">                          TimeUnit unit,</span></span></span><br><span class="line"><span class="function"><span class="params">                          BlockingQueue&lt;Runnable&gt; workQueue,</span></span></span><br><span class="line"><span class="function"><span class="params">                          ThreadFactory threadFactory,</span></span></span><br><span class="line"><span class="function"><span class="params">                          RejectedExecutionHandler handler)</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>corePoolSize核心线程数量</strong>：线程池内部核心线程数量，如果线程池收到任务，且线程池内部线程数量没有达到corePoolSize，线程池会直接给此任务创建一个新线程来处理此任务</p>
+<p><strong>maximumPoolSize最大允许线程数量</strong>：线程池内部线程数量已经达到核心线程数量，即corePoolSize，并且<strong>任务队列已满</strong>，此时如果继续有任务被提交，将判断线程池内部线程总数是否达到maximumPoolSize，如果小于maximumPoolSize，将继续使用线程工厂创建新线程。如果线程池内线程数量等于maximumPoolSize，就不会继续创建线程，将触发拒绝策略RejectedExecutionHandler</p>
+<p><strong>keepAliveTime、unit</strong>：当线程池内部的线程数量大于corePoolSize，则多出来的线程会在keepAliveTime时间之后销毁</p>
+<p><strong>workQueue工作队列</strong>：线程池需要执行的任务的队列，通常有固定数量的ArrayBlockingQueue，无限制的LinkedBlockingQueue</p>
+<p><strong>threadFactory线程工厂</strong>：线程池内初初始没有线程，任务来了之后，会使用线程工厂创建线程</p>
+<p><strong>handler拒绝策略</strong>：当任务队列已满，又有新的任务进来时，会回调此接口。有几种默认实现，通常建议根据具体业务来自行实现</p>
+<h3 id="线程池核心线程数是5个，启动的时候会创建几个工作线程"><a href="#线程池核心线程数是5个，启动的时候会创建几个工作线程" class="headerlink" title="线程池核心线程数是5个，启动的时候会创建几个工作线程"></a>线程池核心线程数是5个，启动的时候会创建几个工作线程</h3><p>启动的时候不会创建线程，只有执行execute方法的时候才会创建工作线程，每次执行execute方法会创建一个工作线程执行任务，直到工作线程等于核心线程数</p>
+<h3 id="线程池的阻塞队列里的任务什么时候会被获取执行"><a href="#线程池的阻塞队列里的任务什么时候会被获取执行" class="headerlink" title="线程池的阻塞队列里的任务什么时候会被获取执行"></a>线程池的阻塞队列里的任务什么时候会被获取执行</h3><p>当工作线程满了等于核心线程数的时候，如果继续向线程池提交任务的话，将会从阻塞队列里获取任务并执行</p>
+<h3 id="Java-Exception的父类是什么"><a href="#Java-Exception的父类是什么" class="headerlink" title="Java Exception的父类是什么"></a>Java Exception的父类是什么</h3><p>Throwable是所有异常类和Error的父类</p>
+<h3 id="RuntimeException、Exception和Error区别"><a href="#RuntimeException、Exception和Error区别" class="headerlink" title="RuntimeException、Exception和Error区别"></a>RuntimeException、Exception和Error区别</h3><p>RuntimeException是运行时异常类</p>
+<p>Exception是异常类，是runtime的父类</p>
+<p>Error是错误类</p>
+<h3 id="项目的业务异常为什么要定义RuntimeException"><a href="#项目的业务异常为什么要定义RuntimeException" class="headerlink" title="项目的业务异常为什么要定义RuntimeException"></a>项目的业务异常为什么要定义RuntimeException</h3><p>因为是业务类的异常，业务异常都是业务类型的错误，所以只能定义运行时异常</p>
+<h3 id="Http和Https区别"><a href="#Http和Https区别" class="headerlink" title="Http和Https区别"></a>Http和Https区别</h3><p>https是加密的http协议</p>
+<h3 id="Spring-Bean-默认类型"><a href="#Spring-Bean-默认类型" class="headerlink" title="Spring Bean 默认类型"></a>Spring Bean 默认类型</h3><p>Singleton Bean</p>
+<h3 id="单例Bean-原型Bean-在销毁的时候是否一样的"><a href="#单例Bean-原型Bean-在销毁的时候是否一样的" class="headerlink" title="单例Bean 原型Bean 在销毁的时候是否一样的"></a>单例Bean 原型Bean 在销毁的时候是否一样的</h3><p>不一样，scope为prototype的bean，容器会将创建好的对象实例返回给请求方，之后，容器就不再拥有其引用，请求方需要自己负责当前对象后继生命周期的管理工作，包括该对象的销毁。</p>
+<p>所以：scope为singleton的bean的destroy方法则是在容器关闭时执行，而scope为prototype的bean是不会执行destroy方法的</p>
+<h3 id="Mysql-联合索引-a-b-c-，以下哪些会走索引"><a href="#Mysql-联合索引-a-b-c-，以下哪些会走索引" class="headerlink" title="Mysql 联合索引 (a + b + c)，以下哪些会走索引"></a>Mysql 联合索引 (a + b + c)，以下哪些会走索引</h3><p> select * from table where a = ? and b = ? 会走索引<br> select * from table where a = ? and c = ? 会<br> select * from table where b = ? and c = ? 不会<br> select * from table where b = ? and a = ? 会</p>
+<p>建索引的几大原则：</p>
+<p>1、最左前缀匹配原则，非常重要的原则，mysql会一直向右匹配直到遇到范围查询(&gt;、&lt;、between、like)就停止匹配，比如a = 1 and b = 2 and c &gt; 3 and d = 4 如果建立(a,b,c,d)顺序的索引，d是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d的顺序可以任意调整。</p>
+<p>2、=和in可以乱序，比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式。</p>
+<p>3、尽量选择区分度高的列作为索引，区分度的公式是count(distinct col)/count(*)，表示字段不重复的比例，比例越大我们扫描的记录数越少，唯一键的区分度是1，而一些状态、性别字段可能在大数据面前区分度就是0，那可能有人会问，这个比例有什么经验值吗？使用场景不同，这个值也很难确定，一般需要join的字段我们都要求是0.1以上，即平均1条扫描10条记录。</p>
+<p>4、索引列不能参与计算，保持列“干净”，比如from_unixtime(create_time) = ’2014-05-29’就不能使用到索引，原因很简单，b+树中存的都是数据表中的字段值，但进行检索时，需要把所有元素都应用函数才能比较，显然成本太大。所以语句应该写成create_time = unix_timestamp(’2014-05-29’)。</p>
+<p>5、尽量的扩展索引，不要新建索引。比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可。</p>
+<h3 id="有一个user表，需要根据age倒序排，然后获取50-80行的数据，sql怎么写"><a href="#有一个user表，需要根据age倒序排，然后获取50-80行的数据，sql怎么写" class="headerlink" title="有一个user表，需要根据age倒序排，然后获取50-80行的数据，sql怎么写"></a>有一个user表，需要根据age倒序排，然后获取50-80行的数据，sql怎么写</h3><p>SELECT * FROM user ORDER BY age desc limit 50, 30;</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>若是觉得合胃口，就请我喝杯咖啡.</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Mr.zxb 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Mr.zxb 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"><i class="fa fa-tag">面试</i></a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/" rel="prev" title="每天一个设计模式之模板方法模式">
+      <i class="fa fa-chevron-left"></i> 每天一个设计模式之模板方法模式
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93-3"><span class="nav-number">1.</span> <span class="nav-text">面试总结-3</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AALong%E5%AF%B9%E8%B1%A1%E5%88%A4%E6%96%AD%E7%9B%B8%E7%AD%89"><span class="nav-number">1.1.</span> <span class="nav-text">两个Long对象判断相等</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UTF-8%E5%AD%97%E7%AC%A6%E5%A6%82%E4%BD%95%E8%BD%AC%E6%88%90GBK%E9%9B%86%EF%BC%8C%E5%85%B7%E4%BD%93%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84"><span class="nav-number">1.2.</span> <span class="nav-text">UTF-8字符如何转成GBK集，具体怎么实现的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%87%A0%E7%A7%8D%E5%88%9B%E5%BB%BA%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">线程的几种创建方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8F%82%E6%95%B0%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">线程池的核心参数介绍一下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%A0%B8%E5%BF%83%E7%BA%BF%E7%A8%8B%E6%95%B0%E6%98%AF5%E4%B8%AA%EF%BC%8C%E5%90%AF%E5%8A%A8%E7%9A%84%E6%97%B6%E5%80%99%E4%BC%9A%E5%88%9B%E5%BB%BA%E5%87%A0%E4%B8%AA%E5%B7%A5%E4%BD%9C%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.5.</span> <span class="nav-text">线程池核心线程数是5个，启动的时候会创建几个工作线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E9%87%8C%E7%9A%84%E4%BB%BB%E5%8A%A1%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E8%A2%AB%E8%8E%B7%E5%8F%96%E6%89%A7%E8%A1%8C"><span class="nav-number">1.6.</span> <span class="nav-text">线程池的阻塞队列里的任务什么时候会被获取执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-Exception%E7%9A%84%E7%88%B6%E7%B1%BB%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.7.</span> <span class="nav-text">Java Exception的父类是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RuntimeException%E3%80%81Exception%E5%92%8CError%E5%8C%BA%E5%88%AB"><span class="nav-number">1.8.</span> <span class="nav-text">RuntimeException、Exception和Error区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%B8%9A%E5%8A%A1%E5%BC%82%E5%B8%B8%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AE%9A%E4%B9%89RuntimeException"><span class="nav-number">1.9.</span> <span class="nav-text">项目的业务异常为什么要定义RuntimeException</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Http%E5%92%8CHttps%E5%8C%BA%E5%88%AB"><span class="nav-number">1.10.</span> <span class="nav-text">Http和Https区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Bean-%E9%BB%98%E8%AE%A4%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.11.</span> <span class="nav-text">Spring Bean 默认类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E4%BE%8BBean-%E5%8E%9F%E5%9E%8BBean-%E5%9C%A8%E9%94%80%E6%AF%81%E7%9A%84%E6%97%B6%E5%80%99%E6%98%AF%E5%90%A6%E4%B8%80%E6%A0%B7%E7%9A%84"><span class="nav-number">1.12.</span> <span class="nav-text">单例Bean 原型Bean 在销毁的时候是否一样的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql-%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95-a-b-c-%EF%BC%8C%E4%BB%A5%E4%B8%8B%E5%93%AA%E4%BA%9B%E4%BC%9A%E8%B5%B0%E7%B4%A2%E5%BC%95"><span class="nav-number">1.13.</span> <span class="nav-text">Mysql 联合索引 (a + b + c)，以下哪些会走索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E4%B8%80%E4%B8%AAuser%E8%A1%A8%EF%BC%8C%E9%9C%80%E8%A6%81%E6%A0%B9%E6%8D%AEage%E5%80%92%E5%BA%8F%E6%8E%92%EF%BC%8C%E7%84%B6%E5%90%8E%E8%8E%B7%E5%8F%9650-80%E8%A1%8C%E7%9A%84%E6%95%B0%E6%8D%AE%EF%BC%8Csql%E6%80%8E%E4%B9%88%E5%86%99"><span class="nav-number">1.14.</span> <span class="nav-text">有一个user表，需要根据age倒序排，然后获取50-80行的数据，sql怎么写</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mr.zxb"
+      src="https://tva1.sinaimg.cn/large/008aQ1h9ly1ghqb9xxkl6j31ig3401kx.jpg">
+  <p class="site-author-name" itemprop="name">Mr.zxb</p>
+  <div class="site-description" itemprop="description">个人技术博客，一个沉淀知识的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chivalry727" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chivalry727" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com.hk/" title="Google → https:&#x2F;&#x2F;www.google.com.hk&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.zxb</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">129k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:57</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
