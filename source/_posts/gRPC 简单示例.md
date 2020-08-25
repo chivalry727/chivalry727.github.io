@@ -2,10 +2,10 @@
 title: gRPC 简单示例
 date: 2020-08-12 20:27:17
 categories: 
-- Java 技术
+- Java技术
 tags:
 - gRPC
-- RPC 框架
+- RPC框架
 ---
 
 ## gRPC  高性能的RPC框架简单示例

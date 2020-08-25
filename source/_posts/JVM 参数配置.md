@@ -2,9 +2,9 @@
 title: JVM 参数配置
 date: 2020-08-23 12:47:39
 categories: 
-- JVM 笔记
+- JVM笔记
 tags:
-- JVM 参数
+- JVM参数
 ---
 
 ## JVM 参数配置

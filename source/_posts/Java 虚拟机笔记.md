@@ -2,10 +2,10 @@
 title: Java 虚拟机笔记
 date: 2020-08-06 16:53:36
 categories: 
-- JVM 笔记
+- JVM笔记
 tags:
-- JVM 内存区域
-- JVM 对象
+- JVM内存区域
+- JVM对象
 ---
 ### 																												JVM 虚拟机笔记
 

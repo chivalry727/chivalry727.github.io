@@ -2,9 +2,9 @@
 title: CompletableFuture 异步编程API列表
 date: 2020-08-07 16:08:10
 categories: 
-- Java 笔记
+- Java笔记
 tags:
-- Java8 异步编程
+- Java8异步编程
 ---
 #### CompletableFuture异步编程API
 

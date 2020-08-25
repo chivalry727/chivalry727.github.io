@@ -2,9 +2,9 @@
 title: Spring 事务
 date: 2020-08-15 22:06:17
 categories:
-- Spring 技术
+- Spring技术
 tags:
-- Spring 事务
+- Spring事务
 ---
 
 ## 															Spring  事务
