@@ -18,4 +18,4 @@ git commit -m "Blog updated: $current_date"
 sleep 2
 git push origin hexo
 
-echo "=====>Finish!<====="
+echo "=====>部署完成!<====="
