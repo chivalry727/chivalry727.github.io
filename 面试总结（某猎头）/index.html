@@ -29,17 +29,17 @@
   <meta name="description" content="面试总结（某猎头公司）两个Long对象判断相等使用equals方法判断两个long对象相等 UTF-8字符如何转成GBK集，具体怎么实现的String的重载方法，将字节数组传入String的构造器，传入指定的字符，可以实现相互转换字符集">
 <meta property="og:type" content="article">
 <meta property="og:title" content="面试总结（某猎头公司）">
-<meta property="og:url" content="https://chivalry727.github.io/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93-3/index.html">
+<meta property="og:url" content="https://chivalry727.github.io/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93%EF%BC%88%E6%9F%90%E7%8C%8E%E5%A4%B4%EF%BC%89/index.html">
 <meta property="og:site_name" content="Chivalry Blog">
 <meta property="og:description" content="面试总结（某猎头公司）两个Long对象判断相等使用equals方法判断两个long对象相等 UTF-8字符如何转成GBK集，具体怎么实现的String的重载方法，将字节数组传入String的构造器，传入指定的字符，可以实现相互转换字符集">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-08-25T01:13:59.000Z">
-<meta property="article:modified_time" content="2020-08-27T14:45:51.373Z">
+<meta property="article:modified_time" content="2020-08-29T03:49:41.957Z">
 <meta property="article:author" content="Mr.zxb">
 <meta property="article:tag" content="面试总结">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://chivalry727.github.io/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93-3/">
+<link rel="canonical" href="https://chivalry727.github.io/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93%EF%BC%88%E6%9F%90%E7%8C%8E%E5%A4%B4%EF%BC%89/">
 
 
 <script id="page-configurations">
@@ -180,7 +180,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://chivalry727.github.io/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93-3/">
+    <link itemprop="mainEntityOfPage" href="https://chivalry727.github.io/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93%EF%BC%88%E6%9F%90%E7%8C%8E%E5%A4%B4%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://tva1.sinaimg.cn/large/008aQ1h9ly1ghqb9xxkl6j31ig3401kx.jpg">
@@ -210,7 +210,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-27 22:45:51" itemprop="dateModified" datetime="2020-08-27T22:45:51+08:00">2020-08-27</time>
+                <time title="修改时间：2020-08-29 11:49:41" itemprop="dateModified" datetime="2020-08-29T11:49:41+08:00">2020-08-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -255,7 +255,7 @@
 <li>继承Thread类，并复写run方法，创建该类对象，调用start方法开启线程。此方式没有返回值。</li>
 <li>实现Runnable接口，复写run方法，创建Thread类对象，将Runnable子类对象传递给Thread类对象。调用start方法开启线程。此方法2较之方法1好，将线程对象和线程任务对象分离开。降低了耦合性，利于维护。此方式没有返回值。</li>
 <li>创建FutureTask对象，创建Callable子类对象，复写call(相当于run)方法，将其传递给FutureTask对象（相当于一个Runnable）。 创建Thread类对象，将FutureTask对象传递给Thread对象。调用start方法开启线程。这种方式可以获得线程执行完之后的返回值。该方法使用Runnable功能更加强大的一个子类.这个子类是具有返回值类型的任务方法。</li>
-<li>线程池方式</li>
+<li>线程池的方式</li>
 </ol>
 <h3 id="线程池的核心参数介绍一下"><a href="#线程池的核心参数介绍一下" class="headerlink" title="线程池的核心参数介绍一下"></a>线程池的核心参数介绍一下</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                          <span class="keyword">int</span> maximumPoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                          <span class="keyword">long</span> keepAliveTime,</span></span></span><br><span class="line"><span class="function"><span class="params">                          TimeUnit unit,</span></span></span><br><span class="line"><span class="function"><span class="params">                          BlockingQueue&lt;Runnable&gt; workQueue,</span></span></span><br><span class="line"><span class="function"><span class="params">                          ThreadFactory threadFactory,</span></span></span><br><span class="line"><span class="function"><span class="params">                          RejectedExecutionHandler handler)</span></span></span><br></pre></td></tr></table></figure>
 
@@ -266,14 +266,14 @@
 <p><strong>threadFactory线程工厂</strong>：线程池内初初始没有线程，任务来了之后，会使用线程工厂创建线程</p>
 <p><strong>handler拒绝策略</strong>：当任务队列已满，又有新的任务进来时，会回调此接口。有几种默认实现，通常建议根据具体业务来自行实现</p>
 <h3 id="线程池核心线程数是5个，启动的时候会创建几个工作线程"><a href="#线程池核心线程数是5个，启动的时候会创建几个工作线程" class="headerlink" title="线程池核心线程数是5个，启动的时候会创建几个工作线程"></a>线程池核心线程数是5个，启动的时候会创建几个工作线程</h3><p>启动的时候不会创建线程，只有执行execute方法的时候才会创建工作线程，每次执行execute方法会创建一个工作线程执行任务，直到工作线程等于核心线程数</p>
-<h3 id="线程池的阻塞队列里的任务什么时候会被获取执行"><a href="#线程池的阻塞队列里的任务什么时候会被获取执行" class="headerlink" title="线程池的阻塞队列里的任务什么时候会被获取执行"></a>线程池的阻塞队列里的任务什么时候会被获取执行</h3><p>当工作线程满了等于核心线程数的时候，如果继续向线程池提交任务的话，将会从阻塞队列里获取任务并执行</p>
+<h3 id="线程池的阻塞队列里的任务什么时候会被获取执行"><a href="#线程池的阻塞队列里的任务什么时候会被获取执行" class="headerlink" title="线程池的阻塞队列里的任务什么时候会被获取执行"></a>线程池的阻塞队列里的任务什么时候会被获取执行</h3><p>当工作线程满了并且等于核心线程数的时候，如果继续向线程池提交任务，队列如果也没有满的话，就将会从阻塞队列里获取任务并执行；如果队列满了，并且核心线程小于最大线程数的时候，就会创建新的工作线程从队列获取任务执行</p>
 <h3 id="Java-Exception的父类是什么"><a href="#Java-Exception的父类是什么" class="headerlink" title="Java Exception的父类是什么"></a>Java Exception的父类是什么</h3><p>Throwable是所有异常类和Error的父类</p>
 <h3 id="RuntimeException、Exception和Error区别"><a href="#RuntimeException、Exception和Error区别" class="headerlink" title="RuntimeException、Exception和Error区别"></a>RuntimeException、Exception和Error区别</h3><p>RuntimeException是运行时异常类</p>
-<p>Exception是异常类，是runtime的父类</p>
+<p>Exception是异常类，是运行时异常的父类</p>
 <p>Error是错误类</p>
 <h3 id="项目的业务异常为什么要定义RuntimeException"><a href="#项目的业务异常为什么要定义RuntimeException" class="headerlink" title="项目的业务异常为什么要定义RuntimeException"></a>项目的业务异常为什么要定义RuntimeException</h3><p>因为是业务类的异常，业务异常都是业务类型的错误，所以只能定义运行时异常</p>
 <h3 id="Http和Https区别"><a href="#Http和Https区别" class="headerlink" title="Http和Https区别"></a>Http和Https区别</h3><p>https是加密的http协议</p>
-<h3 id="Spring-Bean-默认类型"><a href="#Spring-Bean-默认类型" class="headerlink" title="Spring Bean 默认类型"></a>Spring Bean 默认类型</h3><p>Singleton Bean</p>
+<h3 id="Spring-Bean-默认类型"><a href="#Spring-Bean-默认类型" class="headerlink" title="Spring Bean 默认类型"></a>Spring Bean 默认类型</h3><p>单例的Singleton Bean</p>
 <h3 id="单例Bean-原型Bean-在销毁的时候是否一样的"><a href="#单例Bean-原型Bean-在销毁的时候是否一样的" class="headerlink" title="单例Bean 原型Bean 在销毁的时候是否一样的"></a>单例Bean 原型Bean 在销毁的时候是否一样的</h3><p>不一样，scope为prototype的bean，容器会将创建好的对象实例返回给请求方，之后，容器就不再拥有其引用，请求方需要自己负责当前对象后继生命周期的管理工作，包括该对象的销毁。</p>
 <p>所以：scope为singleton的bean的destroy方法则是在容器关闭时执行，而scope为prototype的bean是不会执行destroy方法的</p>
 <h3 id="Mysql-联合索引-a-b-c-，以下哪些会走索引"><a href="#Mysql-联合索引-a-b-c-，以下哪些会走索引" class="headerlink" title="Mysql 联合索引 (a + b + c)，以下哪些会走索引"></a>Mysql 联合索引 (a + b + c)，以下哪些会走索引</h3><p> select * from table where a = ? and b = ? 会走索引<br> select * from table where a = ? and c = ? 会<br> select * from table where b = ? and c = ? 不会<br> select * from table where b = ? and a = ? 会</p>
@@ -326,7 +326,7 @@
       <i class="fa fa-chevron-left"></i> 每天一个设计模式之模板方法模式
     </a></div>
       <div class="post-nav-item">
-    <a href="/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93-4/" rel="next" title="面试总结（某地产）">
+    <a href="/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93%EF%BC%88%E6%9F%90%E5%9C%B0%E4%BA%A7%EF%BC%89/" rel="next" title="面试总结（某地产）">
       面试总结（某地产） <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -403,7 +403,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -416,7 +416,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -466,12 +466,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">139k</span>
+    <span title="站点总字数">149k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:07</span>
+    <span title="站点阅读时长">2:15</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>

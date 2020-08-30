@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="juK8iKOrjF-CCSscN7oc59B1D3s1Er05CCm7qTEAbVQ">
+  <meta name="baidu-site-verification" content="ipzsKxVcdo">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chivalry727.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script data-ad-client="ca-pub-7512049882055371" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+  <meta name="description" content="每天一个设计模式之迭代器模式管理良好的集合有许多种方法可以把对象堆起来成为一个集合。你可以把它们放进数组、堆栈、列表或者是散列表中。接下来我们会学习如何让客户遍历你的对象而又无法窥视你存储对象的方式；也将学习如何创建一些对象超集合，能够一口气就跳过某些让人望而生畏的数据结构。 餐厅和煎饼屋合并了现在我们可以去同一地方就可以享用煎饼早餐，和午餐了。但是，好像有一点儿麻烦。。。因为煎饼屋使用的Arra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每天一个设计模式之迭代器模式">
+<meta property="og:url" content="https://chivalry727.github.io/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Chivalry Blog">
+<meta property="og:description" content="每天一个设计模式之迭代器模式管理良好的集合有许多种方法可以把对象堆起来成为一个集合。你可以把它们放进数组、堆栈、列表或者是散列表中。接下来我们会学习如何让客户遍历你的对象而又无法窥视你存储对象的方式；也将学习如何创建一些对象超集合，能够一口气就跳过某些让人望而生畏的数据结构。 餐厅和煎饼屋合并了现在我们可以去同一地方就可以享用煎饼早餐，和午餐了。但是，好像有一点儿麻烦。。。因为煎饼屋使用的Arra">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-08-30T07:17:57.000Z">
+<meta property="article:modified_time" content="2020-08-30T14:46:10.735Z">
+<meta property="article:author" content="Mr.zxb">
+<meta property="article:tag" content="迭代器模式">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://chivalry727.github.io/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>每天一个设计模式之迭代器模式 | Chivalry Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chivalry Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Chivalry Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">从前很懒，从今以后约束自己</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://chivalry727.github.io/%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://tva1.sinaimg.cn/large/008aQ1h9ly1ghqb9xxkl6j31ig3401kx.jpg">
+      <meta itemprop="name" content="Mr.zxb">
+      <meta itemprop="description" content="个人技术博客，一个沉淀知识的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chivalry Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          每天一个设计模式之迭代器模式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-30 15:17:57 / 修改时间：22:46:10" itemprop="dateCreated datePublished" datetime="2020-08-30T15:17:57+08:00">2020-08-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="每天一个设计模式之迭代器模式"><a href="#每天一个设计模式之迭代器模式" class="headerlink" title="每天一个设计模式之迭代器模式"></a>每天一个设计模式之迭代器模式</h2><h3 id="管理良好的集合"><a href="#管理良好的集合" class="headerlink" title="管理良好的集合"></a>管理良好的集合</h3><p>有许多种方法可以把对象堆起来成为一个集合。你可以把它们放进数组、堆栈、列表或者是散列表中。接下来我们会学习如何让客户遍历你的对象而又无法窥视你存储对象的方式；也将学习如何创建一些对象超集合，能够一口气就跳过某些让人望而生畏的数据结构。</p>
+<h3 id="餐厅和煎饼屋合并了"><a href="#餐厅和煎饼屋合并了" class="headerlink" title="餐厅和煎饼屋合并了"></a>餐厅和煎饼屋合并了</h3><p>现在我们可以去同一地方就可以享用煎饼早餐，和午餐了。但是，好像有一点儿麻烦。。。因为煎饼屋使用的<code>ArrayList</code>，而餐厅使用的是数组，它们都不想改变实现，毕竟有太多的代码依赖于它们了。</p>
+<a id="more"></a>
+
+<h3 id="查看菜单项"><a href="#查看菜单项" class="headerlink" title="查看菜单项"></a>查看菜单项</h3><p>让我们检查每份菜单上的项目和实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 菜单项</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-30 21:13:06</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MenuItem</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 菜名</span></span><br><span class="line">    String name;</span><br><span class="line">    <span class="comment">// 描述</span></span><br><span class="line">    String description;</span><br><span class="line">    <span class="comment">// 是否素食</span></span><br><span class="line">    <span class="keyword">boolean</span> vegetarian;</span><br><span class="line">    <span class="comment">// 价格</span></span><br><span class="line">    <span class="keyword">double</span> price;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MenuItem</span><span class="params">(String name, String description, <span class="keyword">boolean</span> vegetarian, <span class="keyword">double</span> price)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.description = description;</span><br><span class="line">        <span class="keyword">this</span>.vegetarian = vegetarian;</span><br><span class="line">        <span class="keyword">this</span>.price = price;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 省略 get/set方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="煎饼屋菜单实现"><a href="#煎饼屋菜单实现" class="headerlink" title="煎饼屋菜单实现"></a>煎饼屋菜单实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 煎饼屋的菜单</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-30 21:15:37</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PancakeHouseMenu</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 这里使用ArrayList 实现</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ArrayList&lt;MenuItem&gt; menuItems;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PancakeHouseMenu</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        menuItems = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        addItem(<span class="string">&quot;煎饼早餐&quot;</span>, <span class="string">&quot;炒鸡蛋煎饼，加面包&quot;</span>, <span class="keyword">true</span>, <span class="number">2.99</span>);</span><br><span class="line">        addItem(<span class="string">&quot;常规煎饼早餐&quot;</span>, <span class="string">&quot;煎饼配煎蛋，香肠&quot;</span>, <span class="keyword">false</span>, <span class="number">2.99</span>);</span><br><span class="line">        addItem(<span class="string">&quot;蓝莓煎饼&quot;</span>, <span class="string">&quot;用新鲜蓝莓制成的煎饼&quot;</span>, <span class="keyword">true</span>, <span class="number">3.49</span>);</span><br><span class="line">        addItem(<span class="string">&quot;华夫饼&quot;</span>, <span class="string">&quot;华夫饼，您可以选择蓝莓或草莓&quot;</span>, <span class="keyword">true</span>, <span class="number">3.59</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新增菜单</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> name</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> description</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> vegetarian</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> price</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addItem</span><span class="params">(String name, String description, <span class="keyword">boolean</span> vegetarian, <span class="keyword">double</span> price)</span> </span>&#123;</span><br><span class="line">        MenuItem menuItem = <span class="keyword">new</span> MenuItem(name, description, vegetarian, price);</span><br><span class="line">        menuItems.add(menuItem);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 返回菜单列表</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ArrayList&lt;MenuItem&gt; <span class="title">getMenuItems</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> menuItems;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="餐厅菜单实现"><a href="#餐厅菜单实现" class="headerlink" title="餐厅菜单实现"></a>餐厅菜单实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 晚餐菜单</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-30 21:26:39</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DinerMenu</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_ITEMS = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> numberOfItems = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> MenuItem[] menuItems;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DinerMenu</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        menuItems = <span class="keyword">new</span> MenuItem[MAX_ITEMS];</span><br><span class="line"></span><br><span class="line">        addItem(<span class="string">&quot;Vegetarian BLT&quot;</span>, <span class="string">&quot;全麦培根莴苣和番茄&quot;</span>, <span class="keyword">true</span>, <span class="number">2.99</span>);</span><br><span class="line">        addItem(<span class="string">&quot;BLT&quot;</span>, <span class="string">&quot;培根配生菜和番茄全麦&quot;</span>, <span class="keyword">false</span>, <span class="number">2.99</span>);</span><br><span class="line">        addItem(<span class="string">&quot;当天的汤&quot;</span>, <span class="string">&quot;当天的汤，配以土豆沙拉&quot;</span>, <span class="keyword">false</span>, <span class="number">3.29</span>);</span><br><span class="line">        addItem(<span class="string">&quot;热狗&quot;</span>, <span class="string">&quot;热狗, 配酸菜，调味，洋葱，加奶酪&quot;</span>, <span class="keyword">false</span>, <span class="number">3.99</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新增菜单</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> name</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> description</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> vegetarian</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> price</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addItem</span><span class="params">(String name, String description, <span class="keyword">boolean</span> vegetarian, <span class="keyword">double</span> price)</span> </span>&#123;</span><br><span class="line">        MenuItem menuItem = <span class="keyword">new</span> MenuItem(name, description, vegetarian, price);</span><br><span class="line">        <span class="keyword">if</span> (numberOfItems &gt;= MAX_ITEMS) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Sorry, menu is full! Can&#x27;t add item to menu&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            menuItems[numberOfItems] = menuItem;</span><br><span class="line">            numberOfItems++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 返回菜单列表</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> MenuItem[] getMenuItems() &#123;</span><br><span class="line">        <span class="keyword">return</span> menuItems;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="服务员打印菜单"><a href="#服务员打印菜单" class="headerlink" title="服务员打印菜单"></a>服务员打印菜单</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Waitress</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> PancakeHouseMenu pancakeHouseMenu;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> DinerMenu dinerMenu;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Waitress</span><span class="params">(PancakeHouseMenu pancakeHouseMenu, DinerMenu dinerMenu)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.pancakeHouseMenu = pancakeHouseMenu;</span><br><span class="line">        <span class="keyword">this</span>.dinerMenu = dinerMenu;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 打印合并后的餐厅菜单项</span></span><br><span class="line">    <span class="comment">// 我们总是要处理两个菜单，并且用两个循环遍历这些项。如果还有第三家餐厅以不同的实现，我们就需要有三个循环。。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printMenu</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ArrayList&lt;MenuItem&gt; pancakeHouseMenuMenuItems = pancakeHouseMenu.getMenuItems();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; pancakeHouseMenuMenuItems.size(); i++) &#123;</span><br><span class="line">            MenuItem menuItem = pancakeHouseMenuMenuItems.get(i);</span><br><span class="line">            System.out.print(menuItem.getName() + <span class="string">&quot; &quot;</span>);</span><br><span class="line">            System.out.println(menuItem.getPrice() + <span class="string">&quot; &quot;</span>);</span><br><span class="line">            System.out.println(menuItem.getDescription());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        MenuItem[] dinerMenuMenuItems = dinerMenu.getMenuItems();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; dinerMenuMenuItems.length; i++) &#123;</span><br><span class="line">            MenuItem menuItem = dinerMenuMenuItems[i];</span><br><span class="line">            System.out.print(menuItem.getName() + <span class="string">&quot; &quot;</span>);</span><br><span class="line">            System.out.println(menuItem.getPrice() + <span class="string">&quot; &quot;</span>);</span><br><span class="line">            System.out.println(menuItem.getDescription());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="可以封装遍历吗？"><a href="#可以封装遍历吗？" class="headerlink" title="可以封装遍历吗？"></a>可以封装遍历吗？</h3><p>我们可以封装变化的部分。很明显，在这里发生变化的是：由不同的集合类型所造成的遍历。</p>
+<h3 id="在餐厅加入一个迭代器"><a href="#在餐厅加入一个迭代器" class="headerlink" title="在餐厅加入一个迭代器"></a>在餐厅加入一个迭代器</h3><p>想要在餐厅中加入一个迭代器，我们需要先定义迭代器接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 迭代器接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-30 21:45:06</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">Object <span class="title">next</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现具体的迭代器，为餐厅菜单服务：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DinerMenuIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> MenuItem[] items;</span><br><span class="line">    <span class="comment">// 记录当前数组遍历的位置</span></span><br><span class="line">    <span class="keyword">int</span> position = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DinerMenuIterator</span><span class="params">(MenuItem[] items)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.items = items;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (position &gt;= items.length || items[position] == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        MenuItem item = items[position];</span><br><span class="line">        position++;</span><br><span class="line">        <span class="keyword">return</span> item;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PancakeHouseIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ArrayList&lt;MenuItem&gt; menuItems;</span><br><span class="line">    <span class="keyword">int</span> position = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PancakeHouseIterator</span><span class="params">(ArrayList&lt;MenuItem&gt; menuItems)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.menuItems = menuItems;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (position &gt;= menuItems.size() || menuItems.get(position) == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        MenuItem menuItem = menuItems.get(position);</span><br><span class="line">        position++;</span><br><span class="line">        <span class="keyword">return</span> menuItem;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="用迭代器改写餐厅菜单"><a href="#用迭代器改写餐厅菜单" class="headerlink" title="用迭代器改写餐厅菜单"></a>用迭代器改写餐厅菜单</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 晚餐菜单</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-30 21:26:39</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DinerMenu</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_ITEMS = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> numberOfItems = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> MenuItem[] menuItems;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// 省略其他方法...</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 返回菜单列表</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> MenuItem[] getMenuItems() &#123;</span><br><span class="line">        <span class="keyword">return</span> menuItems;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 返回一个迭代器的实现</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterator <span class="title">createIterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DinerMenuIterator(getMenuItems());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PancakeHouseMenu</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 这里使用ArrayList 实现</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ArrayList&lt;MenuItem&gt; menuItems;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 省略其他方法...</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 返回菜单列表</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ArrayList&lt;MenuItem&gt; <span class="title">getMenuItems</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> menuItems;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Iterator <span class="title">createIterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PancakeHouseIterator(getMenuItems());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修正服务员打印菜单"><a href="#修正服务员打印菜单" class="headerlink" title="修正服务员打印菜单"></a>修正服务员打印菜单</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Waitress</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> PancakeHouseMenu pancakeHouseMenu;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> DinerMenu dinerMenu;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Waitress</span><span class="params">(PancakeHouseMenu pancakeHouseMenu, DinerMenu dinerMenu)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.pancakeHouseMenu = pancakeHouseMenu;</span><br><span class="line">        <span class="keyword">this</span>.dinerMenu = dinerMenu;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printMenu</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Iterator iterator = pancakeHouseMenu.createIterator();</span><br><span class="line">        printMenu(iterator);</span><br><span class="line">        Iterator dinerMenuIterator = dinerMenu.createIterator();</span><br><span class="line">        printMenu(dinerMenuIterator);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printMenu</span><span class="params">(Iterator iterator)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            MenuItem menuItem = (MenuItem) iterator.next();</span><br><span class="line">            System.out.print(menuItem.getName() + <span class="string">&quot; &quot;</span>);</span><br><span class="line">            System.out.println(menuItem.getPrice() + <span class="string">&quot; --&quot;</span>);</span><br><span class="line">            System.out.println(menuItem.getDescription());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="测试我们的代码"><a href="#测试我们的代码" class="headerlink" title="测试我们的代码"></a>测试我们的代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MenuTestDrive</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        PancakeHouseMenu pancakeHouseMenu = <span class="keyword">new</span> PancakeHouseMenu();</span><br><span class="line">        DinerMenu dinerMenu = <span class="keyword">new</span> DinerMenu();</span><br><span class="line"></span><br><span class="line">        Waitress waitress = <span class="keyword">new</span> Waitress(pancakeHouseMenu, dinerMenu);</span><br><span class="line">        waitress.printMenu();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用Java的Iterator接口改良菜单"><a href="#使用Java的Iterator接口改良菜单" class="headerlink" title="使用Java的Iterator接口改良菜单"></a>使用Java的Iterator接口改良菜单</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Menu</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 简单接口，让客户能够取得一个菜单项迭代器</span></span><br><span class="line">    <span class="function">Iterator <span class="title">createIterator</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 煎饼屋的菜单</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-08-30 21:15:37</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PancakeHouseMenu</span> <span class="keyword">implements</span> <span class="title">Menu</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 这里使用ArrayList 实现</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ArrayList&lt;MenuItem&gt; menuItems;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 省略其他方法...</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterator <span class="title">createIterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> menuItems.iterator();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DinerMenuIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> MenuItem[] items;</span><br><span class="line">    <span class="comment">// 记录当前数组遍历的位置</span></span><br><span class="line">    <span class="keyword">int</span> position = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DinerMenuIterator</span><span class="params">(MenuItem[] items)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.items = items;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (position &gt;= items.length || items[position] == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        MenuItem item = items[position];</span><br><span class="line">        position++;</span><br><span class="line">        <span class="keyword">return</span> item;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (position &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;You can&#x27;t remove an item until you&#x27;ve done at least one next()&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (items[position - <span class="number">1</span>] != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = position - <span class="number">1</span>; i &lt; (items.length - <span class="number">1</span>); i++) &#123;</span><br><span class="line">                items[i] = items[i + <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            items[items.length - <span class="number">1</span>] = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>改造我们的服务员类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Waitress</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Menu pancakeHouseMenu;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Menu dinerMenu;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Waitress</span><span class="params">(Menu pancakeHouseMenu, Menu dinerMenu)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.pancakeHouseMenu = pancakeHouseMenu;</span><br><span class="line">        <span class="keyword">this</span>.dinerMenu = dinerMenu;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printMenu</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Iterator iterator = pancakeHouseMenu.createIterator();</span><br><span class="line">        printMenu(iterator);</span><br><span class="line">        Iterator dinerMenuIterator = dinerMenu.createIterator();</span><br><span class="line">        printMenu(dinerMenuIterator);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">printMenu</span><span class="params">(Iterator iterator)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            MenuItem menuItem = (MenuItem) iterator.next();</span><br><span class="line">            System.out.print(menuItem.getName() + <span class="string">&quot; &quot;</span>);</span><br><span class="line">            System.out.println(menuItem.getPrice() + <span class="string">&quot; &quot;</span>);</span><br><span class="line">            System.out.println(menuItem.getDescription());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="改良的好处"><a href="#改良的好处" class="headerlink" title="改良的好处"></a>改良的好处</h3><p>煎饼屋菜单和餐厅菜单的类，都实现了Menu接口，服务员类可以利用接口（而不是具体类）引用每一个菜单对象。这样，通过“针对接口编程，而不是针对实现编程”，这样就可以减少服务员类与具体类之间的依赖。</p>
+<h3 id="定义迭代器模式"><a href="#定义迭代器模式" class="headerlink" title="定义迭代器模式"></a>定义迭代器模式</h3><p><strong>迭代器模式</strong>提供一种方法顺序访问一个聚合对象中的各个元素，而又不暴露其内部的表示。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>迭代器允许访问聚合的元素，而不需要暴露它的内部结构</li>
+<li>迭代器将遍历聚合的工作封装进一个对象中</li>
+<li>当使用迭代器的时候，我们依赖聚合提供遍历</li>
+<li>迭代器提供了一个通用的接口，让我们遍历聚合项，当我们编码使用聚合的项时，就可以使用多态机制</li>
+<li>我们应该努力让一个类只分配一个责任</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>若是觉得合胃口，就请我喝杯咖啡.</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Mr.zxb 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Mr.zxb 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/" rel="tag"><i class="fa fa-tag">迭代器模式</i></a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93%EF%BC%88%E6%9F%90%E5%9C%B0%E4%BA%A7%EF%BC%89/" rel="prev" title="面试总结（某地产）">
+      <i class="fa fa-chevron-left"></i> 面试总结（某地产）
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%8F%E5%A4%A9%E4%B8%80%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">每天一个设计模式之迭代器模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%A1%E7%90%86%E8%89%AF%E5%A5%BD%E7%9A%84%E9%9B%86%E5%90%88"><span class="nav-number">1.1.</span> <span class="nav-text">管理良好的集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A4%90%E5%8E%85%E5%92%8C%E7%85%8E%E9%A5%BC%E5%B1%8B%E5%90%88%E5%B9%B6%E4%BA%86"><span class="nav-number">1.2.</span> <span class="nav-text">餐厅和煎饼屋合并了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%8F%9C%E5%8D%95%E9%A1%B9"><span class="nav-number">1.3.</span> <span class="nav-text">查看菜单项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%85%8E%E9%A5%BC%E5%B1%8B%E8%8F%9C%E5%8D%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.4.</span> <span class="nav-text">煎饼屋菜单实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A4%90%E5%8E%85%E8%8F%9C%E5%8D%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.5.</span> <span class="nav-text">餐厅菜单实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%91%98%E6%89%93%E5%8D%B0%E8%8F%9C%E5%8D%95"><span class="nav-number">1.6.</span> <span class="nav-text">服务员打印菜单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E4%BB%A5%E5%B0%81%E8%A3%85%E9%81%8D%E5%8E%86%E5%90%97%EF%BC%9F"><span class="nav-number">1.7.</span> <span class="nav-text">可以封装遍历吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E9%A4%90%E5%8E%85%E5%8A%A0%E5%85%A5%E4%B8%80%E4%B8%AA%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-number">1.8.</span> <span class="nav-text">在餐厅加入一个迭代器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%94%B9%E5%86%99%E9%A4%90%E5%8E%85%E8%8F%9C%E5%8D%95"><span class="nav-number">1.9.</span> <span class="nav-text">用迭代器改写餐厅菜单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%AD%A3%E6%9C%8D%E5%8A%A1%E5%91%98%E6%89%93%E5%8D%B0%E8%8F%9C%E5%8D%95"><span class="nav-number">1.10.</span> <span class="nav-text">修正服务员打印菜单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%88%91%E4%BB%AC%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="nav-number">1.11.</span> <span class="nav-text">测试我们的代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Java%E7%9A%84Iterator%E6%8E%A5%E5%8F%A3%E6%94%B9%E8%89%AF%E8%8F%9C%E5%8D%95"><span class="nav-number">1.12.</span> <span class="nav-text">使用Java的Iterator接口改良菜单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B9%E8%89%AF%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="nav-number">1.13.</span> <span class="nav-text">改良的好处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.14.</span> <span class="nav-text">定义迭代器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.15.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mr.zxb"
+      src="https://tva1.sinaimg.cn/large/008aQ1h9ly1ghqb9xxkl6j31ig3401kx.jpg">
+  <p class="site-author-name" itemprop="name">Mr.zxb</p>
+  <div class="site-description" itemprop="description">个人技术博客，一个沉淀知识的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chivalry727" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chivalry727" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com.hk/" title="Google → https:&#x2F;&#x2F;www.google.com.hk&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.zxb</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">149k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:15</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
