@@ -13,7 +13,7 @@ sleep 5
 # Push hexo code
 git add .
 current_date=`date "+%Y-%m-%d %H:%M:%S"`
-git commit -m "Blog updated: $current_date"
+git commit -m "博客更新$current_date"
 
 sleep 2
 git push origin hexo
