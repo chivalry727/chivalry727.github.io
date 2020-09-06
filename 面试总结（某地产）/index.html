@@ -34,7 +34,7 @@
 <meta property="og:description" content="面试总结（某地产）gRPC 如何做负载的gRPC负载均衡，官方只提供了pick_first和round_robin两种负载均衡策略 gRPC 限流怎么做的可以通过信号量来做限流">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-08-26T08:45:27.000Z">
-<meta property="article:modified_time" content="2020-08-30T07:50:59.064Z">
+<meta property="article:modified_time" content="2020-09-03T12:31:37.468Z">
 <meta property="article:author" content="Mr.zxb">
 <meta property="article:tag" content="面试总结">
 <meta name="twitter:card" content="summary">
@@ -210,7 +210,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-30 15:50:59" itemprop="dateModified" datetime="2020-08-30T15:50:59+08:00">2020-08-30</time>
+                <time title="修改时间：2020-09-03 20:31:37" itemprop="dateModified" datetime="2020-09-03T20:31:37+08:00">2020-09-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -228,14 +228,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>11k</span>
+              <span>12k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>10 分钟</span>
+              <span>11 分钟</span>
             </span>
 
         </div>
@@ -259,7 +259,7 @@
 <li>LeastActiveLoadBalance 最少活跃调用数：这个就是自动感知一下，如果某个机器性能越差，那么接收的请求越少，越不活跃，此时就会给不活跃的性能差的机器更少的请求。</li>
 <li>ConsistentHashLoadBalance 一致性 Hash：一致性 Hash 算法，相同参数的请求一定分发到一个 provider 上去，provider 挂掉的时候，会基于虚拟节点均匀分配剩余的流量，抖动不会太大。如果你需要的不是随机负载均衡，是要一类请求都到一个节点，那就走这个一致性 Hash 策略。</li>
 </ul>
-<h3 id="Dubbo-的容错策略"><a href="#Dubbo-的容错策略" class="headerlink" title="Dubbo 的容错策略"></a>Dubbo 的容错策略</h3><p>dubbo 集群的六种容错策略</p>
+<h3 id="Dubbo-的容错策略"><a href="#Dubbo-的容错策略" class="headerlink" title="Dubbo 的容错策略"></a>Dubbo 的容错策略</h3><p>dubbo 集群的六种容错策略：</p>
 <ol>
 <li>failover cluster 模式：失败自动切换，自动重试其他机器，默认就是这个，常见于读操作。（失败重试其它机器）</li>
 <li>failfast cluster模式：一次调用失败就立即失败，常见于写操作。（调用失败就立即失败）</li>
@@ -275,24 +275,51 @@
 <li>如果还是获取不到，且允许singletonFactories（allowEarlyReference=true）通过getObject()获取。就从三级缓存singletonFactory.getObject()获取。（如果获取到了就从singletonFactories中移除，并且放进earlySingletonObjects。其实也就是从三级缓存移动（是剪切、不是复制哦~）到了二级缓存）</li>
 </ol>
 <h3 id="Spring-Bean-生命周期"><a href="#Spring-Bean-生命周期" class="headerlink" title="Spring Bean 生命周期"></a>Spring Bean 生命周期</h3><p><a href="https://chivalry727.github.io/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93-2/#more">参考面试总结2</a>里的Spring Bean生命周期总结</p>
-<h3 id="Spring动态代理和CGLIB代理区别"><a href="#Spring动态代理和CGLIB代理区别" class="headerlink" title="Spring动态代理和CGLIB代理区别"></a>Spring动态代理和CGLIB代理区别</h3><p>JDK反射基于Java反射实现</p>
-<p>cglib是基于字节码提升</p>
+<h3 id="Spring-两种动态代理区别"><a href="#Spring-两种动态代理区别" class="headerlink" title="Spring 两种动态代理区别"></a>Spring 两种动态代理区别</h3><ul>
+<li>Spring JDK原生动态代理是基于Java反射实现的，Java动态代理是基于接口的，如果对象没有实现接口，Spring就会使用CGLIB动态代理</li>
+</ul>
+<ul>
+<li>CGLIB是一个基于ASM的字节码生成库，它允许我们在运行时对字节码进行修改和动态生成。CGLIB通过继承方式实现代理</li>
+</ul>
 <h3 id="Spring的BeanPostProcessor和BeanFactoryPostProcessor区别"><a href="#Spring的BeanPostProcessor和BeanFactoryPostProcessor区别" class="headerlink" title="Spring的BeanPostProcessor和BeanFactoryPostProcessor区别"></a>Spring的BeanPostProcessor和BeanFactoryPostProcessor区别</h3><p>BeanPostProcessor接口：后置bean处理器，允许自定义修改新的bean实例，应用程序上下文可以在其bean定义中自动检测BeanPostProcessor类型的bean，并将它们应用于随后创建的任何bean。（例如：配置文件中注册了一个自定义BeanPostProcessor类型的bean，一个User类型的bean，应用程序上下文会在创建User实例之后对User应用BeanPostProcessor）。</p>
-<p>BeanFactoryPostProcessor接口：后置工厂处理器，允许自定义修改应用程序上下文的bean定义，调整bean属性值。应用程序上下文可以在其bean定义中自动检测BeanFactoryPostProcessor，并在创建任何非BeanFactoryPostProcessor类型bean之前应用它们（例如：配置文件中注册了一个自定义BeanFactoryPostProcessor类型的bean，一个User类型的bean，应用程序上下文会在创建User实例之前对User应用BeanFactoryPostProcessor）。</p>
+<p>BeanFactoryPostProcessor接口：后置工厂处理器，允许自定义修改应用程序上下文的bean定义，调整bean属性值。应用程序上下文可以在其bean定义中自动检测BeanFactoryPostProcessor，并在创建任何非BeanFactoryPostProcessor类型bean之前应用它们（例如：配置文件中注册了一个自定义BeanFactoryPostProcessor类型的bean，一个User类型的bean，应用程序上下文会在创建User实例之前对User应用BeanFactoryPostProcessor）</p>
+<h3 id="Spring-AOP-和-AspectJ-AOP-区别"><a href="#Spring-AOP-和-AspectJ-AOP-区别" class="headerlink" title="Spring AOP 和 AspectJ AOP 区别"></a>Spring AOP 和 AspectJ AOP 区别</h3><h4 id="Spring-AOP"><a href="#Spring-AOP" class="headerlink" title="Spring AOP"></a>Spring AOP</h4><ol>
+<li>Spring是基于动态代理来实现的AOP，默认如果使用接口，就用JDK提供的动态代理实现；如果是方法则使用CGLIB实现</li>
+<li>Spring AOP需要依赖IoC容器来管理，并且只能作用于Spring容器，使用纯Java代码实现</li>
+<li>在性能上，由于Spring AOP是基于动态代理来实现的，在容器启动时需要生成代理实例，在方法调用上也会增加栈的深度，使得Spring AOP的性能不如AspectJ</li>
+</ol>
+<h4 id="AspectJ"><a href="#AspectJ" class="headerlink" title="AspectJ"></a>AspectJ</h4><ul>
+<li>AspectJ来自于Eclipse基金会</li>
+<li>AspectJ属于静态织入，通过修改代码来实现，有如下几个织入的时机：<ol>
+<li>编译期织入（Compile-time weaving）：如类A使用AspectJ添加一个属性，类B引用了它，这个时候就需要编译期的时候进行织入，否则没法编译类B</li>
+<li>编译后织入（Post-compile weaving）：也就是生成了<code>.class</code>文件或已经打成了jar包，这种情况我们需要增强处理的话，就要用到编译后织入</li>
+<li>类加载后织入（Load-time weaving）：指的是在加载类的时候进行织入，要实现这个时期的织入，有几种常见的方法：<ol>
+<li>自定义类加载器来干这个，这个应该是最容易想到的办法，在被织入类加载到JVM前去对它进行加载，这样就可以在加载到时候定义行为来</li>
+<li>在JVM启动的时候指定AspectJ提供的agent:<code>-javaagent:xxx/xxx/aspectjweaver.jar</code></li>
+</ol>
+</li>
+</ol>
+</li>
+<li>AspectJ可以做Spring AOP干不了的事情，它是AOP编程的完全解决方案，Spring AOP则致力于解决企业级开发中最普遍的AOP（方法织入）。而不是成为像AspectJ一样的AOP方案</li>
+<li>因为AspectJ在实际运行之前就完成了织入，所以说它生成的类是没有额外运行时开销的</li>
+</ul>
 <h3 id="HashMap-如何解决hash碰撞，以及何时扩容的"><a href="#HashMap-如何解决hash碰撞，以及何时扩容的" class="headerlink" title="HashMap 如何解决hash碰撞，以及何时扩容的"></a>HashMap 如何解决hash碰撞，以及何时扩容的</h3><p><strong>Hash冲突</strong>：由于用于计算的数据是无限的<code>H(key),key属于(-∞,+∞)</code>,而映射到区间是有限的，所以肯定会存在两个key:key1,key2，H(key1)=H(key2)，这就是hash冲突。一般的解决Hash冲突方法有:开放定址法、再哈希法、链地址法（拉链法）、建立公共溢出区。</p>
-<p>开放地址法：也称为<code>再散列法</code>，基本思想就是，如果<code>p=H(key)</code>出现冲突时，则以<code>p</code>为基础，再次hash，<code>p1=H(p)</code>,如果p1再次出现冲突，则以p1为基础，以此类推，直到找到一个不冲突的哈希地址<code>pi</code>。 因此开放定址法所需要的hash表的长度要大于等于所需要存放的元素，而且因为存在再次hash，所以<code>只能在删除的节点上做标记，而不能真正删除节点。</code></p>
-<p>缺点:容易产生堆积问题;不适合大规模的数据存储;插入时会发生多次冲突的情况;删除时要考虑与要删除元素互相冲突的另一个元素，比较复杂。</p>
-<p>再哈希法(双重散列，多重散列)：提供多个不同的hash函数，当<code>R1=H1(key1)</code>发生冲突时，再计算<code>R2=H2(key1)</code>，直到没有冲突为止。 这样做虽然不易产生堆集，但增加了计算的时间。</p>
-<p>链地址法(拉链法)：将哈希值相同的元素构成一个同义词的单链表,并将单链表的头指针存放在哈希表的第i个单元中，查找、插入和删除主要在同义词链表中进行。链表法适用于经常进行插入和删除的情况。HashMap采用的就是链地址法来解决hash冲突。(链表长度大于等于8时转为红黑树)</p>
-<p>建立公共溢出区：将哈希表分为公共表和溢出表，当溢出发生时，将所有溢出数据统一放到溢出区。</p>
-<p>何时扩容：HashMap的容量是有限的。当经过多次元素插入的时候，使得HashMap达到一定的饱和度，Key映射位置的几率不断变大。这个时候，HashMap就需要扩容了，也就是Resize。<strong>当 HashMap.size &gt;= Capacity*LoadFactor 时，HashMap可能会进行Resize。</strong></p>
+<p><strong>开放地址法</strong>：也称为<code>再散列法</code>，基本思想就是，如果<code>p=H(key)</code>出现冲突时，则以<code>p</code>为基础，再次hash，<code>p1=H(p)</code>,如果p1再次出现冲突，则以p1为基础，以此类推，直到找到一个不冲突的哈希地址<code>pi</code>。 因此开放定址法所需要的hash表的长度要大于等于所需要存放的元素，而且因为存在再次hash，所以<code>只能在删除的节点上做标记，而不能真正删除节点。</code></p>
+<p>缺点：容易产生堆积问题;不适合大规模的数据存储;插入时会发生多次冲突的情况;删除时要考虑与要删除元素互相冲突的另一个元素，比较复杂。</p>
+<p><strong>再哈希法（双重散列，多重散列）</strong>：提供多个不同的hash函数，当<code>R1=H1(key1)</code>发生冲突时，再计算<code>R2=H2(key1)</code>，直到没有冲突为止。 这样做虽然不易产生堆集，但增加了计算的时间。</p>
+<p><strong>链地址法（拉链法）</strong>：将哈希值相同的元素构成一个同义词的单链表,并将单链表的头指针存放在哈希表的第i个单元中，查找、插入和删除主要在同义词链表中进行。链表法适用于经常进行插入和删除的情况。HashMap采用的就是链地址法来解决hash冲突。(链表长度大于等于8时转为红黑树)</p>
+<p><strong>建立公共溢出区</strong>：将哈希表分为公共表和溢出表，当溢出发生时，将所有溢出数据统一放到溢出区。</p>
+<p><strong>何时扩容</strong>：HashMap的容量是有限的。当经过多次元素插入的时候，使得HashMap达到一定的饱和度，Key映射位置的几率不断变大。这个时候，HashMap就需要扩容了，也就是Resize。<strong>当 HashMap.size &gt;= Capacity*LoadFactor 时，HashMap可能会进行Resize。</strong></p>
 <p>Hashmap的扩容需要满足两个条件：<strong>当前数据存储的数量（即size()）大小必须大于等于阈值；当前加入的数据是否发生了hash冲突。</strong></p>
-<h3 id="ArrayList与LinkedList区别"><a href="#ArrayList与LinkedList区别" class="headerlink" title="ArrayList与LinkedList区别"></a>ArrayList与LinkedList区别</h3><p>ArrayList基于数组实现的</p>
-<p>LinkeddList基于链表实现的</p>
+<h3 id="ArrayList与LinkedList区别"><a href="#ArrayList与LinkedList区别" class="headerlink" title="ArrayList与LinkedList区别"></a>ArrayList与LinkedList区别</h3><ul>
+<li>ArrayList基于数组实现的列表</li>
+</ul>
+<ul>
+<li>LinkeddList基于链表实现的列表</li>
+</ul>
 <h3 id="LinkedHashMap如何实现有序的"><a href="#LinkedHashMap如何实现有序的" class="headerlink" title="LinkedHashMap如何实现有序的"></a>LinkedHashMap如何实现有序的</h3><p>LinkedHashMap是继承于HashMap，是基于HashMap和双向链表来实现的。</p>
-<p>HashMap无序；LinkedHashMap有序，可分为插入顺序和访问顺序两种。如果是访问顺序，那put和get操作已存在的Entry时，都会把Entry移动到双向链表的表尾(其实是先删除再插入)。</p>
+<p>HashMap是无序的；LinkedHashMap有序的，可分为插入顺序和访问顺序两种。如果是访问顺序，那put和get操作已存在的Entry时，都会把Entry移动到双向链表的表尾(其实是先删除再插入)。</p>
 <p>LinkedHashMap存取数据，还是跟HashMap一样使用的Entry[]的方式，双向链表只是为了保证顺序。</p>
-<p>LinkedHashMap是线程不安全的</p>
 <h3 id="Queue的阻塞队列用过哪几种"><a href="#Queue的阻塞队列用过哪几种" class="headerlink" title="Queue的阻塞队列用过哪几种"></a>Queue的阻塞队列用过哪几种</h3><p>Java提供了7个阻塞队列：</p>
 <ul>
 <li>ArrayBlockingQueue：一个由数组结构组成的有界阻塞队列<ul>
@@ -409,19 +436,20 @@
 <li><p>=和in可以乱序，比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式。</p>
 </li>
 </ul>
-<h3 id="Mysql的锁有哪些"><a href="#Mysql的锁有哪些" class="headerlink" title="Mysql的锁有哪些"></a>Mysql的锁有哪些</h3><h4 id="参考官方文档"><a href="#参考官方文档" class="headerlink" title="参考官方文档"></a><a target="_blank" rel="noopener" href="https://docs.oracle.com/cd/E17952_01/mysql-5.5-en/innodb-locking.html#innodb-shared-exclusive-locks">参考官方文档</a></h4><h4 id="共享锁和排他锁"><a href="#共享锁和排他锁" class="headerlink" title="共享锁和排他锁"></a>共享锁和排他锁</h4><p>InnoDB实现标准的行级锁定，其中有两种类型的锁定：共享（S）锁定和排他（X）锁定。</p>
+<h3 id="Mysql的锁有哪些"><a href="#Mysql的锁有哪些" class="headerlink" title="Mysql的锁有哪些"></a>Mysql的锁有哪些</h3><h4 id="参考官方文档"><a href="#参考官方文档" class="headerlink" title="参考官方文档"></a><a target="_blank" rel="noopener" href="https://docs.oracle.com/cd/E17952_01/mysql-5.5-en/innodb-locking.html#innodb-shared-exclusive-locks">参考官方文档</a></h4><p><a target="_blank" rel="noopener" href="https://learnku.com/articles/39212?order_by=vote_count&">参考其他文档分享</a></p>
+<h4 id="共享锁和排他锁"><a href="#共享锁和排他锁" class="headerlink" title="共享锁和排他锁"></a>共享锁和排他锁</h4><p>在InnoDB中是实现标准的行级锁定，其中有两种类型的锁定：共享（S）锁定和排他（X）锁定。</p>
 <ul>
-<li>共享（S）锁允许持有该锁的事务读取一行。</li>
+<li>读锁（read lock），也叫共享锁（shared lock）允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁</li>
 </ul>
 <ul>
-<li>排他（X）锁允许持有该锁的事务更新或删除行。</li>
+<li>写锁（write lock），也叫排他锁（exclusive lock）允许获得排他锁的事务更新数据，阻止其他事务取得相同数据集的共享锁和排他锁</li>
 </ul>
 <h4 id="意向锁"><a href="#意向锁" class="headerlink" title="意向锁"></a>意向锁</h4><p>InnoDB支持多种粒度锁定，允许行锁和表锁并存。 例如，诸如LOCK TABLES … WRITE之类的语句对指定表采用排他锁（X锁）。 为了使在多个粒度级别上的锁定变得切实可行，InnoDB使用了意图锁定。 意向锁是表级锁，指示事务稍后对表中的行需要哪种类型的锁（共享锁或排他锁）。 有两种类型的意图锁：</p>
 <ul>
-<li>意向共享锁（IS）表示事务打算在表中的各个行上设置共享锁。</li>
+<li>意向共享锁（IS）一个事务给一个数据行加共享锁时，必须先获得表的IS锁</li>
 </ul>
 <ul>
-<li>意向排他锁（IX）表示事务打算对表中的各个行设置排他锁。</li>
+<li>意向排它锁（IX）一个事务给一个数据行加排他锁时，必须先获得该表的IX锁</li>
 </ul>
 <h4 id="记录锁"><a href="#记录锁" class="headerlink" title="记录锁"></a>记录锁</h4><p>记录锁定是对索引记录的锁定。 例如<strong>SELECT c1 FROM t WHERE c1 = 10 FOR UPDATE</strong>； 防止任何其他事务插入，更新或删除t.c1值为10的行。</p>
 <h4 id="间隙锁"><a href="#间隙锁" class="headerlink" title="间隙锁"></a>间隙锁</h4><p>间隙锁定是对索引记录之间的间隙的锁定，或者是对第一个或最后一个索引记录之前的间隙的锁定。 例如**SELECT c1 FROM t WHERE c1 BETWEEN 10 and 20 FOR UPDATE;**。 防止其他事务将值15插入到t.c1列中，无论该列中是否已有这样的值，因为该范围中所有现有值之间的间隙是锁定的。</p>
@@ -435,7 +463,7 @@
 <li>InnoDB 不保存表的具体行数，执行 select count(*) from table 时需要全表扫描。而MyISAM 用一个变量保存了整个表的行数，执行上述语句时只需要读出该变量即可，速度很快；    </li>
 <li>InnoDB 最小的锁粒度是行锁，MyISAM 最小的锁粒度是表锁。一个更新语句会锁住整张表，导致其他查询和更新都会被阻塞，因此并发访问受限。这也是 MySQL 将默认存储引擎从 MyISAM 变成 InnoDB 的重要原因之一；</li>
 </ol>
-<h3 id="Redis如何实现持久化的，如果在快照持久化的过程中有写数据如何解决的"><a href="#Redis如何实现持久化的，如果在快照持久化的过程中有写数据如何解决的" class="headerlink" title="Redis如何实现持久化的，如果在快照持久化的过程中有写数据如何解决的"></a>Redis如何实现持久化的，如果在快照持久化的过程中有写数据如何解决的</h3><p><em>Redis 提供了不同级别的持久化方式：</em></p>
+<h3 id="Redis如何实现持久化的"><a href="#Redis如何实现持久化的" class="headerlink" title="Redis如何实现持久化的"></a>Redis如何实现持久化的</h3><p><em>Redis 提供了不同级别的持久化方式：</em></p>
 <ul>
 <li>RDB持久化方式能够在指定的时间间隔能对你的数据进行快照存储.</li>
 <li>AOF持久化方式记录每次对服务器写的操作,当服务器重启的时候会重新执行这些命令来恢复原始的数据,AOF命令以redis协议追加保存每次写的操作到文件末尾.Redis还能对AOF文件进行后台重写,使得AOF文件的体积不至于过大.</li>
@@ -467,8 +495,6 @@
 <li>对于相同的数据集来说，AOF 文件的体积通常要大于 RDB 文件的体积。</li>
 <li>根据所使用的 fsync 策略，AOF 的速度可能会慢于 RDB 。 在一般情况下， 每秒 fsync 的性能依然非常高， 而关闭 fsync 可以让 AOF 的速度和 RDB 一样快， 即使在高负荷之下也是如此。 不过在处理巨大的写入载入时，RDB 可以提供更有保证的最大延迟时间（latency）。</li>
 </ul>
-<h3 id="消息中间件用过哪些"><a href="#消息中间件用过哪些" class="headerlink" title="消息中间件用过哪些"></a>消息中间件用过哪些</h3><p>RabbitMQ基于AMQP的协议中间件</p>
-<h3 id="消息中间件如何广播消息的"><a href="#消息中间件如何广播消息的" class="headerlink" title="消息中间件如何广播消息的"></a>消息中间件如何广播消息的</h3><p>在 RabbitMQ 提供了6种工作模式：简单模式、工作队列模式、发布/订阅模式、路由模式、主题模式 和 RPC 模式。</p>
 <h3 id="项目中如何做链路跟踪的"><a href="#项目中如何做链路跟踪的" class="headerlink" title="项目中如何做链路跟踪的"></a>项目中如何做链路跟踪的</h3><p>Zipkin 做服务链路跟踪</p>
 
     </div>
@@ -573,7 +599,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93%EF%BC%88%E6%9F%90%E5%9C%B0%E4%BA%A7%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">面试总结（某地产）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gRPC-%E5%A6%82%E4%BD%95%E5%81%9A%E8%B4%9F%E8%BD%BD%E7%9A%84"><span class="nav-number">1.1.</span> <span class="nav-text">gRPC 如何做负载的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gRPC-%E9%99%90%E6%B5%81%E6%80%8E%E4%B9%88%E5%81%9A%E7%9A%84"><span class="nav-number">1.2.</span> <span class="nav-text">gRPC 限流怎么做的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo-%E5%A6%82%E4%BD%95%E5%81%9A%E8%B4%9F%E8%BD%BD%E7%9A%84"><span class="nav-number">1.3.</span> <span class="nav-text">Dubbo 如何做负载的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5"><span class="nav-number">1.4.</span> <span class="nav-text">Dubbo的负载均衡策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo-%E7%9A%84%E5%AE%B9%E9%94%99%E7%AD%96%E7%95%A5"><span class="nav-number">1.5.</span> <span class="nav-text">Dubbo 的容错策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E7%9A%84%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98%EF%BC%9F"><span class="nav-number">1.6.</span> <span class="nav-text">Spring 循环依赖怎么解决的，为什么使用三级缓存？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Bean-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">1.7.</span> <span class="nav-text">Spring Bean 生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E5%92%8CCGLIB%E4%BB%A3%E7%90%86%E5%8C%BA%E5%88%AB"><span class="nav-number">1.8.</span> <span class="nav-text">Spring动态代理和CGLIB代理区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring%E7%9A%84BeanPostProcessor%E5%92%8CBeanFactoryPostProcessor%E5%8C%BA%E5%88%AB"><span class="nav-number">1.9.</span> <span class="nav-text">Spring的BeanPostProcessor和BeanFactoryPostProcessor区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap-%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3hash%E7%A2%B0%E6%92%9E%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BD%95%E6%97%B6%E6%89%A9%E5%AE%B9%E7%9A%84"><span class="nav-number">1.10.</span> <span class="nav-text">HashMap 如何解决hash碰撞，以及何时扩容的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList%E4%B8%8ELinkedList%E5%8C%BA%E5%88%AB"><span class="nav-number">1.11.</span> <span class="nav-text">ArrayList与LinkedList区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LinkedHashMap%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%9C%89%E5%BA%8F%E7%9A%84"><span class="nav-number">1.12.</span> <span class="nav-text">LinkedHashMap如何实现有序的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Queue%E7%9A%84%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E7%94%A8%E8%BF%87%E5%93%AA%E5%87%A0%E7%A7%8D"><span class="nav-number">1.13.</span> <span class="nav-text">Queue的阻塞队列用过哪几种</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AQS%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">1.14.</span> <span class="nav-text">AQS的实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFAQS"><span class="nav-number">1.14.1.</span> <span class="nav-text">什么是AQS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AQS%E6%8F%90%E4%BE%9B%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">1.14.2.</span> <span class="nav-text">AQS提供的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AQS%E7%9A%84%E5%86%85%E9%83%A8%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.14.3.</span> <span class="nav-text">AQS的内部实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">1.15.</span> <span class="nav-text">CAS的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%88%86%E5%88%AB%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-number">1.16.</span> <span class="nav-text">事务的隔离级别，以及分别解决了什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql%E9%99%A4%E4%BA%86%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E8%BF%98%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">1.17.</span> <span class="nav-text">Mysql除了可重复读的隔离级别还有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql-%E6%97%A5%E5%BF%97%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.18.</span> <span class="nav-text">Mysql 日志类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql%E7%B4%A2%E5%BC%95%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8B-tree"><span class="nav-number">1.19.</span> <span class="nav-text">Mysql索引为什么使用B+tree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql%E7%9A%84%E6%9C%80%E5%B7%A6%E5%8C%B9%E9%85%8D%E5%8E%9F%E5%88%99%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.20.</span> <span class="nav-text">Mysql的最左匹配原则是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql%E7%9A%84%E9%94%81%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">1.21.</span> <span class="nav-text">Mysql的锁有哪些</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="nav-number">1.21.1.</span> <span class="nav-text">参考官方文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E9%94%81%E5%92%8C%E6%8E%92%E4%BB%96%E9%94%81"><span class="nav-number">1.21.2.</span> <span class="nav-text">共享锁和排他锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%84%8F%E5%90%91%E9%94%81"><span class="nav-number">1.21.3.</span> <span class="nav-text">意向锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95%E9%94%81"><span class="nav-number">1.21.4.</span> <span class="nav-text">记录锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%B4%E9%9A%99%E9%94%81"><span class="nav-number">1.21.5.</span> <span class="nav-text">间隙锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Next-Key-%E9%94%81"><span class="nav-number">1.21.6.</span> <span class="nav-text">Next-Key 锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%84%8F%E5%9B%BE%E9%94%81"><span class="nav-number">1.21.7.</span> <span class="nav-text">插入意图锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%A2%9E%E9%94%81"><span class="nav-number">1.21.8.</span> <span class="nav-text">自增锁</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql-InnoDB%E5%92%8CMyISAM%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.22.</span> <span class="nav-text">Mysql InnoDB和MyISAM的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%8C%81%E4%B9%85%E5%8C%96%E7%9A%84%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%9C%A8%E5%BF%AB%E7%85%A7%E6%8C%81%E4%B9%85%E5%8C%96%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E6%9C%89%E5%86%99%E6%95%B0%E6%8D%AE%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%9A%84"><span class="nav-number">1.23.</span> <span class="nav-text">Redis如何实现持久化的，如果在快照持久化的过程中有写数据如何解决的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%94%A8%E8%BF%87%E5%93%AA%E4%BA%9B"><span class="nav-number">1.24.</span> <span class="nav-text">消息中间件用过哪些</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%A6%82%E4%BD%95%E5%B9%BF%E6%92%AD%E6%B6%88%E6%81%AF%E7%9A%84"><span class="nav-number">1.25.</span> <span class="nav-text">消息中间件如何广播消息的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%A6%82%E4%BD%95%E5%81%9A%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA%E7%9A%84"><span class="nav-number">1.26.</span> <span class="nav-text">项目中如何做链路跟踪的</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93%EF%BC%88%E6%9F%90%E5%9C%B0%E4%BA%A7%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">面试总结（某地产）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gRPC-%E5%A6%82%E4%BD%95%E5%81%9A%E8%B4%9F%E8%BD%BD%E7%9A%84"><span class="nav-number">1.1.</span> <span class="nav-text">gRPC 如何做负载的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gRPC-%E9%99%90%E6%B5%81%E6%80%8E%E4%B9%88%E5%81%9A%E7%9A%84"><span class="nav-number">1.2.</span> <span class="nav-text">gRPC 限流怎么做的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo-%E5%A6%82%E4%BD%95%E5%81%9A%E8%B4%9F%E8%BD%BD%E7%9A%84"><span class="nav-number">1.3.</span> <span class="nav-text">Dubbo 如何做负载的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5"><span class="nav-number">1.4.</span> <span class="nav-text">Dubbo的负载均衡策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo-%E7%9A%84%E5%AE%B9%E9%94%99%E7%AD%96%E7%95%A5"><span class="nav-number">1.5.</span> <span class="nav-text">Dubbo 的容错策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E7%9A%84%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98%EF%BC%9F"><span class="nav-number">1.6.</span> <span class="nav-text">Spring 循环依赖怎么解决的，为什么使用三级缓存？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Bean-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">1.7.</span> <span class="nav-text">Spring Bean 生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-%E4%B8%A4%E7%A7%8D%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E5%8C%BA%E5%88%AB"><span class="nav-number">1.8.</span> <span class="nav-text">Spring 两种动态代理区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring%E7%9A%84BeanPostProcessor%E5%92%8CBeanFactoryPostProcessor%E5%8C%BA%E5%88%AB"><span class="nav-number">1.9.</span> <span class="nav-text">Spring的BeanPostProcessor和BeanFactoryPostProcessor区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-AOP-%E5%92%8C-AspectJ-AOP-%E5%8C%BA%E5%88%AB"><span class="nav-number">1.10.</span> <span class="nav-text">Spring AOP 和 AspectJ AOP 区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring-AOP"><span class="nav-number">1.10.1.</span> <span class="nav-text">Spring AOP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AspectJ"><span class="nav-number">1.10.2.</span> <span class="nav-text">AspectJ</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap-%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3hash%E7%A2%B0%E6%92%9E%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BD%95%E6%97%B6%E6%89%A9%E5%AE%B9%E7%9A%84"><span class="nav-number">1.11.</span> <span class="nav-text">HashMap 如何解决hash碰撞，以及何时扩容的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList%E4%B8%8ELinkedList%E5%8C%BA%E5%88%AB"><span class="nav-number">1.12.</span> <span class="nav-text">ArrayList与LinkedList区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LinkedHashMap%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%9C%89%E5%BA%8F%E7%9A%84"><span class="nav-number">1.13.</span> <span class="nav-text">LinkedHashMap如何实现有序的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Queue%E7%9A%84%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E7%94%A8%E8%BF%87%E5%93%AA%E5%87%A0%E7%A7%8D"><span class="nav-number">1.14.</span> <span class="nav-text">Queue的阻塞队列用过哪几种</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AQS%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">1.15.</span> <span class="nav-text">AQS的实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFAQS"><span class="nav-number">1.15.1.</span> <span class="nav-text">什么是AQS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AQS%E6%8F%90%E4%BE%9B%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">1.15.2.</span> <span class="nav-text">AQS提供的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AQS%E7%9A%84%E5%86%85%E9%83%A8%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.15.3.</span> <span class="nav-text">AQS的内部实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">1.16.</span> <span class="nav-text">CAS的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%88%86%E5%88%AB%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-number">1.17.</span> <span class="nav-text">事务的隔离级别，以及分别解决了什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql%E9%99%A4%E4%BA%86%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E8%BF%98%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">1.18.</span> <span class="nav-text">Mysql除了可重复读的隔离级别还有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql-%E6%97%A5%E5%BF%97%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.19.</span> <span class="nav-text">Mysql 日志类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql%E7%B4%A2%E5%BC%95%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8B-tree"><span class="nav-number">1.20.</span> <span class="nav-text">Mysql索引为什么使用B+tree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql%E7%9A%84%E6%9C%80%E5%B7%A6%E5%8C%B9%E9%85%8D%E5%8E%9F%E5%88%99%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.21.</span> <span class="nav-text">Mysql的最左匹配原则是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql%E7%9A%84%E9%94%81%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">1.22.</span> <span class="nav-text">Mysql的锁有哪些</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="nav-number">1.22.1.</span> <span class="nav-text">参考官方文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E9%94%81%E5%92%8C%E6%8E%92%E4%BB%96%E9%94%81"><span class="nav-number">1.22.2.</span> <span class="nav-text">共享锁和排他锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%84%8F%E5%90%91%E9%94%81"><span class="nav-number">1.22.3.</span> <span class="nav-text">意向锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95%E9%94%81"><span class="nav-number">1.22.4.</span> <span class="nav-text">记录锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%B4%E9%9A%99%E9%94%81"><span class="nav-number">1.22.5.</span> <span class="nav-text">间隙锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Next-Key-%E9%94%81"><span class="nav-number">1.22.6.</span> <span class="nav-text">Next-Key 锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%84%8F%E5%9B%BE%E9%94%81"><span class="nav-number">1.22.7.</span> <span class="nav-text">插入意图锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%A2%9E%E9%94%81"><span class="nav-number">1.22.8.</span> <span class="nav-text">自增锁</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql-InnoDB%E5%92%8CMyISAM%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.23.</span> <span class="nav-text">Mysql InnoDB和MyISAM的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E6%8C%81%E4%B9%85%E5%8C%96%E7%9A%84"><span class="nav-number">1.24.</span> <span class="nav-text">Redis如何实现持久化的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%A6%82%E4%BD%95%E5%81%9A%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA%E7%9A%84"><span class="nav-number">1.25.</span> <span class="nav-text">项目中如何做链路跟踪的</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -652,7 +678,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">149k</span>
+    <span title="站点总字数">148k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
