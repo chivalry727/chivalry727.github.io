@@ -12,17 +12,150 @@ tags:
 
 #### 内存分配与回收的神秘面纱
 
-Java的自动内存管理主要是针对对象内存的回收和对象内存的分配。同时，Java的自动内存管理最核心的功能是**Java Heap**内存中对象的分配与回收。
+​		Java的自动内存管理主要是针对对象内存的回收和对象内存的分配。同时，Java的自动内存管理最核心的功能是**Java Heap**内存中对象的分配与回收。
 
   <!-- more -->  
 
 ##### 堆内存划分
 
-堆内存分为新生代、老年代和永久代。新生代又被进一步分为：Eden 区＋Survivor1 区＋Survivor2 区。值得注意的是，在 JDK8中移除永久代，取而代之的是一个叫元空间（Metaspace）的区域（永久代使用的是JVM的堆内存空间，而元空间使用的是物理内存，直接受到本机的物理内存限制）
+​		堆内存分为新生代、老年代和永久代。新生代又被进一步分为：Eden 区＋Survivor1 区＋Survivor2 区。值得注意的是，在 JDK8中移除永久代，取而代之的是一个叫元空间（Metaspace）的区域（永久代使用的是JVM的堆内存空间，而元空间使用的是物理内存，直接受到本机的物理内存限制）
 
-##### 对象优先在Edge区分配
+##### 栈上分配
 
-目前主流的垃圾收集器都会采用分代回收算法，因此需要将堆内存分为新生代和老年代，这样我们就可以根据各个年代的特点选择合适的垃圾收集算法。
+​		对象分配首先会尝试在栈上分配，如果分配失败，会尝试TLAB分配，如果继续失败则会在堆内的Eden区内分配，当Eden区空间无法容纳该对象时，会分配在老年代区域。
+
+栈上分配是Java虚拟机提供的一项优化技术，它的基本思想是，对于那些线程私有对象(指不可能被其他线程访问的对象)可以将它们打散分配在栈上，而不是分配在堆上。
+
+- 好处：分配在栈上可以在线程结束后自行销毁，不需要垃圾回收器介入，从而提高系统的性能。
+
+- 局限性：栈空间小，对于大对象无法实现栈上分配。
+
+- 基础：栈上分配需要依赖于逃逸分析和标量替换。
+
+###### 栈上分配示例
+
+设置最大堆内存为10m，为了更好的看出测试结果：
+
+启动参数：`-Xmx10m -Xms10m -XX:+DoEscapeAnalysis -XX:+PrintGC -XX:-UseTLAB -XX:+EliminateAllocations`
+
+-Xmx10m -Xms10m 设置了最大堆和初始堆内存大小
+
+-XX:+DoEscapeAnalysis 开启了逃逸分析
+
+-XX:-UseTLAB 关闭了TLAB线程本地分配缓冲区的内存
+
+-XX:+EliminateAllocations 开启了标量替换
+
+```java
+/**
+ * JVM对象分配之栈上分配 & TLAB分配
+ * VM Args: -Xmx10m -Xms10m -XX:+DoEscapeAnalysis -XX:+PrintGC -XX:-UseTLAB -XX:+EliminateAllocations
+ * @author Mr.zxb
+ * @date 2020-09-04 16:58
+ */
+public class CreateObjectDemo {
+
+    static class ObjectHolder {}
+
+    /**
+     * 栈内分配对象
+     */
+    public static void createByStack() {
+        // objectHolder 在方法内部创建，所以不是逃逸对象，所以会在栈上分配对象
+        ObjectHolder objectHolder = new ObjectHolder();
+    }
+
+    private static ObjectHolder objectHolder;
+
+    /**
+     * 堆内分配对象
+     */
+    public static void createByHeap() {
+        // objectHolder 是方法外部定义的对象，所以是逃逸对象，就需要在堆内分配对象
+        objectHolder = new ObjectHolder();
+    }
+
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+        int count = 100_000_000;
+        for (int i = 0; i < count; i++) {
+            createByStack();
+        }
+        System.out.println("耗时：" + (System.currentTimeMillis() - start) + " ms");
+    }
+}
+```
+
+执行1亿次的结果发现，并未出现GC，而且很快执行完，说明该方法内的对象是创建在虚拟机栈中，随着栈帧的退出而对象消亡。
+
+```powershell
+[GC (Allocation Failure)  2047K->488K(9728K), 0.0007411 secs]
+耗时：6 ms
+```
+
+当我们测试有逃逸对象体的时候结果如下，可以发现对象会在堆内分配，如果开启了TLAB，则会在TLAB分配：
+
+```java
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+        int count = 100_000_000;
+        for (int i = 0; i < count; i++) {
+            createByHeap();
+        }
+        System.out.println("耗时：" + (System.currentTimeMillis() - start) + " ms");
+    }
+```
+
+```powershell
+// 省略......
+[GC (Allocation Failure)  3142K->1094K(9728K), 0.0002338 secs]
+[GC (Allocation Failure)  3142K->1094K(9728K), 0.0002363 secs]
+[GC (Allocation Failure)  3142K->1094K(9728K), 0.0002392 secs]
+[GC (Allocation Failure)  3142K->1094K(9728K), 0.0002356 secs]
+[GC (Allocation Failure)  3142K->1094K(9728K), 0.0002461 secs]
+[GC (Allocation Failure)  3142K->1094K(9728K), 0.0002566 secs]
+耗时：3058 ms
+```
+
+当使用如下参数（任意一行）运行，都会发现触大量GC
+
+```java
+//不使用逃逸分析
+-server -Xmx15m -Xms15m -XX:－DoEscapeAnalysis -XX:+PrintGC -XX:-UseTLAB -XX:+EliminateAllocations
+
+//不使用标量替换
+-server -Xmx15m -Xms15m -XX:＋DoEscapeAnalysis -XX:+PrintGC -XX:-UseTLAB -XX:－EliminateAllocations
+```
+
+可以得出结论: 栈上分配需要依赖于逃逸分析和标量替换。
+
+从结果上来看，栈内分配对象的效率远远高于堆内分配对象的效率，栈内分配的对象随着栈帧的弹出而消亡，不需要GC的参与，大大提高了分配性能。
+
+###### 逃逸分析
+
+栈上分配的一个技术基础是进行逃逸分析。目的是判断对象的作用域是否有可能逃逸出逃逸体。
+
+虚拟机会进行逃逸分析，判断线程内私有对象是否有可能被其他线程访问，导致逃逸，然后虚拟机就会根据是否可能会逃逸将其分配在栈上，或者堆中。
+
+只有在server模式下，才能开启逃逸分析。参数: -XX:+DoEscapeAnalysis 是开启逃逸分析。 -XX:+EliminateAllocations 是开启标杆替换，允许将对象打散分配到栈上，默认状态是开启的。
+
+###### 标量替换
+
+​		标量替换，scalar replacement。Java中的原始类型无法再分解，可以看作标量（scalar）；指向对象的引用也是标量；而对象本身则是聚合量（aggregate），可以包含任意个数的标量。如果把一个Java对象拆散，将其成员变量恢复为分散的变量，这就叫做标量替换。拆散后的变量便可以被单独分析与优化，可以各自分别在活动记录（栈帧或寄存器）上分配空间；原本的对象就无需整体分配空间了。
+
+###### 什么是TLAB
+
+​		TLAB，全称Thread Local Allocation Buffer，即：线程本地分配缓存。这是一块线程专用的内存分配区域。TLAB占用的是Eden区的空间。在TLAB启用的情况下（默认开启），JVM会为每一个线程分配一块TLAB私有区域
+
+局限性：TLAB空间一般不会太大（占用eden区），所以大对象无法进行TLAB分配，只能直接分配到堆上。
+
+###### 为什么需要TLAB
+
+  这是为了加速对象的分配。由于对象一般分配在堆上，而堆是线程共用的，因此可能会有多个线程在堆上申请空间，而每一次的对象分配都必须线程同步，会使分配的效率下降。考虑到对象分配几乎是Java中最常用的操作，因此JVM使用了TLAB这样的线程专有区域来避免多线程冲突，提高对象分配的效率。
+
+##### 对象在Edge区分配
+
+​		目前主流的垃圾收集器都会采用分代回收算法，因此需要将堆内存分为新生代和老年代，这样我们就可以根据各个年代的特点选择合适的垃圾收集算法。
 
 大多数情况下，对象在新生代中 eden 区分配。当 eden 区没有足够空间进行分配时，虚拟机将发起一次Minor GC。
 
