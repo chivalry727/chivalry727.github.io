@@ -38,13 +38,13 @@ tags:
 
 启动参数：`-Xmx10m -Xms10m -XX:+DoEscapeAnalysis -XX:+PrintGC -XX:-UseTLAB -XX:+EliminateAllocations`
 
--Xmx10m -Xms10m 设置了最大堆和初始堆内存大小
+`-Xmx10m -Xms10m` 设置了最大堆和初始堆内存大小
 
--XX:+DoEscapeAnalysis 开启了逃逸分析
+`-XX:+DoEscapeAnalysis` 开启了逃逸分析
 
--XX:-UseTLAB 关闭了TLAB线程本地分配缓冲区的内存
+`-XX:-UseTLAB` 关闭了TLAB线程本地分配缓冲区的内存
 
--XX:+EliminateAllocations 开启了标量替换
+`-XX:+EliminateAllocations` 开启了标量替换
 
 ```java
 /**
