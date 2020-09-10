@@ -231,7 +231,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-09-10 10:16:48 / 修改时间：20:21:19" itemprop="dateCreated datePublished" datetime="2020-09-10T10:16:48+08:00">2020-09-10</time>
+              <time title="创建时间：2020-09-10 10:16:48 / 修改时间：22:25:45" itemprop="dateCreated datePublished" datetime="2020-09-10T10:16:48+08:00">2020-09-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -270,110 +270,14 @@
       
           <h3 id="LinkedHashMap-如何保证有序"><a href="#LinkedHashMap-如何保证有序" class="headerlink" title="LinkedHashMap 如何保证有序"></a>LinkedHashMap 如何保证有序</h3><p>LinkedHashMap继承自HashMap，LinkedHashMap定义了Entry继承自HashMap的Node链表的基础上定义了双向链表来保证顺序，主要是通过双向链表来保证有序的，默认是按照插入顺序，也可以用重载方法的访问顺序来排序</p>
 <h3 id="IO-NIO-AIO-模型"><a href="#IO-NIO-AIO-模型" class="headerlink" title="IO/NIO/AIO 模型"></a>IO/NIO/AIO 模型</h3><h4 id="IO-BIO（Blocking-I-O）"><a href="#IO-BIO（Blocking-I-O）" class="headerlink" title="IO/BIO（Blocking I/O）"></a>IO/BIO（Blocking I/O）</h4><p>同步阻塞I/O模式，数据的读取写入必须阻塞在一个线程内等待其完成。</p>
-<p>BIO通信（一请求一应答）模型图如下：</p>
-<p><img src="https://tva1.sinaimg.cn/large/008aQ1h9ly1gilctcgjxkj310k0ouae4.jpg" alt="WX20200910-103832@2x"></p>
-<h4 id="NIO（Non-Blocking-I-O）"><a href="#NIO（Non-Blocking-I-O）" class="headerlink" title="NIO（Non-Blocking I/O）"></a>NIO（Non-Blocking I/O）</h4><p>NIO是一种同步非阻塞的I/O模型，在Java 1.4 中引入了 NIO 框架，对应 java.nio 包，提供了 Channel , Selector，Buffer等抽象。</p>
-<p>NIO线程模型如下：</p>
-<p><img src="https://tva4.sinaimg.cn/large/008aQ1h9ly1gill3zadb6j312s0eodr2.jpg"></p>
-<h4 id="AIO（Asynchronous-non-blocking-I-O）"><a href="#AIO（Asynchronous-non-blocking-I-O）" class="headerlink" title="AIO（Asynchronous non-blocking I/O）"></a>AIO（Asynchronous non-blocking I/O）</h4><p>AIO 也就是 NIO 2。在 Java 7 中引入了 NIO 的改进版 NIO 2,它是异步非阻塞的IO模型。异步 IO 是基于事件和回调机制实现的，也就是应用操作之后会直接返回，不会阻塞在那里，当后台处理完成，操作系统会通知相应的线程进行后续的操作。</p>
-<p>AIO 是异步IO的缩写，虽然 NIO 在网络操作中，提供了非阻塞的方法，但是 NIO 的 IO 行为还是同步的。对于 NIO 来说，我们的业务线程是在 IO 操作准备好时，得到通知，接着就由这个线程自行进行 IO 操作，IO操作本身是同步的。</p>
-<p>AIO模型：</p>
-<p><img src="https://tvax4.sinaimg.cn/large/008aQ1h9ly1gillw8dr81j30is0ky3z3.jpg" alt="20150929202423057"></p>
-<h3 id="同步阻塞-同步非阻塞-异步非阻塞是在IO模型中的哪一环节"><a href="#同步阻塞-同步非阻塞-异步非阻塞是在IO模型中的哪一环节" class="headerlink" title="同步阻塞/同步非阻塞/异步非阻塞是在IO模型中的哪一环节"></a>同步阻塞/同步非阻塞/异步非阻塞是在IO模型中的哪一环节</h3><ul>
-<li><p>IO的同步阻塞是在 accept()   read()会进行阻塞</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// IO Server 端</span></span><br><span class="line">ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket();</span><br><span class="line">serverSocket.bind(<span class="keyword">new</span> InetSocketAddress(<span class="number">8000</span>))；<span class="comment">// 绑定端口</span></span><br><span class="line">Socket socket = serverSocket.accept(); <span class="comment">// 会阻塞</span></span><br><span class="line"></span><br><span class="line">socket.getInputStream().read(); <span class="comment">// 会阻塞</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>NIO的同步非阻塞在 accept() 不会阻塞线程，在select()阶段还是会阻塞</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// NIO Server 端</span></span><br><span class="line">ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();</span><br><span class="line">Selector selector = Selector.open();</span><br><span class="line">serverSocketChannel.bind(<span class="keyword">new</span> InetSocketAddress(<span class="number">8000</span>)); <span class="comment">// 绑定端口</span></span><br><span class="line">serverSocketChannel.configureBlocking(<span class="keyword">false</span>); <span class="comment">// 设置非阻塞</span></span><br><span class="line">serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT); <span class="comment">// 注册事件</span></span><br><span class="line"><span class="comment">// 阻塞等待客户端Channel</span></span><br><span class="line">selector.select();</span><br><span class="line">SocketChannel channel = serverSocketChannel.accept(); <span class="comment">// 非阻塞</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>AIO的异步非阻塞在accept() 会直接返回，不会等待</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AIO Server 端</span></span><br><span class="line">AsynchronousServerSocketChannel socketChannel = AsynchronousServerSocketChannel.open();</span><br><span class="line">socketChannel.bind(<span class="keyword">new</span> InetSocketAddress(<span class="number">8080</span>)); <span class="comment">// 绑定端口</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 非阻塞，等待os回调处理</span></span><br><span class="line">socketChannel.accept(<span class="keyword">null</span>, <span class="keyword">new</span> CompletionHandler&lt;AsynchronousSocketChannel, Object&gt;() &#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">completed</span><span class="params">(AsynchronousSocketChannel result, Object attachment)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 继续监听下一个请求</span></span><br><span class="line">    socketChannel.accept(attachment, <span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">// 处理数据</span></span><br><span class="line">    handler(result);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">failed</span><span class="params">(Throwable exc, Object attachment)</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;服务出现异常：&quot;</span> + exc.getMessage());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="GC-Roots-是什么"><a href="#GC-Roots-是什么" class="headerlink" title="GC Roots 是什么"></a>GC Roots 是什么</h3><ul>
-<li>虚拟机栈中引用的对象，比如各线程调用方法堆栈中使用的参数、局部变量、临时变量等</li>
-<li>方法区中类静态属性引用的对象，比如字符串常量池里的引用和Java类的引用类型静态变量</li>
-<li>本地方法栈中JNI引用的对象</li>
-<li>Java虚拟机内部的引用，比如：基本数据类型对应的Class对象，以及一些异常对象（NPE、OOM）等，还有系统类加载器</li>
-<li>所有被同步锁（synchronized关键字）持有的对象</li>
-<li>反映Java虚拟机内部情况的JMXBean、JVMTI中注册的回调、本地代码缓存等</li>
-</ul>
-<h3 id="栈空间如何设置大小，栈空间过大会有什么影响"><a href="#栈空间如何设置大小，栈空间过大会有什么影响" class="headerlink" title="栈空间如何设置大小，栈空间过大会有什么影响"></a>栈空间如何设置大小，栈空间过大会有什么影响</h3><p>-Xss128k：设置每个线程的栈大小。JDK5.0以后每个线程栈大小为1M，以前每个线程栈大小为256K。根据应用的线程所需内存大小进行调整。在相同物理内存下，减小这个值能生成更多的线程。但是操作系统对一个进程内的线程数还是有限制的，不能无限生成，经验值在3000~5000左右。随着线程栈的大小越大，能够支持越多的方法调用，也即是能够存储更多的栈帧。</p>
-<p>线程栈的大小是个双刃剑，如果设置过小，可能会出现栈溢出，特别是在该线程内有递归、大的循环时出现溢出的可能性更大；如果该值设置过大，就有影响到创建栈帧的数量，如果是多线程的应用，就会出现内存溢出的错误.</p>
-<h3 id="零拷贝（Zero-Copy）原理"><a href="#零拷贝（Zero-Copy）原理" class="headerlink" title="零拷贝（Zero-Copy）原理"></a>零拷贝（Zero-Copy）原理</h3><p>零拷贝（Zero-copy）技术指在计算机执行操作时，CPU 不需要先将数据从一个内存区域复制到另一个内存区域，从而可以减少上下文切换以及 CPU 的拷贝时间。它的作用是在数据报从网络设备到用户程序空间传递的过程中，减少数据拷贝次数，减少系统调用，实现 CPU 的零参与，彻底消除 CPU 在这方面的负载。实现零拷贝用到的最主要技术是 DMA 数据传输技术和内存区域映射技术。</p>
-<ul>
-<li>零拷贝机制可以减少数据在内核缓冲区和用户进程缓冲区之间反复的 I/O 拷贝操作。</li>
-<li>零拷贝机制可以减少用户进程地址空间和内核地址空间之间因为上下文切换而带来的 CPU 开销。</li>
-</ul>
-<h3 id="CMS-和-G1-的异同"><a href="#CMS-和-G1-的异同" class="headerlink" title="CMS 和 G1 的异同"></a>CMS 和 G1 的异同</h3><p>按分代收集来说，CMS是老年代收集器，G1则是混合收集，它开创了混合收集的模式，衡量标准不在是属于哪个分代，而是哪块内存值得收集，哪块内存中存放的垃圾数量最多，回收收益最大来进行收集。</p>
-<p>按收集算法来说，CMS收集器是基于标记-清除的垃圾收集器，由于CMS是一款基于“标记-清除”算法实现的收集器，就会造成大量空间碎片产生，如果空间碎片过多时，当需要足够大大连续空间来分配大对象大时候，会不得不提前触发Full GC的情况；而G1从整体来看是基于“标记-整理”算法实现的收集器，从局部上看（两个Region之间）又是基于“标记-复制”算法实现，无论如何，这两种算法在运行期间都不会产生内存空间碎片，垃圾收集完成之后能提供规整的可用内存。</p>
-<h3 id="G1-什么时候引发-Full-GC"><a href="#G1-什么时候引发-Full-GC" class="headerlink" title="G1 什么时候引发 Full GC"></a>G1 什么时候引发 Full GC</h3><p><code>G1 Full GC</code>的原因一般有：</p>
-<ul>
-<li><code>Mixed GC</code>赶不上内存分配的速度，只能通过<code>Full GC</code>来释放内存</li>
-<li><code>MetaSpace</code>不足，对于大量使用反射，动态代理的类，由于动态代理的每个类都会生成一个新的类，同时<code>class</code>信息会存放在元空间，因此如果元空间不足，<code>G1</code>会靠<code>Full GC</code>来扩容元空间，这种情况解决方案就是扩大初始元空间大小。</li>
-<li><code>Humongous</code>分配失败，前面说过<code>G1</code>分配大对象时，回收是靠<code>Concurrent Marking</code>或<code>Full GC</code>，因此如果大对象分配失败，则可能会引发<code>Full GC</code></li>
-</ul>
-<h3 id="说一个最熟悉的垃圾回收算法"><a href="#说一个最熟悉的垃圾回收算法" class="headerlink" title="说一个最熟悉的垃圾回收算法"></a>说一个最熟悉的垃圾回收算法</h3><p>可以通过自己熟悉的垃圾回收算法引申一下该算法相应的垃圾收集器实现，比如，<strong>标记–复制</strong>算法，这是 HotSpot 虚拟机新生代垃圾收集器常用的回收算法，对应的实现有 Serial、Parallel Scavenge，在比如<strong>标记–清除</strong>算法，对应的垃圾收集器实现有 CMS 等等。</p>
-<h3 id="吞量优先和响应时间优先的回收器有哪些"><a href="#吞量优先和响应时间优先的回收器有哪些" class="headerlink" title="吞量优先和响应时间优先的回收器有哪些"></a>吞量优先和响应时间优先的回收器有哪些</h3><ul>
-<li>Parallel Scavenge</li>
-<li>Parallel Old</li>
-<li>G1</li>
-</ul>
-<h3 id="怎么判断内存泄漏"><a href="#怎么判断内存泄漏" class="headerlink" title="怎么判断内存泄漏"></a>怎么判断内存泄漏</h3><h3 id="讲一下-CMS-的流程"><a href="#讲一下-CMS-的流程" class="headerlink" title="讲一下 CMS 的流程"></a>讲一下 CMS 的流程</h3><h3 id="为什么压缩指针超过32G失效"><a href="#为什么压缩指针超过32G失效" class="headerlink" title="为什么压缩指针超过32G失效"></a>为什么压缩指针超过32G失效</h3><h3 id="什么是内存泄漏？GC-调优有经验吗？一般出现-GC-问题你怎么解决？"><a href="#什么是内存泄漏？GC-调优有经验吗？一般出现-GC-问题你怎么解决？" class="headerlink" title="什么是内存泄漏？GC 调优有经验吗？一般出现 GC 问题你怎么解决？"></a>什么是内存泄漏？GC 调优有经验吗？一般出现 GC 问题你怎么解决？</h3><h3 id="ThreadLocal-有没有内存泄漏问题"><a href="#ThreadLocal-有没有内存泄漏问题" class="headerlink" title="ThreadLocal 有没有内存泄漏问题"></a>ThreadLocal 有没有内存泄漏问题</h3><h3 id="G1-两个-Region-不是连续的，而且之间还有可达的引用，我现在要回收另一个怎么处理？"><a href="#G1-两个-Region-不是连续的，而且之间还有可达的引用，我现在要回收另一个怎么处理？" class="headerlink" title="G1 两个 Region 不是连续的，而且之间还有可达的引用，我现在要回收另一个怎么处理？"></a>G1 两个 Region 不是连续的，而且之间还有可达的引用，我现在要回收另一个怎么处理？</h3><h3 id="讲一下-JVM-堆内存管理（对象分配过程）"><a href="#讲一下-JVM-堆内存管理（对象分配过程）" class="headerlink" title="讲一下 JVM 堆内存管理（对象分配过程）"></a>讲一下 JVM 堆内存管理（对象分配过程）</h3><h3 id="听说过-CMS-的并发预处理和并发可中断预处理吗"><a href="#听说过-CMS-的并发预处理和并发可中断预处理吗" class="headerlink" title="听说过 CMS 的并发预处理和并发可中断预处理吗"></a>听说过 CMS 的并发预处理和并发可中断预处理吗</h3><h3 id="到底多大的对象会被直接扔到老年代"><a href="#到底多大的对象会被直接扔到老年代" class="headerlink" title="到底多大的对象会被直接扔到老年代"></a>到底多大的对象会被直接扔到老年代</h3><p>JVM虚拟机提供了一个<code>-XX:PretenureSizeThreshold</code>参数，令大于这个设置值的对象直接在老年代分配。这样做的目的是避免在Eden区及两个Survivor区之间发生大量的内存复制。</p>
-<p>所谓的大对象是指，需要大量连续内存空间的Java对象，最典型的大对象就是那种很长的字符串以及数组。</p>
-<p>注意：<code>PretenureSizeThreshold</code>参数只对Serial和ParNew两款收集器有效，Parallel Scavenge收集器不认识这个参数，Parallel Scavenge收集器一般并不需要设置。如果遇到必须使用此参数的场合，可以考虑ParNew加CMS的收集器组合。</p>
-<h3 id="mysql-原子性和持久性怎么保证"><a href="#mysql-原子性和持久性怎么保证" class="headerlink" title="mysql 原子性和持久性怎么保证"></a>mysql 原子性和持久性怎么保证</h3><p>Mysql是利用Innodb的undo log日志来保证原子性的；undo log名为回滚日志，是实现原子性的关键，当事务回滚时能够撤销所有已经成功执行的sql语句，他需要记录你要回滚的相应日志信息redo log</p>
-<p>Mysql是利用Innodb的redo log来保证持久性；当做数据修改的时候，不仅在内存中操作，还会在redo log中记录这次操作。当事务提交的时候，会将redo log日志进行刷盘(redo log一部分在内存中，一部分在磁盘上)。当数据库宕机重启的时候，会将redo log中的内容恢复到数据库中，再根据undo log和binlog内容决定回滚数据还是提交数据</p>
-<h3 id="Mysql-Innodb-和-mylsam-存储引擎区别"><a href="#Mysql-Innodb-和-mylsam-存储引擎区别" class="headerlink" title="Mysql Innodb 和 mylsam 存储引擎区别"></a>Mysql Innodb 和 mylsam 存储引擎区别</h3><table>
-<thead>
-<tr>
-<th align="center">区别</th>
-<th align="center">InnoDB</th>
-<th align="center">MylSam</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">事务</td>
-<td align="center">支持</td>
-<td align="center">不支持</td>
-</tr>
-<tr>
-<td align="center">外键</td>
-<td align="center">支持</td>
-<td align="center">不支持</td>
-</tr>
-<tr>
-<td align="center">锁的粒度</td>
-<td align="center">行锁</td>
-<td align="center">表锁</td>
-</tr>
-<tr>
-<td align="center">索引</td>
-<td align="center">聚集索引</td>
-<td align="center">非聚集索引</td>
-</tr>
-<tr>
-<td align="center">表的具体行数</td>
-<td align="center">不提供</td>
-<td align="center">提供</td>
-</tr>
-<tr>
-<td align="center">CURD操作</td>
-<td align="center">适合insert或update场景</td>
-<td align="center">适合大量select场景</td>
-</tr>
-<tr>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-<h3 id="索引分类"><a href="#索引分类" class="headerlink" title="索引分类"></a>索引分类</h3><h3 id="Innodb-存储引擎的底层数据结构"><a href="#Innodb-存储引擎的底层数据结构" class="headerlink" title="Innodb 存储引擎的底层数据结构"></a>Innodb 存储引擎的底层数据结构</h3><p> 使用的是B+树</p>
-<h3 id="为什么底层使用-B-树不用-B-树"><a href="#为什么底层使用-B-树不用-B-树" class="headerlink" title="为什么底层使用 B+树不用 B 树"></a>为什么底层使用 B+树不用 B 树</h3><p>参考另一个面试总结</p>
-<h3 id="快速排序的算法原理以及时间复杂度"><a href="#快速排序的算法原理以及时间复杂度" class="headerlink" title="快速排序的算法原理以及时间复杂度"></a>快速排序的算法原理以及时间复杂度</h3><p>使用分治法，所有比基准值大的排在右边，小的排在左边，然后两边继续按照这个分治法继续递归，直到完成排序</p>
-<p>时间复杂度：O(n*logn)</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93%EF%BC%88%E5%85%B6%E4%BB%96%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
