@@ -8,13 +8,15 @@ tags:
 - JVM内存分配
 ---
 
+<img src="https://tvax1.sinaimg.cn/large/008aQ1h9ly1gimnz80rlej30sg0sgwg5.jpg" style="zoom:60%;" />
+
+ <!-- more -->  
+
 ### 垃圾收集器（Garbage Collection，GC）
 
 #### 内存分配与回收的神秘面纱
 
 ​		Java的自动内存管理主要是针对对象内存的回收和对象内存的分配。同时，Java的自动内存管理最核心的功能是**Java Heap**内存中对象的分配与回收。
-
-  <!-- more -->  
 
 ##### 堆内存划分
 

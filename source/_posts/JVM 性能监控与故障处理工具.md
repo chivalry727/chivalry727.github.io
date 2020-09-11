@@ -9,13 +9,15 @@ tags:
 - JDK工具
 ---
 
+![](https://tva1.sinaimg.cn/large/008aQ1h9ly1gimfe2w3jrj30lx0amgrz.jpg)
+
+<!-- more -->
+
 ## 									JVM 性能监控与故障处理工具
 
 ### JDK 命令行工具
 
 Java开发人员肯定知道JDK的bin目录中有`java.exe`、`javac.exe`这两个命令行工具，但还有很多其他工具提供稳定而强大的功能，能在处理应用程序性能问题、定位故障时发挥很大的作用。下面来介绍一下Java提供的那些强大并且很有帮助的工具吧。
-
-<!-- more -->
 
 jdk命令行的主要工具：
 

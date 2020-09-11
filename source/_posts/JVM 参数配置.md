@@ -7,6 +7,10 @@ tags:
 - JVM参数
 ---
 
+![](https://tva1.sinaimg.cn/large/008aQ1h9ly1gimfe2w3jrj30lx0amgrz.jpg)
+
+<!-- more -->
+
 ## JVM 参数配置
 
 ### 虚拟机及垃圾收集器日志
@@ -14,8 +18,6 @@ tags:
 在JDK9以前，HotSpot并没有提供统一的日志处理框架，虚拟机各个功能模块的日志开关分布在不同的参数上，日志级别、循环日志大小、输出格式、重定向等设置在不同功能上都需要单独解决。直到JDK9，这些问题才终于解决，HotSpot将所有功能的日志都收归到了`-Xlog`参数上。
 
 参数格式：`-Xlog[:[selector][:[output][:[decorators][:output-options]]]]`
-
-<!-- more -->
 
 命令行中最关键的参数是选择器（Selector），它由标签（Tag）和日志级别（Level）共同组成。标签可理解为虚拟机中某个功能模块的名字，它告诉日志框架用户希望得到虚拟机哪些功能的日志输出。垃圾收集器的标签名称为"gc"，由此可见，垃圾收集器日志只是HotSpot众多功能日志的其中一项。
 
