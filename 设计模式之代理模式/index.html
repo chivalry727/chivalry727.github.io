@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="juK8iKOrjF-CCSscN7oc59B1D3s1Er05CCm7qTEAbVQ">
+  <meta name="baidu-site-verification" content="ipzsKxVcdo">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chivalry727.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+<script data-ad-client="ca-pub-7512049882055371" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="设计模式之代理模式">
+<meta property="og:url" content="https://chivalry727.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Chivalry Blog">
+<meta property="og:locale">
+<meta property="og:image" content="https://tvax4.sinaimg.cn/large/008aQ1h9ly1gip1ccdvwxj30p00dw0sx.jpg">
+<meta property="og:image" content="https://tvax2.sinaimg.cn/large/008aQ1h9ly1gip1yu1bk8j30fn07yglm.jpg">
+<meta property="og:image" content="https://tvax4.sinaimg.cn/large/008aQ1h9ly1gip28gx6rgj30i40873yj.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/008aQ1h9ly1gip2r0b1ycj30i60aoglj.jpg">
+<meta property="article:published_time" content="2020-09-13T03:58:13.000Z">
+<meta property="article:modified_time" content="2020-09-13T07:59:51.137Z">
+<meta property="article:author" content="Mr.zxb">
+<meta property="article:tag" content="代理模式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tvax4.sinaimg.cn/large/008aQ1h9ly1gip1ccdvwxj30p00dw0sx.jpg">
+
+<link rel="canonical" href="https://chivalry727.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>设计模式之代理模式 | Chivalry Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chivalry Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Chivalry Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">很多人不曾见过太阳，也就可以忍受黑暗!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://chivalry727.github.io/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://tva1.sinaimg.cn/large/008aQ1h9ly1ghqb9xxkl6j31ig3401kx.jpg">
+      <meta itemprop="name" content="Mr.zxb">
+      <meta itemprop="description" content="个人技术博客，一个沉淀知识的地方">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chivalry Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          设计模式之代理模式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-13 11:58:13 / 修改时间：15:59:51" itemprop="dateCreated datePublished" datetime="2020-09-13T11:58:13+08:00">2020-09-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://tvax4.sinaimg.cn/large/008aQ1h9ly1gip1ccdvwxj30p00dw0sx.jpg"></p>
+<a id="more"></a>
+
+<h2 id="设计模式之代理模式"><a href="#设计模式之代理模式" class="headerlink" title="设计模式之代理模式"></a>设计模式之代理模式</h2><h3 id="代理模式简介"><a href="#代理模式简介" class="headerlink" title="代理模式简介"></a>代理模式简介</h3><p>代理设计模式属于结构设计模式类别，它是软件开发中最常用的模式之一。 此模式有助于控制连接资源的使用和访问行为。 称为“代理”的单独对象有助于在客户端和原始服务对象之间建立连接。 因此，代理将充当实际原始对象的替代或占位符对象，尤其是控制访问。 原始服务对象的性质可能是创建过程中的高成本或需要安全访问。 系统的核心行为不会改变，只有内部组件的结构和控制会进行修改以获得更好的结果。</p>
+<p>使用代理模式创建代表（representative）对象，让代理对象控制某对象的访问，被代理的对象是远程的对象、创建开销大的对象或需要安全控制的对象。</p>
+<p>GoF定义，“为另一个对象提供代理或占位符以控制对其的访问”。</p>
+<p>模式引入了替代而不是实际的原始对象来与外部实体进行交互。 您正在通过另一个对象访问该原始对象，同时保留了整个系统的行为。</p>
+<h3 id="现实生活中的例子"><a href="#现实生活中的例子" class="headerlink" title="现实生活中的例子"></a>现实生活中的例子</h3><p>我们可以在金融系统中找到许多代理模式的例子。 信用卡将充当提供相同功能的实际银行界面。 它将充当自动柜员机的提款，支票余额，转账和其他几项便利的工作，这些工作由信用卡代理完成。 另外，支票可以代表个人执行汇款功能。 它是银行批准后从一个人的帐户向另一个人支付特定金额的命令。 在这里，支票充当了一大笔现金的代理。</p>
+<h3 id="面临的问题"><a href="#面临的问题" class="headerlink" title="面临的问题"></a>面临的问题</h3><p>这发生在所需对象不太容易初始化或访问的情况下。 如果该对象驻留在远程库中，或者它消耗大量系统资源，并且客户端仅在特定条件下需要它。 因此，初始化和维护此类对象不是系统的最有效方法。 如果需要在访问实际服务对象时提供其他功能，则将为开发人员带来另一层解决方法。 因此，系统需要找到更好的解决方案来处理这种情况。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>通过引入代理可以解决上述问题：代替昂贵且受保护的实际对象的替代组件。 该代理将包含与原始服务对象相似的接口，并且当它接收到客户端请求时，代理对象将创建原始对象的实例并通过响应进行委托。</p>
+<h3 id="什么是代理？"><a href="#什么是代理？" class="headerlink" title="什么是代理？"></a>什么是代理？</h3><p>代理只是原始对象的替代对象。 它也充当包装器或代理对象，客户端调用该包装器或代理对象以访问后台的原始对象。 代理是一个轻量级对象，它实现与原始实际对象相同的接口，并控制对实际对象的访问。 如果需要，它可以包括其他功能，例如在对实际对象的操作占用大量资源时进行缓存，并在调用实际对象操作之前确保前提条件。</p>
+<p><img src="https://tvax2.sinaimg.cn/large/008aQ1h9ly1gip1yu1bk8j30fn07yglm.jpg"></p>
+<h3 id="为什么我们使用代理？"><a href="#为什么我们使用代理？" class="headerlink" title="为什么我们使用代理？"></a>为什么我们使用代理？</h3><ul>
+<li>代理可以根据需要执行不同的操作。 它可以执行诸如日志记录和过滤请求之类的预处理，然后再移交给原始对象以完成某些前提条件。</li>
+<li>同样，代理可以在将结果发送回请求者之前执行后处理。 当需要覆盖功能时，可以使用代理。 </li>
+<li>特别是，当需要打破许可证以防止破坏现有的旧系统时，代理将是一个不错的选择。 </li>
+<li>当需要用于资源密集型应用程序的兑现机制以减少网络流量和成本时，代理是不错的选择。 </li>
+<li>当存在昂贵且复杂的安全问题时，代理可用于承受系统的安全操作。</li>
+</ul>
+<h3 id="代理模式变化"><a href="#代理模式变化" class="headerlink" title="代理模式变化"></a>代理模式变化</h3><p>有几种类型的代理模式变化。</p>
+<ul>
+<li>远程代理：顾名思义，这些代理在不同的工作空间上工作。 那是实际的原始对象存在于远程地区。 远程代理充当远程对象的本地代表，因此，客户端不了解原始对象的远程性。 Java RMI技术中的“存根”对象就是这种模式的一个很好的例子。 当客户端需要获取原始对象的服务时，远程原始对象将驻留在其他JVM的堆中，存根将充当代理以交互和调用远程对象的方法。</li>
+<li>虚拟代理：这是节省应用程序成本的一种方法。 在这种情况下，实际原始对象的创建非常昂贵，并且内存和资源消耗很高。 为了避免这种障碍，应用程序引入了虚拟代理。 虚拟代理充当昂贵的原始对象的占位符，并仅在需要时创建原始对象的真实对象。 通过这种方式，虚拟代理可以保存实际对象并在以后的调用中重新使用，从而防止对象重复并节省内存。</li>
+<li>保护代理：该代理为原始对象添加了一层保护。 在这种情况下，原始对象受不同的访问级别保护。 当客户端要访问原始对象时，保护代理将在转发请求之前检查客户端的适当访问级别。</li>
+<li>智能代理：该代理提供了附加的安全层。 它执行其他操作以验证原始对象是安全的，可以避免意外访问和威胁，例如意外处置和删除原始对象，在访问原始对象之前检查原始对象是否已锁定以及在首次将持久对象加载到内存时参考。</li>
+</ul>
+<h3 id="代理设计模式的类图"><a href="#代理设计模式的类图" class="headerlink" title="代理设计模式的类图"></a>代理设计模式的类图</h3><p><img src="https://tvax4.sinaimg.cn/large/008aQ1h9ly1gip28gx6rgj30i40873yj.jpg"></p>
+<h3 id="代理设计模式的组件"><a href="#代理设计模式的组件" class="headerlink" title="代理设计模式的组件"></a>代理设计模式的组件</h3><ul>
+<li>Proxy：控制对真实主题的访问。 代理包含真实主题的实例，并提供与主题相同的接口，以便轻松联系真实主题。 代理类中可以有其他方法来执行中间工作。</li>
+<li>Subject：这是真实主题和代理的通用接口。 因此，代理和真实主题都实现了“主题”界面。 客户端仅与代理进行交互以访问真实主题，因为可以随时使用代理代替真实主题。</li>
+<li>RealSubject：这是实际的原始对象，可以通过代理进行访问。 这可能是网络连接，文件，内存中的大对象或其他昂贵或难以创建的组件</li>
+</ul>
+<h3 id="代理模式如何工作？"><a href="#代理模式如何工作？" class="headerlink" title="代理模式如何工作？"></a>代理模式如何工作？</h3><p>在此模式下，客户端不直接与原始对象进行交互，而是，客户端使用代理对象来调用原始对象。 但是最重要的一点是客户端不了解代理，并且代理的行为与客户端的原始对象相同。</p>
+<h3 id="代理模式示例"><a href="#代理模式示例" class="headerlink" title="代理模式示例"></a>代理模式示例</h3><p>假设在自然公园中有一种非常稀有的动物叫做“海熊”。 并非每个公园游客都可以参观海熊。 只有生物学家，兽医和动物研究人员这样的授权人员才能访问他们。 为了控制这种稀有物种的进入，公园任命了“海洋熊卫队”。 他将评估访问者的详细信息，并酌情控制对海熊的访问。</p>
+<p>让我们以代理模式实现这种情况，并确定相关组件。</p>
+<p><strong><em>SeaBearGuardProxy</em></strong> ：这是SeaBearOriginal类的代理类。</p>
+<p><strong><em>BearProtectInterface</em></strong> : 这是SearBearOriginal和SeaBearGuardProxy类共享的接口，并且包含访问控制机制。</p>
+<p><strong><em>SeaBearOriginal</em></strong> : 这是代表自然公园中稀有动物物种的实际原始类别</p>
+<p><strong><em>NatureParkVisitorClient</em></strong>: 这是来参观海熊的游客客户端</p>
+<h3 id="实现代理模式步骤"><a href="#实现代理模式步骤" class="headerlink" title="实现代理模式步骤"></a>实现代理模式步骤</h3><ol>
+<li>标识实际的原始对象，该对象需要通过代理进行包装。</li>
+<li>确定需要执行哪些步骤来控制对原始对象的访问。</li>
+<li>创建一个可由原始对象和代理实现的合适接口。</li>
+<li>创建具有访问控制机制以及支持代理意图的其他功能的代理。</li>
+<li>创建客户端对象并通过代理访问原始对象</li>
+</ol>
+<h3 id="代理模式代码示例"><a href="#代理模式代码示例" class="headerlink" title="代理模式代码示例"></a>代理模式代码示例</h3><p><strong><em>BearProtectInterface.java</em></strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 主题接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-09-13 15:45:19</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BearProtectInterface</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">allowVisit</span><span class="params">(<span class="keyword">int</span> visitorCode)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>SeaBearGuardProxy.java</em></strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 代理对象</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-09-13 15:48:09</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SeaBearGuardProxy</span> <span class="keyword">implements</span> <span class="title">BearProtectInterface</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> visitorCode;</span><br><span class="line">    <span class="keyword">private</span> String visitorProfession;</span><br><span class="line">    <span class="keyword">private</span> SeaBearOriginal seaBear = <span class="keyword">new</span> SeaBearOriginal();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">allowVisit</span><span class="params">(<span class="keyword">int</span> visitorCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (visitorCode == <span class="number">1</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Visitor allowed to see the Sea Bear&quot;</span>);</span><br><span class="line">            seaBear.showSeaBear();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Visitor NOT allowed to see the Sea Bear&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">assignVisitorCode</span><span class="params">(String profession)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (visitorProfession == <span class="string">&quot;Biologist&quot;</span> || visitorProfession == <span class="string">&quot;Vet&quot;</span> || visitorProfession == <span class="string">&quot;Animal Researcher&quot;</span>) &#123;</span><br><span class="line">            visitorCode = <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            visitorCode = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>SeaBearOriginal.java</em></strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 原始对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-09-13 15:49:19</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SeaBearOriginal</span> <span class="keyword">implements</span> <span class="title">BearProtectInterface</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">allowVisit</span><span class="params">(<span class="keyword">int</span> visitorCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (visitorCode == <span class="number">1</span> ) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Visitor allowed to see the Sea Bear&quot;</span>);</span><br><span class="line">            <span class="keyword">this</span>.showSeaBear();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Visitor NOT allowed to see the Sea Bear&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showSeaBear</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;You are welcome to the Sea Bear premisses&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>NatureParkVisitorClient.java</em></strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 客户端对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Mr.zxb</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020-09-13 15:51:53</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NatureParkVisitorClient</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建代理对象</span></span><br><span class="line">        BearProtectInterface seaBearProxy = <span class="keyword">new</span> SeaBearGuardProxy();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 调用接口</span></span><br><span class="line">            seaBearProxy.allowVisit(<span class="number">1</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="示例代码时序图"><a href="#示例代码时序图" class="headerlink" title="示例代码时序图"></a>示例代码时序图</h3><p><img src="https://tva1.sinaimg.cn/large/008aQ1h9ly1gip2r0b1ycj30i60aoglj.jpg"></p>
+<h3 id="使用代理模式的场景"><a href="#使用代理模式的场景" class="headerlink" title="使用代理模式的场景"></a>使用代理模式的场景</h3><ul>
+<li>当原始对象创建成本很高时</li>
+<li>当原始对象存在于远程环境中时</li>
+<li>当原始对象上的安全控制受到限制时</li>
+<li>在创建原始对象之前和之后需要执行其他操作时</li>
+<li>当按需创建原始对象或系统需要在加载某些资源时延迟</li>
+<li>当原始对象位于旧系统或第三方库中时</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>代理模式为另一个对象提供代表，以便控制客户对对象的访问，管理访问的方式有许多种</li>
+<li>远程代理管理客户和远程对象之间的交互</li>
+<li>虚拟代理控制访问实例化开销大的对象</li>
+<li>保护代理基于调用者控制对对象方法的访问</li>
+<li>代理模式有许多变体，例如：缓存代理、同步代理、防火墙代理和写入时复制代理</li>
+<li>代理在结构上类似装饰者，但是目的不同</li>
+<li>装饰者模式为对象加上行为，而代理则是控制访问</li>
+<li>Java内置的代理支持，可以根据需要建立运行时动态代理，并将所有调用分配到所选的处理器</li>
+<li>就和其他的包装者（wrapper）一样，代理会造成你的设计中类的数目增加</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>若是觉得合胃口，就请我喝杯咖啡.</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Mr.zxb 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="Mr.zxb 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" rel="tag"><i class="fa fa-tag">代理模式</i></a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Java-Lock%E7%A4%BA%E4%BE%8B%E4%B9%8BReentrantLock/" rel="prev" title="Java Lock示例之ReentrantLock">
+      <i class="fa fa-chevron-left"></i> Java Lock示例之ReentrantLock
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/Java-RMI/" rel="next" title="Java RMI">
+      Java RMI <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">设计模式之代理模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">代理模式简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%B0%E5%AE%9E%E7%94%9F%E6%B4%BB%E4%B8%AD%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="nav-number">1.2.</span> <span class="nav-text">现实生活中的例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E4%B8%B4%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.3.</span> <span class="nav-text">面临的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.4.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BB%A3%E7%90%86%EF%BC%9F"><span class="nav-number">1.5.</span> <span class="nav-text">什么是代理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%90%86%EF%BC%9F"><span class="nav-number">1.6.</span> <span class="nav-text">为什么我们使用代理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E5%8F%98%E5%8C%96"><span class="nav-number">1.7.</span> <span class="nav-text">代理模式变化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%B1%BB%E5%9B%BE"><span class="nav-number">1.8.</span> <span class="nav-text">代理设计模式的类图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%BB%84%E4%BB%B6"><span class="nav-number">1.9.</span> <span class="nav-text">代理设计模式的组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%EF%BC%9F"><span class="nav-number">1.10.</span> <span class="nav-text">代理模式如何工作？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.11.</span> <span class="nav-text">代理模式示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.12.</span> <span class="nav-text">实现代理模式步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.13.</span> <span class="nav-text">代理模式代码示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81%E6%97%B6%E5%BA%8F%E5%9B%BE"><span class="nav-number">1.14.</span> <span class="nav-text">示例代码时序图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%9C%BA%E6%99%AF"><span class="nav-number">1.15.</span> <span class="nav-text">使用代理模式的场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.16.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Mr.zxb"
+      src="https://tva1.sinaimg.cn/large/008aQ1h9ly1ghqb9xxkl6j31ig3401kx.jpg">
+  <p class="site-author-name" itemprop="name">Mr.zxb</p>
+  <div class="site-description" itemprop="description">个人技术博客，一个沉淀知识的地方</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chivalry727" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chivalry727" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.google.com.hk/" title="Google → https:&#x2F;&#x2F;www.google.com.hk&#x2F;" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://youtube.com/" title="YouTube → https:&#x2F;&#x2F;youtube.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.zxb</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">182k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:45</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
