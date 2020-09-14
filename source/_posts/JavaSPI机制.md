@@ -7,7 +7,7 @@ tags:
 - Java SPI
 ---
 
-![](https://tvax2.sinaimg.cn/large/008aQ1h9ly1gip17cy43bj30p00dwaa7.jpg)
+![](https://tva2.sinaimg.cn/large/008aQ1h9ly1giqjyorl3fj30p00dwjsf.jpg)
 
 <!-- more -->
 

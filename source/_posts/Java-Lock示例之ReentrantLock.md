@@ -8,7 +8,7 @@ tags:
 - ReentrantLock
 ---
 
-![](https://tva4.sinaimg.cn/large/008aQ1h9ly1ginolewg56j30fk08rmyo.jpg)
+![](https://tva4.sinaimg.cn/large/008aQ1h9ly1giqk5ycyoij30p00dwdgx.jpg)
 
 <!-- more -->
 
