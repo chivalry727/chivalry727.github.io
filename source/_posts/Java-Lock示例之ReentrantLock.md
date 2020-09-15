@@ -1,5 +1,5 @@
 ---
-title: Java Lock示例之ReentrantLock
+title: Java Lock之ReentrantLock
 date: 2020-09-12 10:53:30
 categories:
 - Java技术
@@ -8,11 +8,11 @@ tags:
 - ReentrantLock
 ---
 
-![](https://tva4.sinaimg.cn/large/008aQ1h9ly1giqk5ycyoij30p00dwdgx.jpg)
+![](https://tvax1.sinaimg.cn/large/008aQ1h9ly1gir1wqxg5sj30p00dw0tv.jpg)
 
 <!-- more -->
 
-## Java Lock示例之ReentrantLock
+## Java Lock之ReentrantLock
 
 ### Java 锁
 

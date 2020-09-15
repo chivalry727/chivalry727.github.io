@@ -6,7 +6,7 @@ categories:
 tags:
 - Java8异步编程
 ---
-![](https://tvax3.sinaimg.cn/large/008aQ1h9ly1gimlvbok4mj30go09et9h.jpg)
+![](https://tva3.sinaimg.cn/large/008aQ1h9ly1girah1mx0zj30p00dwjsh.jpg)
 
 <!-- more -->
 
